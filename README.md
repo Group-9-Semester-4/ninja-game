@@ -1,1 +1,1 @@
-# literate-tribble
+# Ninja game
