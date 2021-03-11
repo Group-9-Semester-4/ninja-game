@@ -16,9 +16,9 @@ public class DrawCards : MonoBehaviour
     }
 
     // Update is called once per frame
-   
 
-    IEnumerator GetTexture() 
+
+    IEnumerator GetTexture()
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture("https://i.pinimg.com/originals/9f/ce/f1/9fcef1014d0d405429dfd38a4bc7aeba.jpg");
         yield return www.SendWebRequest();
@@ -31,19 +31,20 @@ public class DrawCards : MonoBehaviour
         {
             Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
         }
-
-    public void OnClick()
-    {
-      
-
-        
-
-        var mySprite = Sprite.Create(myTexture, new Rect(0.0f, 0.0f, myTexture.width, myTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-        GameObject completeCard = Instantiate(Card, new Vector3(0, 0, 0), Quaternion.identity);
-        completeCard.transform.SetParent(DrawCardArea.transform, false);
-        completeCard.AddComponent<Image>();
-        completeCard.GetComponent<Image>().sprite = mySprite;
-
     }
+        public void OnClick()
+        {
+
+
+
+
+            //var mySprite = Sprite.Create(myTexture, new Rect(0.0f, 0.0f, myTexture.width, myTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+            GameObject completeCard = Instantiate(Card, new Vector3(0, 0, 0), Quaternion.identity);
+            completeCard.transform.SetParent(DrawCardArea.transform, false);
+            completeCard.AddComponent<Image>();
+            completeCard.GetComponent<Image>().sprite = mySprite;
+
+        }
+     
 }
