@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using TMPro;
 
 public class WebReq : MonoBehaviour
 {
@@ -24,8 +22,11 @@ public class WebReq : MonoBehaviour
        });
         */
 
-        string url = "https://i.pinimg.com/originals/9f/ce/f1/9fcef1014d0d405429dfd38a4bc7aeba.jpg";
-        GetTexture(url, (string error) => {
+        var client = APIClient.APIClient.Instance;
+
+        var card = client.DrawCard();
+        
+        GetTexture(card.imageUrl, (string error) => {
             //error
             Debug.Log("Error: " + error);
             //textMesh.SetText("Error: " + error);
