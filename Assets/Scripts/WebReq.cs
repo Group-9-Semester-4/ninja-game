@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 public class WebReq : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro textMesh;
+    //[SerializeField] public TextMeshPro textMesh;
     [SerializeField] private SpriteRenderer spriteRenderer;
     private void Start()
     {
@@ -28,10 +28,12 @@ public class WebReq : MonoBehaviour
         GetTexture(url, (string error) => {
             //error
             Debug.Log("Error: " + error);
-            textMesh.SetText("Error: " + error);
+            //textMesh.SetText("Error: " + error);
         }, (Texture2D texture2D) => {
             //succesfully contacted URL
-            textMesh.SetText("Success!");
+            //textMesh.SetText("Success!");
+            Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(.5f, .5f), 100.0f);
+            spriteRenderer.sprite = sprite;
 
         });
     }
@@ -57,7 +59,7 @@ public class WebReq : MonoBehaviour
             {
                 DownloadHandlerTexture downloadHandlerTexture = unityWebRequest.downloadHandler as DownloadHandlerTexture;
                 onSucces(downloadHandlerTexture.texture);
-                //Debug.Log("Recieved: " + unityWebRequest.downloadHandler.text);
+                Debug.Log("Recieved: " + unityWebRequest.downloadHandler.text);
             }
         }
     }

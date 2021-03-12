@@ -12,12 +12,12 @@ public class DrawCards : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetTexture());
+       
     }
 
     // Update is called once per frame
 
-
+/*
     IEnumerator GetTexture()
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture("https://i.pinimg.com/originals/9f/ce/f1/9fcef1014d0d405429dfd38a4bc7aeba.jpg");
@@ -32,6 +32,7 @@ public class DrawCards : MonoBehaviour
             Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
         }
     }
+    */
         public void OnClick()
         {
 
@@ -42,8 +43,8 @@ public class DrawCards : MonoBehaviour
 
             GameObject completeCard = Instantiate(Card, new Vector3(0, 0, 0), Quaternion.identity);
             completeCard.transform.SetParent(DrawCardArea.transform, false);
-            completeCard.AddComponent<Image>();
-            completeCard.GetComponent<Image>().sprite = mySprite;
+            //completeCard.AddComponent<Image>();
+            //completeCard.GetComponent<Image>().sprite = mySprite;
 
         }
      
