@@ -10,9 +10,12 @@ namespace APIClient
         // Singleton code
         private static APIClient _instance;
         private APIClient() {}
-        public static APIClient Instance => _instance ?? (_instance = new APIClient());
-        
-        
+        public static APIClient Instance
+        {
+            get { return _instance ?? (_instance = new APIClient()); }
+        }
+
+
         // TODO: Change to dynamic env
         protected const string APIUrl = "http://localhost:8080";
         
@@ -23,7 +26,7 @@ namespace APIClient
             var path = APIUrl + "/game/init";
             var param = new
             {
-                timeLimit = 360,
+                timeLimit = 3600,
                 singlePlayer= 1,
                 playingAlone= 1
             };
