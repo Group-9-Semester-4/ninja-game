@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DrawnCardScene.unity
     guid: 2913b6f9ae862c04482ee5fad2503dde
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 6cac4966207fbc04faeacd201a247fa9
   m_configObjects: {}
