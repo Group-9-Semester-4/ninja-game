@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace APIClient
 {
-    public class APIClient
+    public class APIClient : APIClientBase
     {
         // Singleton code
         private static APIClient _instance;
@@ -17,19 +17,6 @@ namespace APIClient
         protected const string APIUrl = "http://localhost:8080";
         
         protected Game Game;
-
-        public Card DrawCard()
-        {
-            // TODO: Change to actual API loading
-        
-            var card = new Card()
-            {
-                id = "1", 
-                imageUrl = "https://i.pinimg.com/originals/9f/ce/f1/9fcef1014d0d405429dfd38a4bc7aeba.jpg"
-            };
-
-            return card;
-        }
 
         public Game InitGame()
         {
@@ -52,45 +39,54 @@ namespace APIClient
 
         public Game StartGame()
         {
-            if (Game == null)
-            {
-                throw new NullReferenceException("Init game before starting it");
-            }
+            CheckIfGameStarted();
 
             var uuid = Game.uuid;
 
             var path = APIUrl + "/game/" + uuid + "/start";
-            
-            // TODO: Send request
+
+            var result = PostRequest(path, new {});
+
+            Game = JsonUtility.FromJson<Game>(result);
             
             return Game;
         }
 
-        protected string GetRequest(string url)
+        public Card DrawCard()
         {
-            var client = new HttpClient();
+            CheckIfGameStarted();
             
-            var result = client.GetAsync(url);
-            result.Wait();
+            var uuid = Game.uuid;
+            var path = APIUrl + "/game/" + uuid + "/draw";
 
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
+            var result = GetRequest(path);
 
-            return content.Result;
+            var card = JsonUtility.FromJson<Card>(result);
+
+            return card;
         }
 
-        protected string PostRequest(string url, object param)
+        public void CardDone(Card card)
         {
-            var client = new HttpClient();
-            var jsonContent = new StringContent(JsonUtility.ToJson(param));
+            CheckIfGameStarted();
+            
+            var uuid = Game.uuid;
+            var path = APIUrl + "/game/" + uuid + "/done";
+            
+            var param = new
+            {
+                card.id
+            };
 
-            var result = client.PostAsync(url, jsonContent);
-            result.Wait();
+            PostRequest(path, param);
+        }
 
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
-
-            return content.Result;
+        protected void CheckIfGameStarted()
+        {
+            if (Game == null)
+            {
+                throw new NullReferenceException("Init game before drawing a card");
+            }
         }
     }
 }
