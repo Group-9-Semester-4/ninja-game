@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Net.Http;
+using System.Collections.Generic;
+using System.Linq;
 using APIClient.Models;
 using UnityEngine;
 
@@ -23,13 +24,8 @@ namespace APIClient
 
         public Game InitGame()
         {
-            var path = APIUrl + "/game/init";
-            var param = new
-            {
-                timeLimit = 3600,
-                singlePlayer= 1,
-                playingAlone= 1
-            };
+            const string path = APIUrl + "/game/init";
+            var param = new GameInitOptions();
 
             var result = PostRequest(path, param);
 
@@ -40,7 +36,7 @@ namespace APIClient
             return game;
         }
 
-        public Game StartGame()
+        public Game StartGame(List<Card> unwantedCards)
         {
             CheckIfGameStarted();
 
@@ -48,10 +44,12 @@ namespace APIClient
 
             var path = APIUrl + "/game/" + uuid + "/start";
 
-            var result = PostRequest(path, new {});
+            var cardIds = unwantedCards.Select(card => card.id).ToArray();
+
+            var result = PostRequest(path, cardIds);
 
             Game = JsonUtility.FromJson<Game>(result);
-            
+
             return Game;
         }
 
@@ -78,10 +76,22 @@ namespace APIClient
             
             var param = new
             {
-                card.id
+                cardId = card.id
             };
 
             PostRequest(path, param);
+        }
+
+        public void FinishGame()
+        {
+            CheckIfGameStarted();
+            
+            var uuid = Game.uuid;
+            var path = APIUrl + "/game/" + uuid + "/done";
+
+            PostRequest(path, new {});
+
+            Game = null;
         }
 
         protected void CheckIfGameStarted()
