@@ -20,7 +20,7 @@ public class Timer : MonoBehaviour
         startText.text = (timeLeft).ToString("0");
         if (timeLeft < 0)
         {
-            Debug.Log("Times up");
+            //Debug.Log("Times up");
             
         }
     }
