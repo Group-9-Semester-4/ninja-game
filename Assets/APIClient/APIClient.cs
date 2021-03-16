@@ -19,8 +19,8 @@ namespace APIClient
 
         // TODO: Change to dynamic env
         protected const string APIUrl = "http://localhost:8080";
-        
-        protected Game Game;
+
+        public Game Game;
 
         public Game InitGame()
         {
