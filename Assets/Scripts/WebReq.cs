@@ -7,6 +7,7 @@ public class WebReq : MonoBehaviour
 {
     //[SerializeField] public TextMeshPro textMesh;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    public APIClient.Models.Card card;
     private void Start()
     {
         /*
@@ -20,11 +21,11 @@ public class WebReq : MonoBehaviour
            Debug.Log("received: " + text);
            textMesh.SetText(text);
        });
-        */
+      
 
         var client = APIClient.APIClient.Instance;
 
-        var card = client.DrawCard();
+        card = client.DrawCard();
         
         GetTexture(card.imageUrl, (string error) => {
             //error
@@ -37,6 +38,8 @@ public class WebReq : MonoBehaviour
             spriteRenderer.sprite = sprite;
 
         });
+        */
+        RenderNewCard();
     }
     
 
@@ -97,6 +100,25 @@ public class WebReq : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void RenderNewCard()
+    {
+        var client = APIClient.APIClient.Instance;
+
+        card = client.DrawCard();
+
+        GetTexture(card.imageUrl, (string error) => {
+            //error
+            Debug.Log("Error: " + error);
+            //textMesh.SetText("Error: " + error);
+        }, (Texture2D texture2D) => {
+            //succesfully contacted URL
+            //textMesh.SetText("Success!");
+            Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(.5f, .5f), 100.0f);
+            spriteRenderer.sprite = sprite;
+
+        });
     }
 }
 
