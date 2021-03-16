@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Net.Http;
+using System.Text;
 using UnityEngine;
 
 namespace APIClient
@@ -12,6 +14,11 @@ namespace APIClient
             var result = client.GetAsync(url);
             result.Wait();
 
+            if (!result.Result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
+            }
+            
             var content = result.Result.Content.ReadAsStringAsync();
             content.Wait();
 
@@ -21,11 +28,24 @@ namespace APIClient
         protected string PostRequest(string url, object param)
         {
             var client = new HttpClient();
-            var jsonContent = new StringContent(JsonUtility.ToJson(param));
+            
+            var serialized = JsonUtility.ToJson(param);
+            
+            if (serialized == "{}")
+            {
+                serialized = "[]";
+            }
+            
+            var jsonContent = new StringContent(serialized, Encoding.UTF8, "application/json");
 
             var result = client.PostAsync(url, jsonContent);
             result.Wait();
 
+            if (!result.Result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
+            }
+            
             var content = result.Result.Content.ReadAsStringAsync();
             content.Wait();
 

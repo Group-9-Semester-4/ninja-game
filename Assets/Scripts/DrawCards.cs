@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using APIClient.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,12 @@ public class DrawCards : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        APIClient.APIClient.Instance.InitGame();
+        
+        // TODO: Add unwanted cards in separate step later
+        var game = APIClient.APIClient.Instance.StartGame(new List<Card>());
+        
+        Debug.Log("Game created "+ game.uuid);
     }
 
    
@@ -39,8 +45,7 @@ public class DrawCards : MonoBehaviour
         public void OnClick()
         {
 
-
-
+            var card = APIClient.APIClient.Instance.DrawCard();
 
             //var mySprite = Sprite.Create(myTexture, new Rect(0.0f, 0.0f, myTexture.width, myTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
