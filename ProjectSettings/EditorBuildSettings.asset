@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 6cac4966207fbc04faeacd201a247fa9
+  - enabled: 1
+    path: Assets/Scenes/DiscardScene.unity
+    guid: 726488448ce1a3047b0f3d205e916b95
   m_configObjects: {}
