@@ -2,12 +2,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class WebReq : MonoBehaviour
 {
     //[SerializeField] public TextMeshPro textMesh;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    public APIClient.Models.Card card;
+    [FormerlySerializedAs("card")] public APIClient.Models.CardResource cardResource;
     private void Start()
     {
         /*
@@ -106,9 +107,9 @@ public class WebReq : MonoBehaviour
     {
         var client = APIClient.APIClient.Instance;
 
-        card = client.DrawCard();
+        cardResource = client.DrawCard();
 
-        GetTexture(card.imageUrl, (string error) => {
+        GetTexture(cardResource.imageUrl, (string error) => {
             //error
             Debug.Log("Error: " + error);
             //textMesh.SetText("Error: " + error);
