@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Manager : MonoBehaviour
+public class DontDelete : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    //sceneloader for changing scenes
 
-    public void SceneLoader(string SceneName)
+
+    //attach this script to any object you dont want to be destroyed/deleted when the scenes are being changed.
+    void Awake()
     {
-        SceneManager.LoadScene(SceneName);
-        //Debug.Log(SceneName);
+        DontDestroyOnLoad(this.gameObject);
     }
     // Update is called once per frame
     void Update()
