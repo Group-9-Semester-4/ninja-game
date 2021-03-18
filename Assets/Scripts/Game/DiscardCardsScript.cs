@@ -13,7 +13,7 @@ public class DiscardCardsScript : MonoBehaviour
     {
         APIClient.APIClient.Instance.InitGame();
 
-        var allCards = APIClient.APIClient.Instance.Game.allCards;
+        var allCards = APIClient.APIClient.Instance.GameResource.allCards;
 
         var y = 0;
 
@@ -30,7 +30,7 @@ public class DiscardCardsScript : MonoBehaviour
 
             newGameObject.AddComponent(typeof(CardScript));
             var cardScript = (CardScript) newGameObject.GetComponent(typeof(CardScript));
-            cardScript.Card = card;
+            cardScript.cardResource = card;
             
             y += 1;
         }
@@ -40,14 +40,14 @@ public class DiscardCardsScript : MonoBehaviour
     {
         var toggles = CardContainer.GetComponentsInChildren<Toggle>();
 
-        var excludedCards = new List<Card>();
+        var excludedCards = new List<CardResource>();
 
         foreach (var toggle in toggles)
         {
             if (toggle.isOn)
             {
                 var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
-                excludedCards.Add(cardScript.Card);
+                excludedCards.Add(cardScript.cardResource);
             }
         }
 

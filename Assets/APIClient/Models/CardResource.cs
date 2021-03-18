@@ -3,7 +3,7 @@ using System;
 namespace APIClient.Models
 {
     [Serializable]
-    public class Card
+    public class CardResource
     {
         public string id;
         // TODO: Change when API implements this field

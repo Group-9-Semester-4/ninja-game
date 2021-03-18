@@ -10,7 +10,7 @@ public class Manager : MonoBehaviour
     void Start()
     {
         APIClient.APIClient.Instance.InitGame();
-        APIClient.APIClient.Instance.StartGame(new List<Card>());
+        APIClient.APIClient.Instance.StartGame(new List<CardResource>());
     }
     //sceneloader for changing scenes
 

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace APIClient.Models
 {
     [Serializable]
-    public class Game
+    public class GameResource
     {
         public string uuid;
-        public List<Card> allCards;
+        public List<CardResource> allCards;
         public int points;
         public int miniGameAttempts;
         public int cardsDone;

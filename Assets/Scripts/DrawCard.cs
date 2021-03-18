@@ -24,6 +24,6 @@ public class DrawCard : MonoBehaviour
         WebReq webReq = findObject.GetComponent<WebReq>();
 
         webReq.RenderNewCard();
-        Debug.Log(webReq.card.name);
+        Debug.Log(webReq.cardResource.name);
     }
 }
