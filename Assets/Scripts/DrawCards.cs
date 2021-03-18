@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using APIClient.Models;
+using Game;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -41,6 +42,7 @@ public class DrawCards : MonoBehaviour
         {
 
             var card = APIClient.APIClient.Instance.DrawCard();
+            GameData.Instance.CurrentCard = card;
 
             //var mySprite = Sprite.Create(myTexture, new Rect(0.0f, 0.0f, myTexture.width, myTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
