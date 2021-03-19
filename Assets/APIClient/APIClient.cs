@@ -22,12 +22,11 @@ namespace APIClient
 
         public GameResource GameResource;
 
-        public GameResource InitGame()
+        public GameResource InitGame(GameInitOptions options)
         {
             const string path = APIUrl + "/game/init";
-            var param = new GameInitOptions();
 
-            var result = PostRequest(path, param);
+            var result = PostRequest(path, options);
 
             var game = JsonUtility.FromJson<GameResource>(result);
 

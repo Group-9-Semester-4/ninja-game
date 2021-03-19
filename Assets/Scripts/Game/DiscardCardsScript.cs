@@ -11,8 +11,6 @@ public class DiscardCardsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        APIClient.APIClient.Instance.InitGame();
-
         var allCards = APIClient.APIClient.Instance.GameResource.allCards;
 
         var y = 0;

@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        APIClient.APIClient.Instance.InitGame();
-        APIClient.APIClient.Instance.StartGame(new List<CardResource>());
-    }
     //sceneloader for changing scenes
 
     public void SceneLoader(string SceneName)
@@ -19,10 +13,5 @@ public class Manager : MonoBehaviour
         Debug.Log(SceneName);
         SceneManager.LoadScene(SceneName);
         //Debug.Log(SceneName);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
