@@ -1,8 +1,8 @@
-using APIClient.Models;
+﻿using APIClient.Models;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+// This script is used to store each card information when discarding cards
 public class CardScript : MonoBehaviour
 {
-    [FormerlySerializedAs("Card")] public CardResource cardResource;
+    public CardResource cardResource;
 }

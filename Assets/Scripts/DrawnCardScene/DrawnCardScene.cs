@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Game;
+﻿using Game;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DrawnCardScene : MonoBehaviour
 {
@@ -9,8 +8,12 @@ public class DrawnCardScene : MonoBehaviour
     {
         var gameData = GameData.Instance;
 
-        gameData.Points += gameData.CurrentCard.points;
-        
-        gameData.CurrentCard = null;
+        if (gameData.CurrentCard != null)
+        {
+            gameData.Points += gameData.CurrentCard.points;
+            gameData.CurrentCard = null;
+        }
+
+        SceneManager.LoadScene("GameScene");
     }
 }

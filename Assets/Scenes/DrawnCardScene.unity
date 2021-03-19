@@ -442,7 +442,6 @@ GameObject:
   - component: {fileID: 402100915}
   - component: {fileID: 402100914}
   - component: {fileID: 402100913}
-  - component: {fileID: 402100916}
   m_Layer: 5
   m_Name: CompletedButton
   m_TagString: Untagged
@@ -560,34 +559,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402100911}
   m_CullTransparentMesh: 0
---- !u!114 &402100916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 402100911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 512070502}
-          m_MethodName: SceneLoader
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: GameScene
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &423963105
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,10 +715,12 @@ MonoBehaviour:
   spriteRenderer: {fileID: 650956199}
   cardResource:
     id: 
-    imageUrl: https://i.pinimg.com/originals/9f/ce/f1/9fcef1014d0d405429dfd38a4bc7aeba.jpg
     name: 
     description: 
     points: 0
+    difficulty_type: 0
+    difficulty: 0
+    filepath: 
 --- !u!1 &602735278
 GameObject:
   m_ObjectHideFlags: 0

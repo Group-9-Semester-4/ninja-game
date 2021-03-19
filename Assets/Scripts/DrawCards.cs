@@ -12,13 +12,6 @@ public class DrawCards : MonoBehaviour
 {
     public GameObject Card;
     public GameObject DrawCardArea;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-   
 
     // Update is called once per frame
 

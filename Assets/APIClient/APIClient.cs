@@ -35,6 +35,13 @@ namespace APIClient
             return game;
         }
 
+        // Used for testing purposes, use when you need to start a game, and don't want to go through all the screens
+        public void TestInit()
+        {
+            InitGame(new GameInitOptions());
+            StartGame(new List<CardResource>());
+        }
+
         public GameResource StartGame(List<CardResource> unwantedCards)
         {
             CheckIfGameStarted();
