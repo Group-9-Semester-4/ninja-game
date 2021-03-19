@@ -10,7 +10,7 @@ namespace APIClient.Models
         public string description;
         public int points;
         public bool difficulty_type;
-        public bool difficulty;
+        public int difficulty;
         public string filepath;
     }
 }
