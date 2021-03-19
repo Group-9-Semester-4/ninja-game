@@ -6,7 +6,7 @@ namespace APIClient.Models
     [Serializable]
     public class GameResource
     {
-        public string uuid;
+        public string id;
         public List<CardResource> allCards;
         public int points;
         public int miniGameAttempts;

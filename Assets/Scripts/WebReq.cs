@@ -109,7 +109,7 @@ public class WebReq : MonoBehaviour
 
         cardResource = client.DrawCard();
 
-        GetTexture(cardResource.imageUrl, (string error) => {
+        GetTexture(cardResource.filepath, (string error) => {
             //error
             Debug.Log("Error: " + error);
             //textMesh.SetText("Error: " + error);

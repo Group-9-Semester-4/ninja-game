@@ -40,7 +40,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
 
-            var uuid = GameResource.uuid;
+            var uuid = GameResource.id;
 
             var path = APIUrl + "/game/" + uuid + "/start";
 
@@ -57,7 +57,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/draw";
 
             var result = GetRequest(path);
@@ -71,7 +71,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
             
             var param = new
@@ -86,7 +86,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
 
             PostRequest(path, new {});
