@@ -20,27 +20,33 @@ namespace APIClient
         // TODO: Change to dynamic env
         protected const string APIUrl = "http://localhost:8080";
 
-        public Game Game;
+        public GameResource GameResource;
 
-        public Game InitGame()
+        public GameResource InitGame(GameInitOptions options)
         {
             const string path = APIUrl + "/game/init";
-            var param = new GameInitOptions();
 
-            var result = PostRequest(path, param);
+            var result = PostRequest(path, options);
 
-            var game = JsonUtility.FromJson<Game>(result);
+            var game = JsonUtility.FromJson<GameResource>(result);
 
-            Game = game;
+            GameResource = game;
 
             return game;
         }
 
-        public Game StartGame(List<Card> unwantedCards)
+        // Used for testing purposes, use when you need to start a game, and don't want to go through all the screens
+        public void TestInit()
+        {
+            InitGame(new GameInitOptions());
+            StartGame(new List<CardResource>());
+        }
+
+        public GameResource StartGame(List<CardResource> unwantedCards)
         {
             CheckIfGameStarted();
 
-            var uuid = Game.uuid;
+            var uuid = GameResource.id;
 
             var path = APIUrl + "/game/" + uuid + "/start";
 
@@ -48,35 +54,35 @@ namespace APIClient
 
             var result = PostRequest(path, cardIds);
 
-            Game = JsonUtility.FromJson<Game>(result);
+            GameResource = JsonUtility.FromJson<GameResource>(result);
 
-            return Game;
+            return GameResource;
         }
 
-        public Card DrawCard()
+        public CardResource DrawCard()
         {
             CheckIfGameStarted();
             
-            var uuid = Game.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/draw";
 
             var result = GetRequest(path);
 
-            var card = JsonUtility.FromJson<Card>(result);
+            var card = JsonUtility.FromJson<CardResource>(result);
 
             return card;
         }
 
-        public void CardDone(Card card)
+        public void CardDone(CardResource cardResource)
         {
             CheckIfGameStarted();
             
-            var uuid = Game.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
             
             var param = new
             {
-                cardId = card.id
+                cardId = cardResource.id
             };
 
             PostRequest(path, param);
@@ -86,17 +92,17 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = Game.uuid;
+            var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
 
             PostRequest(path, new {});
 
-            Game = null;
+            GameResource = null;
         }
 
         protected void CheckIfGameStarted()
         {
-            if (Game == null)
+            if (GameResource == null)
             {
                 throw new NullReferenceException("Init game before drawing a card");
             }
