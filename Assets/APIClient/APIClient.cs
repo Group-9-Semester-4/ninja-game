@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using APIClient.Models;
 using UnityEngine;
 
@@ -106,6 +107,21 @@ namespace APIClient
             {
                 throw new NullReferenceException("Init game before drawing a card");
             }
+        }
+
+        public IEnumerable<CardResource> getAllCards()
+        {
+            var path = APIUrl + "/card" + "/all";
+            var response = GetRequest(path);
+            response = "{\"Items\":" + response + "}";
+            return JsonHelper.FromJson<CardResource>(response);
+
+        }
+
+        public byte[] getCardImage(String filepath)
+        {
+            var responseImage = GetRequest(filepath);
+            return Encoding.ASCII.GetBytes(responseImage);
         }
     }
 }
