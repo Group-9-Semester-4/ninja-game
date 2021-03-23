@@ -19,7 +19,7 @@ namespace APIClient
 
 
         // TODO: Change to dynamic env
-        protected const string APIUrl = "http://localhost:8080";
+        protected const string APIUrl = "http://localhost:8080/api";
 
         public GameResource GameResource;
 
@@ -109,16 +109,15 @@ namespace APIClient
             }
         }
 
-        public IEnumerable<CardResource> getAllCards()
+        public IEnumerable<CardResource> GetCards()
         {
             var path = APIUrl + "/card" + "/all";
             var response = GetRequest(path);
             response = "{\"Items\":" + response + "}";
             return JsonHelper.FromJson<CardResource>(response);
-
         }
 
-        public byte[] getCardImage(String filepath)
+        public byte[] DownloadImage(String filepath)
         {
             var responseImage = GetRequest(filepath);
             return Encoding.ASCII.GetBytes(responseImage);

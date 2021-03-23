@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using APIClient.Models;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,38 +11,56 @@ public class LoadingScript : MonoBehaviour
 {
     public Slider slider;
 
-    private AsyncOperation loadingOperation;
+    private int done;
+    private string imageSavePath;
+
+    private Thread imageLoadingThread;
     
-    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(LoadingScreen());
+        imageSavePath = Application.persistentDataPath + "/card-images/";
+        
+        var allCards = APIClient.APIClient.Instance.GetCards().ToList();
+
+        slider.minValue = 0;
+        slider.maxValue = allCards.Count;
+        slider.value = 0;
+
+        var imageThreadStart = new ThreadStart(() => LoadImages(allCards));
+        imageLoadingThread = new Thread(imageThreadStart);
+
+        imageLoadingThread.Start();
+        
     }
 
-    IEnumerator LoadingScreen()
+    private void Update()
     {
-        // Load slider info
-        slider.minValue = 0;
-        slider.value = 0;
-        IEnumerable<CardResource> allCards = APIClient.APIClient.Instance.getAllCards();
-        slider.maxValue = allCards.Count();
-        loadingOperation = SceneManager.LoadSceneAsync("MainMenu");
-        loadingOperation.allowSceneActivation = false;
-        var pathToSave = Application.persistentDataPath;
-        var i = 0;
-        while (!loadingOperation.isDone)
-        {
-            CardResource card = allCards.ElementAt(i);
-            File.WriteAllBytes(pathToSave+card.id, APIClient.APIClient.Instance.getCardImage(card.filepath));
-            slider.value++;
-            i++;
-            // Image loading logic
-            // send request to lopcalhost/card/all
-            // from body, zobrat vsetky urls ako novy array
-            // foreach url v array stiahnut img a ten niekam ulozit
+        slider.value = done;
 
-            if (allCards.Count() == 0) loadingOperation.allowSceneActivation = true;
-            yield return null;
+        if (!imageLoadingThread.IsAlive)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public void LoadImages(List<CardResource> allCards)
+    {
+        foreach (var card in allCards)
+        {
+            if (!Directory.Exists(imageSavePath))
+            {
+                Directory.CreateDirectory(imageSavePath);
+            }
+
+            var localFilePath = imageSavePath + card.id;
+
+            if (!File.Exists(localFilePath))
+            {
+                var content = APIClient.APIClient.Instance.DownloadImage(card.filepath);
+                File.WriteAllBytes(localFilePath, content);
+            }
+
+            done++;
         }
     }
 }
