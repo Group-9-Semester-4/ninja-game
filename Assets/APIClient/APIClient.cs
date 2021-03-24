@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using APIClient.Models;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace APIClient
 
 
         // TODO: Change to dynamic env
-        protected const string APIUrl = "http://localhost:8080";
+        protected const string APIUrl = "http://localhost:8080/api";
 
         public GameResource GameResource;
 
@@ -106,6 +107,20 @@ namespace APIClient
             {
                 throw new NullReferenceException("Init game before drawing a card");
             }
+        }
+
+        public IEnumerable<CardResource> GetCards()
+        {
+            var path = APIUrl + "/card" + "/all";
+            var response = GetRequest(path);
+            response = "{\"Items\":" + response + "}";
+            return JsonHelper.FromJson<CardResource>(response);
+        }
+
+        public byte[] DownloadImage(String filepath)
+        {
+            var responseImage = GetRequest(filepath);
+            return Encoding.ASCII.GetBytes(responseImage);
         }
     }
 }
