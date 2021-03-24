@@ -1,4 +1,5 @@
-﻿using Game;
+﻿using APIClient.Models;
+using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,14 +14,18 @@ public class DrawnCardScene : MonoBehaviour
 
     public WebReq webReq;
 
+    public CardResource currentCard;
+
     public void Start()
     {
+        APIClient.APIClient.Instance.TestInit();
+        
         // Get webReq reference
-        GameObject findObject = GameObject.Find("GameManagerObject");
+        var findObject = GameObject.Find("GameManagerObject");
         webReq = findObject.GetComponent<WebReq>();
         
         // Show timer stuff when card is timer related
-        var currentCard = GameData.Instance.CurrentCard;
+        currentCard = GameData.Instance.CurrentCard;
         
         if (currentCard.difficulty_type)
         {
@@ -52,20 +57,19 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
-        var card = APIClient.APIClient.Instance.DrawCard();
+        currentCard = APIClient.APIClient.Instance.DrawCard();
 
-        if (card.difficulty_type)
+        if (currentCard.difficulty_type)
         {
-            ShowTimer(card.difficulty);
+            ShowTimer(currentCard.difficulty);
         }
         else
         {
             HideTimer();
         }
 
-        webReq.cardResource = card;
+        webReq.cardResource = currentCard;
         webReq.RenderCard();
-        Debug.Log(webReq.cardResource.name);
     }
     
     public void CompleteCard()
