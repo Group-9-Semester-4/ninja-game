@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using APIClient.Models;
+using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,14 +12,14 @@ public class LoadingScript : MonoBehaviour
 {
     public Slider slider;
 
-    private int done;
-    private string imageSavePath;
+    private int _done;
+    private string _imageSavePath;
 
-    private Thread imageLoadingThread;
+    private Thread _imageLoadingThread;
     
     void Start()
     {
-        imageSavePath = Application.persistentDataPath + "/card-images/";
+        _imageSavePath = GameService.Instance.ImageSavePath();
         
         var allCards = APIClient.APIClient.Instance.GetCards().ToList();
 
@@ -27,32 +28,32 @@ public class LoadingScript : MonoBehaviour
         slider.value = 0;
 
         var imageThreadStart = new ThreadStart(() => LoadImages(allCards));
-        imageLoadingThread = new Thread(imageThreadStart);
+        _imageLoadingThread = new Thread(imageThreadStart);
 
-        imageLoadingThread.Start();
+        _imageLoadingThread.Start();
         
     }
 
     private void Update()
     {
-        slider.value = done;
+        slider.value = _done;
 
-        if (!imageLoadingThread.IsAlive)
+        if (!_imageLoadingThread.IsAlive)
         {
             SceneManager.LoadScene("MainMenu");
         }
     }
 
-    public void LoadImages(List<CardResource> allCards)
+    private void LoadImages(IEnumerable<CardResource> allCards)
     {
         foreach (var card in allCards)
         {
-            if (!Directory.Exists(imageSavePath))
+            if (!Directory.Exists(_imageSavePath))
             {
-                Directory.CreateDirectory(imageSavePath);
+                Directory.CreateDirectory(_imageSavePath);
             }
 
-            var localFilePath = imageSavePath + card.id;
+            var localFilePath = _imageSavePath + card.id;
 
             if (!File.Exists(localFilePath))
             {
@@ -60,7 +61,7 @@ public class LoadingScript : MonoBehaviour
                 File.WriteAllBytes(localFilePath, content);
             }
 
-            done++;
+            _done++;
         }
     }
 }
