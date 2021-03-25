@@ -7,8 +7,6 @@ public class Manager : MonoBehaviour
 
     public void SceneLoader(string SceneName)
     {
-        Debug.Log(SceneName);
         SceneManager.LoadScene(SceneName);
-        //Debug.Log(SceneName);
     }
 }

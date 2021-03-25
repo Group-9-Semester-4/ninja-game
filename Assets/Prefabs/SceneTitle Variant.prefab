@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1212444969086640037, guid: 86d1132679426c9d1843feec136fc0ee,
         type: 3}
       propertyPath: m_Name
-      value: SceneTitle
+      value: SceneTitle Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4277926537820710536, guid: 86d1132679426c9d1843feec136fc0ee,
         type: 3}
@@ -18,6 +18,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2413806693520163455, guid: 5468fc2d306a53c8687ca0633093010e,
         type: 3}
+    - target: {fileID: 4277926537820710536, guid: 86d1132679426c9d1843feec136fc0ee,
+        type: 3}
+      propertyPath: m_Maskable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277926537820710536, guid: 86d1132679426c9d1843feec136fc0ee,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4756844832304693334, guid: 86d1132679426c9d1843feec136fc0ee,
         type: 3}
       propertyPath: m_Pivot.x

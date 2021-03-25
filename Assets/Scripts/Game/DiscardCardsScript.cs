@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using APIClient.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DiscardCardsScript : MonoBehaviour
@@ -50,6 +51,7 @@ public class DiscardCardsScript : MonoBehaviour
         }
 
         APIClient.APIClient.Instance.StartGame(excludedCards);
+        SceneManager.LoadScene("GameScene");
 
     }
 }
