@@ -6,23 +6,16 @@ namespace APIClient
 {
     public class APIClientBase
     {
-        protected string GetRequest(string url)
+        protected UnityWebRequest GetRequest(string url)
         {
             var request = UnityWebRequest.Get(url);
 
             request.SendWebRequest();
 
-            while (!request.isDone) { }
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                throw new Exception("API request " + url + "failed with status code " + request.responseCode);
-            }
-
-            return request.downloadHandler.text;
+            return request;
         }
 
-        protected string PostRequest(string url, object param)
+        protected UnityWebRequest PostRequest(string url, object param)
         {
             var serialized = JsonUtility.ToJson(param);
             
@@ -38,17 +31,8 @@ namespace APIClient
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            
-            request.SendWebRequest();
 
-            while (!request.isDone) { }
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                throw new Exception("API request " + url + "failed with status code " + request.responseCode);
-            }
-
-            return request.downloadHandler.text;
+            return request;
         }
     }
     public static class JsonHelper
