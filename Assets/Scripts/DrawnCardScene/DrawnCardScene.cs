@@ -18,8 +18,6 @@ public class DrawnCardScene : MonoBehaviour
 
     public void Start()
     {
-        APIClient.APIClient.Instance.TestInit();
-        
         // Get webReq reference
         var findObject = GameObject.Find("GameManagerObject");
         webReq = findObject.GetComponent<WebReq>();
@@ -53,11 +51,21 @@ public class DrawnCardScene : MonoBehaviour
             // Timer was finished start blinking time left
             timerText.text = Time.fixedTime % .5 < .2 ? "" : "0";
         }
+
+        if (currentCard.id != GameData.Instance.CurrentCard.id)
+        {
+            RenderCard();
+        }
     }
 
     public void RedrawCard()
     {
-        currentCard = APIClient.APIClient.Instance.DrawCard();
+        StartCoroutine(APIClient.APIClient.Instance.RedrawCard());
+    }
+
+    public void RenderCard()
+    {
+        currentCard = GameData.Instance.CurrentCard;
 
         if (currentCard.difficulty_type)
         {
@@ -79,7 +87,6 @@ public class DrawnCardScene : MonoBehaviour
         if (gameData.CurrentCard != null)
         {
             gameData.Points += gameData.CurrentCard.points;
-            gameData.CurrentCard = null;
         }
 
         SceneManager.LoadScene("GameScene");

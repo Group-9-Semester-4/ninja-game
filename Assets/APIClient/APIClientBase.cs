@@ -10,8 +10,6 @@ namespace APIClient
         {
             var request = UnityWebRequest.Get(url);
 
-            request.SendWebRequest();
-
             return request;
         }
 

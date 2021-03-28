@@ -63,21 +63,30 @@ namespace APIClient
             SceneManager.LoadScene("GameScene");
         }
 
-        public CardResource DrawCard()
+        public IEnumerator DrawCard()
+        {
+            yield return RedrawCard();
+            
+            SceneManager.LoadScene("DrawnCardScene");
+        }
+        
+        public IEnumerator RedrawCard()
         {
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/draw";
 
-            var result = GetRequest(path);
+            var request = GetRequest(path);
 
-            var card = JsonUtility.FromJson<CardResource>(result);
+            yield return HandleRequest(request);
+            
+            var card = JsonUtility.FromJson<CardResource>(request.downloadHandler.text);
 
-            return card;
+            GameData.Instance.CurrentCard = card;
         }
 
-        public void CardDone(CardResource cardResource)
+        public IEnumerator CardDone(CardResource cardResource)
         {
             CheckIfGameStarted();
             
@@ -89,7 +98,9 @@ namespace APIClient
                 cardId = cardResource.id
             };
 
-            PostRequest(path, param);
+            var request = PostRequest(path, param);
+
+            yield return HandleRequest(request);
         }
 
         public void FinishGame()
