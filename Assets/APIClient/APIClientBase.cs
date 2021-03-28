@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Net.Http;
-using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace APIClient
 {
@@ -10,26 +8,22 @@ namespace APIClient
     {
         protected string GetRequest(string url)
         {
-            var client = new HttpClient();
-            
-            var result = client.GetAsync(url);
-            result.Wait();
+            var request = UnityWebRequest.Get(url);
 
-            if (!result.Result.IsSuccessStatusCode)
+            request.SendWebRequest();
+
+            while (!request.isDone) { }
+
+            if (request.result != UnityWebRequest.Result.Success)
             {
-                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
+                throw new Exception("API request " + url + "failed with status code " + request.responseCode);
             }
-            
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
 
-            return content.Result;
+            return request.downloadHandler.text;
         }
 
         protected string PostRequest(string url, object param)
         {
-            var client = new HttpClient();
-            
             var serialized = JsonUtility.ToJson(param);
             
             if (serialized == "{}")
@@ -37,20 +31,24 @@ namespace APIClient
                 serialized = "[]";
             }
             
-            var jsonContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            var result = client.PostAsync(url, jsonContent);
-            result.Wait();
-
-            if (!result.Result.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
-            }
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(serialized);
             
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
+            var request = new UnityWebRequest(url, "POST");
 
-            return content.Result;
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            
+            request.SendWebRequest();
+
+            while (!request.isDone) { }
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                throw new Exception("API request " + url + "failed with status code " + request.responseCode);
+            }
+
+            return request.downloadHandler.text;
         }
     }
     public static class JsonHelper
