@@ -50,7 +50,10 @@ public class DiscardCardsScript : MonoBehaviour
             }
         }
 
-        StartCoroutine(APIClient.APIClient.Instance.StartGame(excludedCards));
+        StartCoroutine(APIClient.APIClient.Instance.StartGame(excludedCards, resource =>
+        {
+            SceneManager.LoadScene("GameScene");
+        }));
 
     }
 }

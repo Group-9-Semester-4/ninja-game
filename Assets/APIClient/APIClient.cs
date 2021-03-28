@@ -27,7 +27,7 @@ namespace APIClient
 
         public GameResource GameResource;
 
-        public IEnumerator InitGame(GameInitOptions options)
+        public IEnumerator InitGame(GameInitOptions options, Action<GameResource> action)
         {
             const string path = APIUrl + "/game/init";
 
@@ -39,10 +39,10 @@ namespace APIClient
 
             GameResource = game;
 
-            SceneManager.LoadScene("DiscardScene");
+            action(game);
         }
 
-        public IEnumerator StartGame(List<CardResource> unwantedCards)
+        public IEnumerator StartGame(List<CardResource> unwantedCards, Action<GameResource> action)
         {
             CheckIfGameStarted();
 
@@ -60,17 +60,15 @@ namespace APIClient
 
             GameResource = game;
 
-            SceneManager.LoadScene("GameScene");
+            action(game);
         }
 
-        public IEnumerator DrawCard()
+        public IEnumerator DrawCard(Action<CardResource> action)
         {
-            yield return RedrawCard();
-            
-            SceneManager.LoadScene("DrawnCardScene");
+            yield return RedrawCard(action);
         }
         
-        public IEnumerator RedrawCard()
+        public IEnumerator RedrawCard(Action<CardResource> action)
         {
             CheckIfGameStarted();
             
@@ -83,7 +81,7 @@ namespace APIClient
             
             var card = JsonUtility.FromJson<CardResource>(request.downloadHandler.text);
 
-            GameData.Instance.CurrentCard = card;
+            action(card);
         }
 
         public IEnumerator CardDone(CardResource cardResource)

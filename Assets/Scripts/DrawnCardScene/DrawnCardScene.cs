@@ -51,16 +51,15 @@ public class DrawnCardScene : MonoBehaviour
             // Timer was finished start blinking time left
             timerText.text = Time.fixedTime % .5 < .2 ? "" : "0";
         }
-
-        if (currentCard.id != GameData.Instance.CurrentCard.id)
-        {
-            RenderCard();
-        }
     }
 
     public void RedrawCard()
     {
-        StartCoroutine(APIClient.APIClient.Instance.RedrawCard());
+        StartCoroutine(APIClient.APIClient.Instance.RedrawCard(card =>
+        {
+            GameData.Instance.CurrentCard = card;
+            RenderCard();
+        }));
     }
 
     public void RenderCard()
