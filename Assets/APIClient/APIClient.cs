@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using APIClient.Models;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace APIClient
 {
@@ -14,36 +15,31 @@ namespace APIClient
         private APIClient() {}
         public static APIClient Instance
         {
-            get { return _instance ?? (_instance = new APIClient()); }
+            get { return _instance ??= new APIClient(); }
         }
 
 
         // TODO: Change to dynamic env
-        protected const string APIUrl = "http://localhost:8080/api";
+        public const string APIUrl = "http://localhost:8080";
 
         public GameResource GameResource;
 
-        public GameResource InitGame(GameInitOptions options)
+        public IEnumerator InitGame(GameInitOptions options, Action<GameResource> action)
         {
             const string path = APIUrl + "/game/init";
 
-            var result = PostRequest(path, options);
+            var request = PostRequest(path, options);
 
-            var game = JsonUtility.FromJson<GameResource>(result);
+            yield return HandleRequest(request);
+        
+            var game = JsonUtility.FromJson<GameResource>(request.downloadHandler.text);
 
             GameResource = game;
 
-            return game;
+            action(game);
         }
 
-        // Used for testing purposes, use when you need to start a game, and don't want to go through all the screens
-        public void TestInit()
-        {
-            InitGame(new GameInitOptions());
-            StartGame(new List<CardResource>());
-        }
-
-        public GameResource StartGame(List<CardResource> unwantedCards)
+        public IEnumerator StartGame(List<CardResource> unwantedCards, Action<GameResource> action)
         {
             CheckIfGameStarted();
 
@@ -53,28 +49,34 @@ namespace APIClient
 
             var cardIds = unwantedCards.Select(card => card.id).ToArray();
 
-            var result = PostRequest(path, cardIds);
+            var request = PostRequest(path, cardIds);
 
-            GameResource = JsonUtility.FromJson<GameResource>(result);
+            yield return HandleRequest(request);
+            
+            var game = JsonUtility.FromJson<GameResource>(request.downloadHandler.text);
 
-            return GameResource;
+            GameResource = game;
+
+            action(game);
         }
 
-        public CardResource DrawCard()
+        public IEnumerator DrawCard(Action<CardResource> action)
         {
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/draw";
 
-            var result = GetRequest(path);
+            var request = GetRequest(path);
 
-            var card = JsonUtility.FromJson<CardResource>(result);
+            yield return HandleRequest(request);
+            
+            var card = JsonUtility.FromJson<CardResource>(request.downloadHandler.text);
 
-            return card;
+            action(card);
         }
 
-        public void CardDone(CardResource cardResource)
+        public IEnumerator CardDone(CardResource cardResource, Action action)
         {
             CheckIfGameStarted();
             
@@ -86,19 +88,25 @@ namespace APIClient
                 cardId = cardResource.id
             };
 
-            PostRequest(path, param);
+            var request = PostRequest(path, param);
+
+            yield return HandleRequest(request);
+
+            action();
         }
 
-        public void FinishGame()
+        public IEnumerator FinishGame(Action action)
         {
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
 
-            PostRequest(path, new {});
+            yield return PostRequest(path, new {});
 
             GameResource = null;
+
+            action();
         }
 
         protected void CheckIfGameStarted()
@@ -108,19 +116,20 @@ namespace APIClient
                 throw new NullReferenceException("Init game before drawing a card");
             }
         }
-
-        public IEnumerable<CardResource> GetCards()
+        
+        private IEnumerator HandleRequest(UnityWebRequest request)
         {
-            var path = APIUrl + "/card" + "/all";
-            var response = GetRequest(path);
-            response = "{\"Items\":" + response + "}";
-            return JsonHelper.FromJson<CardResource>(response);
-        }
-
-        public byte[] DownloadImage(String filepath)
-        {
-            var responseImage = GetRequest(filepath);
-            return Encoding.ASCII.GetBytes(responseImage);
+            request.SendWebRequest();
+        
+            while (!request.isDone)
+            {
+                yield return 0;
+            }
+        
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                throw new Exception("API request " + request.url + "failed with status code " + request.responseCode);
+            }
         }
     }
 }

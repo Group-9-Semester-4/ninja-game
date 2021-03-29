@@ -1,35 +1,20 @@
 using System;
-using System.Collections;
-using System.Net.Http;
-using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace APIClient
 {
     public class APIClientBase
     {
-        protected string GetRequest(string url)
+        protected UnityWebRequest GetRequest(string url)
         {
-            var client = new HttpClient();
-            
-            var result = client.GetAsync(url);
-            result.Wait();
+            var request = UnityWebRequest.Get(url);
 
-            if (!result.Result.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
-            }
-            
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
-
-            return content.Result;
+            return request;
         }
 
-        protected string PostRequest(string url, object param)
+        protected UnityWebRequest PostRequest(string url, object param)
         {
-            var client = new HttpClient();
-            
             var serialized = JsonUtility.ToJson(param);
             
             if (serialized == "{}")
@@ -37,20 +22,15 @@ namespace APIClient
                 serialized = "[]";
             }
             
-            var jsonContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            var result = client.PostAsync(url, jsonContent);
-            result.Wait();
-
-            if (!result.Result.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("API request " + url + "failed with status code " + result.Result.StatusCode);
-            }
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(serialized);
             
-            var content = result.Result.Content.ReadAsStringAsync();
-            content.Wait();
+            var request = new UnityWebRequest(url, "POST");
 
-            return content.Result;
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            return request;
         }
     }
     public static class JsonHelper

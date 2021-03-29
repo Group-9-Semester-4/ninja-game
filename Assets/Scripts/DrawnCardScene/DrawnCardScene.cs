@@ -18,8 +18,6 @@ public class DrawnCardScene : MonoBehaviour
 
     public void Start()
     {
-        APIClient.APIClient.Instance.TestInit();
-        
         // Get webReq reference
         var findObject = GameObject.Find("GameManagerObject");
         webReq = findObject.GetComponent<WebReq>();
@@ -57,7 +55,16 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
-        currentCard = APIClient.APIClient.Instance.DrawCard();
+        StartCoroutine(APIClient.APIClient.Instance.DrawCard(card =>
+        {
+            GameData.Instance.CurrentCard = card;
+            RenderCard();
+        }));
+    }
+
+    public void RenderCard()
+    {
+        currentCard = GameData.Instance.CurrentCard;
 
         if (currentCard.difficulty_type)
         {
@@ -79,7 +86,6 @@ public class DrawnCardScene : MonoBehaviour
         if (gameData.CurrentCard != null)
         {
             gameData.Points += gameData.CurrentCard.points;
-            gameData.CurrentCard = null;
         }
 
         SceneManager.LoadScene("GameScene");

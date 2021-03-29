@@ -18,9 +18,10 @@ public class GameOptions : MonoBehaviour
             // We need seconds, so multiply by 60
             gameOptions.timeLimit = gameTime * 60;
 
-            APIClient.APIClient.Instance.InitGame(gameOptions);
-            
-            SceneManager.LoadScene("DiscardScene");
+            StartCoroutine(APIClient.APIClient.Instance.InitGame(gameOptions, resource =>
+            {
+                SceneManager.LoadScene("DiscardScene");
+            }));
         }
         else
         {
@@ -29,4 +30,5 @@ public class GameOptions : MonoBehaviour
             Debug.Log("Nothing happened");
         }
     }
+
 }
