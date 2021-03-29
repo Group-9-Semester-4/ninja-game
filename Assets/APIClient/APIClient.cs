@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using APIClient.Models;
-using Game;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 namespace APIClient
 {
@@ -65,11 +62,6 @@ namespace APIClient
 
         public IEnumerator DrawCard(Action<CardResource> action)
         {
-            yield return RedrawCard(action);
-        }
-        
-        public IEnumerator RedrawCard(Action<CardResource> action)
-        {
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
@@ -84,7 +76,7 @@ namespace APIClient
             action(card);
         }
 
-        public IEnumerator CardDone(CardResource cardResource)
+        public IEnumerator CardDone(CardResource cardResource, Action action)
         {
             CheckIfGameStarted();
             
@@ -99,18 +91,22 @@ namespace APIClient
             var request = PostRequest(path, param);
 
             yield return HandleRequest(request);
+
+            action();
         }
 
-        public void FinishGame()
+        public IEnumerator FinishGame(Action action)
         {
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
             var path = APIUrl + "/game/" + uuid + "/done";
 
-            PostRequest(path, new {});
+            yield return PostRequest(path, new {});
 
             GameResource = null;
+
+            action();
         }
 
         protected void CheckIfGameStarted()

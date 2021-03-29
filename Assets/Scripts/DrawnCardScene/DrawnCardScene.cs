@@ -55,7 +55,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
-        StartCoroutine(APIClient.APIClient.Instance.RedrawCard(card =>
+        StartCoroutine(APIClient.APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
             RenderCard();
