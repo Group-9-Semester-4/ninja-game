@@ -13,11 +13,17 @@ public class DiscardCardsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var allCards = APIClient.APIClient.Instance.GameResource.allCards;
 
+        var routine = APIClient.APIClient.Instance.GetAllCards(PopulateCards);
+
+        StartCoroutine(routine);
+    }
+
+    private void PopulateCards(List<CardResource> cards)
+    {
         var y = 0;
 
-        foreach (var card in allCards)
+        foreach (var card in cards)
         {
             var newGameObject = Instantiate(cardPrefab, CardContainer);
             

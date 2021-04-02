@@ -25,7 +25,7 @@ public class DrawnCardScene : MonoBehaviour
         // Show timer stuff when card is timer related
         currentCard = GameData.Instance.CurrentCard;
         
-        if (currentCard.difficulty_type)
+        if (currentCard.difficultyType)
         {
             ShowTimer(currentCard.difficulty);
         }
@@ -66,7 +66,7 @@ public class DrawnCardScene : MonoBehaviour
     {
         currentCard = GameData.Instance.CurrentCard;
 
-        if (currentCard.difficulty_type)
+        if (currentCard.difficultyType)
         {
             ShowTimer(currentCard.difficulty);
         }
@@ -88,7 +88,12 @@ public class DrawnCardScene : MonoBehaviour
             gameData.Points += gameData.CurrentCard.points;
         }
 
-        SceneManager.LoadScene("GameScene");
+        var routine = APIClient.APIClient.Instance.CardDone(gameData.CurrentCard, () =>
+        {
+            SceneManager.LoadScene("GameScene");
+        });
+
+        StartCoroutine(routine);
     }
 
     public void StartTimer()

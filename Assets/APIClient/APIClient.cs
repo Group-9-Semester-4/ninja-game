@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using APIClient.Models;
 using APIClient.Params;
 using UnityEngine;
@@ -78,7 +80,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            const string path = APIUrl + "/game/done";
+            const string path = APIUrl + "/game/card-done";
             
             var uuid = GameResource.id;
 
@@ -95,7 +97,7 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            const string path = APIUrl + "/game/done";
+            const string path = APIUrl + "/game/finish";
 
             var param = new FinishGameParam() {gameId = GameResource.id};
 
@@ -104,6 +106,21 @@ namespace APIClient
             GameResource = null;
 
             action();
+        }
+
+        public IEnumerator GetAllCards(Action<List<CardResource>> action)
+        {
+            CheckIfGameStarted();
+
+            var path = APIUrl + "/game/cards";
+
+            var request = GetRequest(path);
+
+            yield return HandleRequest(request);
+
+            var cards = JsonHelper.FromJson<CardResource>(request.downloadHandler.text);
+
+            action(cards.ToList());
         }
 
         protected void CheckIfGameStarted()

@@ -66,7 +66,7 @@ public class WebReq : MonoBehaviour
 
     public void RenderCard()
     {
-        GetTexture(cardResource.filepath, (string error) => {
+        GetTexture(cardResource.absoluteServerPath, (string error) => {
             //error
             Debug.Log("Error: " + error);
             //textMesh.SetText("Error: " + error);
