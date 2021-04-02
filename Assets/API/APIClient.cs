@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using APIClient.Models;
+using API.Models;
+using API.Params;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace APIClient
+namespace API
 {
     public class APIClient : APIClientBase
     {
@@ -20,15 +21,15 @@ namespace APIClient
 
 
         // TODO: Change to dynamic env
-        public const string APIUrl = "http://localhost:8080";
+        public const string APIUrl = "http://localhost:8080/api";
 
         public GameResource GameResource;
 
-        public IEnumerator InitGame(GameInitOptions options, Action<GameResource> action)
+        public IEnumerator InitGame(GameInitParam param, Action<GameResource> action)
         {
             const string path = APIUrl + "/game/init";
 
-            var request = PostRequest(path, options);
+            var request = PostRequest(path, param);
 
             yield return HandleRequest(request);
         
@@ -39,17 +40,15 @@ namespace APIClient
             action(game);
         }
 
-        public IEnumerator StartGame(List<CardResource> unwantedCards, Action<GameResource> action)
+        public IEnumerator StartGame(GameStartParam param, Action<GameResource> action)
         {
             CheckIfGameStarted();
+            
+            const string path = APIUrl + "/game/start";
+            
+            param.gameId = GameResource.id;
 
-            var uuid = GameResource.id;
-
-            var path = APIUrl + "/game/" + uuid + "/start";
-
-            var cardIds = unwantedCards.Select(card => card.id).ToArray();
-
-            var request = PostRequest(path, cardIds);
+            var request = PostRequest(path, param);
 
             yield return HandleRequest(request);
             
@@ -65,7 +64,8 @@ namespace APIClient
             CheckIfGameStarted();
             
             var uuid = GameResource.id;
-            var path = APIUrl + "/game/" + uuid + "/draw";
+            
+            var path = APIUrl + "/game/draw?gameId="+uuid;
 
             var request = GetRequest(path);
 
@@ -80,15 +80,13 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.id;
-            var path = APIUrl + "/game/" + uuid + "/done";
+            const string path = APIUrl + "/game/card-done";
             
-            var param = new
-            {
-                cardId = cardResource.id
-            };
+            var uuid = GameResource.id;
 
-            var request = PostRequest(path, param);
+            var options = new CardDoneParam {cardId = cardResource.id, gameId = uuid};
+
+            var request = PostRequest(path, options);
 
             yield return HandleRequest(request);
 
@@ -99,21 +97,37 @@ namespace APIClient
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.id;
-            var path = APIUrl + "/game/" + uuid + "/done";
+            const string path = APIUrl + "/game/finish";
 
-            yield return PostRequest(path, new {});
+            var param = new FinishGameParam() {gameId = GameResource.id};
+
+            yield return PostRequest(path, param);
 
             GameResource = null;
 
             action();
         }
 
+        public IEnumerator GetAllCards(Action<List<CardResource>> action)
+        {
+            CheckIfGameStarted();
+
+            var path = APIUrl + "/game/cards";
+
+            var request = GetRequest(path);
+
+            yield return HandleRequest(request);
+
+            var cards = JsonHelper.FromJson<CardResource>(request.downloadHandler.text);
+
+            action(cards.ToList());
+        }
+
         protected void CheckIfGameStarted()
         {
             if (GameResource == null)
             {
-                throw new NullReferenceException("Init game before drawing a card");
+                throw new NullReferenceException("Game not initialized");
             }
         }
         

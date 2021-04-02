@@ -1,4 +1,4 @@
-using APIClient.Models;
+using API.Models;
 
 namespace Game
 {

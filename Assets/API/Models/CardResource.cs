@@ -1,6 +1,6 @@
 using System;
 
-namespace APIClient.Models
+namespace API.Models
 {
     [Serializable]
     public class CardResource
@@ -9,8 +9,9 @@ namespace APIClient.Models
         public string name;
         public string description;
         public int points;
-        public bool difficulty_type;
+        public bool difficultyType;
         public int difficulty;
         public string filepath;
+        public string absoluteServerPath;
     }
 }

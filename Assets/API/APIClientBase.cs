@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace APIClient
+namespace API
 {
     public class APIClientBase
     {
@@ -16,12 +16,7 @@ namespace APIClient
         protected UnityWebRequest PostRequest(string url, object param)
         {
             var serialized = JsonUtility.ToJson(param);
-            
-            if (serialized == "{}")
-            {
-                serialized = "[]";
-            }
-            
+
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(serialized);
             
             var request = new UnityWebRequest(url, "POST");
@@ -37,6 +32,7 @@ namespace APIClient
     {
         public static T[] FromJson<T>(string json)
         {
+            json = "{\"Items\":" + json + "}";
             Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
             return wrapper.Items;
         }

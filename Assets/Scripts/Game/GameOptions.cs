@@ -1,4 +1,5 @@
-﻿using APIClient.Models;
+﻿using API;
+using API.Params;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,12 +14,12 @@ public class GameOptions : MonoBehaviour
 
         if (int.TryParse(inputValue, out var gameTime))
         {
-            var gameOptions = new GameInitOptions();
+            var gameOptions = new GameInitParam();
             
             // We need seconds, so multiply by 60
             gameOptions.timeLimit = gameTime * 60;
 
-            StartCoroutine(APIClient.APIClient.Instance.InitGame(gameOptions, resource =>
+            StartCoroutine(APIClient.Instance.InitGame(gameOptions, resource =>
             {
                 SceneManager.LoadScene("DiscardScene");
             }));

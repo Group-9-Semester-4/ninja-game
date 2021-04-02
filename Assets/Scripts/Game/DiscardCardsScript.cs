@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using APIClient.Models;
+using API;
+using API.Models;
+using API.Params;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,11 +14,17 @@ public class DiscardCardsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var allCards = APIClient.APIClient.Instance.GameResource.allCards;
 
+        var routine = APIClient.Instance.GetAllCards(PopulateCards);
+
+        StartCoroutine(routine);
+    }
+
+    private void PopulateCards(List<CardResource> cards)
+    {
         var y = 0;
 
-        foreach (var card in allCards)
+        foreach (var card in cards)
         {
             var newGameObject = Instantiate(cardPrefab, CardContainer);
             
@@ -39,18 +47,20 @@ public class DiscardCardsScript : MonoBehaviour
     {
         var toggles = CardContainer.GetComponentsInChildren<Toggle>();
 
-        var excludedCards = new List<CardResource>();
+        var excludedCards = new List<string>();
 
         foreach (var toggle in toggles)
         {
             if (toggle.isOn)
             {
                 var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
-                excludedCards.Add(cardScript.cardResource);
+                excludedCards.Add(cardScript.cardResource.id);
             }
         }
 
-        StartCoroutine(APIClient.APIClient.Instance.StartGame(excludedCards, resource =>
+        var options = new GameStartParam {unwantedCards = excludedCards};
+
+        StartCoroutine(APIClient.Instance.StartGame(options, resource =>
         {
             SceneManager.LoadScene("GameScene");
         }));
