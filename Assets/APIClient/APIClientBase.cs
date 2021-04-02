@@ -16,12 +16,7 @@ namespace APIClient
         protected UnityWebRequest PostRequest(string url, object param)
         {
             var serialized = JsonUtility.ToJson(param);
-            
-            if (serialized == "{}")
-            {
-                serialized = "[]";
-            }
-            
+
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(serialized);
             
             var request = new UnityWebRequest(url, "POST");

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using APIClient.Models;
+using APIClient.Params;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -39,18 +40,20 @@ public class DiscardCardsScript : MonoBehaviour
     {
         var toggles = CardContainer.GetComponentsInChildren<Toggle>();
 
-        var excludedCards = new List<CardResource>();
+        var excludedCards = new List<string>();
 
         foreach (var toggle in toggles)
         {
             if (toggle.isOn)
             {
                 var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
-                excludedCards.Add(cardScript.cardResource);
+                excludedCards.Add(cardScript.cardResource.id);
             }
         }
 
-        StartCoroutine(APIClient.APIClient.Instance.StartGame(excludedCards, resource =>
+        var options = new GameStartParam {unwantedCards = excludedCards};
+
+        StartCoroutine(APIClient.APIClient.Instance.StartGame(options, resource =>
         {
             SceneManager.LoadScene("GameScene");
         }));

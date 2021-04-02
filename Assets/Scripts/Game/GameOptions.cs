@@ -1,4 +1,4 @@
-﻿using APIClient.Models;
+﻿using APIClient.Params;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +13,7 @@ public class GameOptions : MonoBehaviour
 
         if (int.TryParse(inputValue, out var gameTime))
         {
-            var gameOptions = new GameInitOptions();
+            var gameOptions = new GameInitParam();
             
             // We need seconds, so multiply by 60
             gameOptions.timeLimit = gameTime * 60;
