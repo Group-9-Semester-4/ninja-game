@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace APIClient
+namespace API
 {
     public class APIClientBase
     {

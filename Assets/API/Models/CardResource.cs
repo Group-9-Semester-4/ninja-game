@@ -1,6 +1,6 @@
 using System;
 
-namespace APIClient.Models
+namespace API.Models
 {
     [Serializable]
     public class CardResource

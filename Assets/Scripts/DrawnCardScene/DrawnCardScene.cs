@@ -1,4 +1,6 @@
-﻿using APIClient.Models;
+﻿using API;
+using API.Models;
+using API.Models;
 using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -55,7 +57,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
-        StartCoroutine(APIClient.APIClient.Instance.DrawCard(card =>
+        StartCoroutine(APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
             RenderCard();
@@ -88,7 +90,7 @@ public class DrawnCardScene : MonoBehaviour
             gameData.Points += gameData.CurrentCard.points;
         }
 
-        var routine = APIClient.APIClient.Instance.CardDone(gameData.CurrentCard, () =>
+        var routine = APIClient.Instance.CardDone(gameData.CurrentCard, () =>
         {
             SceneManager.LoadScene("GameScene");
         });

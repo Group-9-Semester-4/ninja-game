@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using APIClient.Models;
+using API.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 

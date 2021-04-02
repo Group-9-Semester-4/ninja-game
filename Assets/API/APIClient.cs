@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using APIClient.Models;
-using APIClient.Params;
+using API.Models;
+using API.Params;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace APIClient
+namespace API
 {
     public class APIClient : APIClientBase
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace APIClient.Params
+namespace API.Params
 {
     [Serializable]
     public class FinishGameParam

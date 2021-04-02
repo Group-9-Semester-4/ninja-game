@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using APIClient.Models;
-using APIClient.Params;
+using API;
+using API.Models;
+using API.Params;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public class DiscardCardsScript : MonoBehaviour
     void Start()
     {
 
-        var routine = APIClient.APIClient.Instance.GetAllCards(PopulateCards);
+        var routine = APIClient.Instance.GetAllCards(PopulateCards);
 
         StartCoroutine(routine);
     }
@@ -59,7 +60,7 @@ public class DiscardCardsScript : MonoBehaviour
 
         var options = new GameStartParam {unwantedCards = excludedCards};
 
-        StartCoroutine(APIClient.APIClient.Instance.StartGame(options, resource =>
+        StartCoroutine(APIClient.Instance.StartGame(options, resource =>
         {
             SceneManager.LoadScene("GameScene");
         }));
