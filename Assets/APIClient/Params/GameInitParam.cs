@@ -1,9 +1,9 @@
 using System;
 
-namespace APIClient.Models
+namespace APIClient.Params
 {
     [Serializable]
-    public class GameInitOptions
+    public class GameInitParam
     {
         public int timeLimit = 3600;
         public bool singlePlayer = true;
