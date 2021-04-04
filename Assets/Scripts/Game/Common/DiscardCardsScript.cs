@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using API;
 using API.Models;
 using API.Params;
@@ -12,9 +13,9 @@ public class DiscardCardsScript : MonoBehaviour
     public Dropdown CardSetDropdown;
     public GameObject cardPrefab;
 
-    private List<CardSet> _cardSets;
+    protected List<CardSet> _cardSets;
     
-    void Start()
+    protected void Start()
     {
         _cardSets = new List<CardSet>() { new CardSet() {cards = new List<Card>()} };
 
@@ -23,7 +24,7 @@ public class DiscardCardsScript : MonoBehaviour
         StartCoroutine(cardSetRoutine);
     }
 
-    private void PopulateCards(List<Card> cards)
+    protected void PopulateCards(List<Card> cards)
     {
         var childCount = CardContainer.childCount;
         
@@ -65,7 +66,7 @@ public class DiscardCardsScript : MonoBehaviour
         }
     }
 
-    private void PopulateCardSets(List<CardSet> cardSets)
+    protected void PopulateCardSets(List<CardSet> cardSets)
     {
         foreach (var cardSet in cardSets)
         {
@@ -76,7 +77,7 @@ public class DiscardCardsScript : MonoBehaviour
         }
     }
 
-    private CardSet getSelectedCardSet()
+    protected CardSet getSelectedCardSet()
     {
         var index = CardSetDropdown.value;
 
@@ -90,13 +91,13 @@ public class DiscardCardsScript : MonoBehaviour
         PopulateCards(cardSet.cards);
     }
 
-    public void Continue()
+    protected GameStartParam getGameStartParam()
     {
         var cardSet = getSelectedCardSet();
 
         if (string.IsNullOrEmpty(cardSet.id))
         {
-            return;
+            throw new NullReferenceException("Card set not chosen");
         }
         
         var toggles = CardContainer.GetComponentsInChildren<Toggle>();
@@ -112,13 +113,7 @@ public class DiscardCardsScript : MonoBehaviour
             }
         }
 
-        var options = new GameStartParam {unwantedCards = excludedCards, cardSetId = cardSet.id};
-
-        StartCoroutine(APIClient.Instance.StartGame(options, resource =>
-        {
-            SceneManager.LoadScene("GameScene");
-        }));
-
+        return new GameStartParam {unwantedCards = excludedCards, cardSetId = cardSet.id};
     }
 }
 

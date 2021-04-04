@@ -8,5 +8,6 @@ namespace API.Params
         public int timeLimit = 3600;
         public bool multiPlayer = false;
         public bool playingAlone = true;
+        public string lobbyCode;
     }
 }

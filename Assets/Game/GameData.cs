@@ -22,5 +22,6 @@ namespace Game
 
         public Card CurrentCard { get; set; }
 
+        public GameInfo GameInfo { get; set; }
     }
 }
