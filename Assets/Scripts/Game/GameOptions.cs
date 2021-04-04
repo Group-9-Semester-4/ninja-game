@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GameOptions : MonoBehaviour
 {
     public Text GameTimeInput;
+    public Toggle MultiplayerToggle;
 
     public void onContinue()
     {
@@ -18,10 +19,18 @@ public class GameOptions : MonoBehaviour
             
             // We need seconds, so multiply by 60
             gameOptions.timeLimit = gameTime * 60;
+            gameOptions.multiPlayer = MultiplayerToggle.isOn;
 
             StartCoroutine(APIClient.Instance.InitGame(gameOptions, resource =>
             {
-                SceneManager.LoadScene("DiscardScene");
+                if (gameOptions.multiPlayer)
+                {
+                    SceneManager.LoadScene("Scenes/Multiplayer/Lobby");
+                }
+                else
+                {
+                    SceneManager.LoadScene("DiscardScene");
+                }
             }));
         }
         else

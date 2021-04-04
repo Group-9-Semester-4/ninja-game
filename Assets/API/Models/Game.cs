@@ -4,15 +4,16 @@ using System.Collections.Generic;
 namespace API.Models
 {
     [Serializable]
-    public class GameResource
+    public class Game
     {
         public string id;
-        public List<CardResource> allCards;
         public int points;
         public int miniGameAttempts;
+        public int gameAttempts;
         public int cardsDone;
         public int timeLimit;
-        public bool singlePlayer;
+        public bool multiPlayer;
         public bool playingAlone;
+        public GameInfo gameInfo;
     }
 }

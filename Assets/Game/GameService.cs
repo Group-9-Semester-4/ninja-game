@@ -11,7 +11,7 @@ namespace Game
 
         public static GameService Instance => _instance ??= new GameService();
 
-        public byte[] GetCardImage(CardResource card)
+        public byte[] GetCardImage(Card card)
         {
             var id = card.id;
 

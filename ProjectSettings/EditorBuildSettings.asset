@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DrawnCardScene.unity
     guid: 2913b6f9ae862c04482ee5fad2503dde
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Lobby.unity
+    guid: b87b555e493fed5488f0e4770c518e87
   m_configObjects: {}

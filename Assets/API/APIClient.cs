@@ -23,9 +23,9 @@ namespace API
         // TODO: Change to dynamic env
         public const string APIUrl = "http://localhost:8080/api";
 
-        public GameResource GameResource;
+        public Models.Game Game;
 
-        public IEnumerator InitGame(GameInitParam param, Action<GameResource> action)
+        public IEnumerator InitGame(GameInitParam param, Action<Models.Game> action)
         {
             const string path = APIUrl + "/game/init";
 
@@ -33,37 +33,37 @@ namespace API
 
             yield return HandleRequest(request);
         
-            var game = JsonUtility.FromJson<GameResource>(request.downloadHandler.text);
+            var game = JsonUtility.FromJson<Models.Game>(request.downloadHandler.text);
 
-            GameResource = game;
+            Game = game;
 
             action(game);
         }
 
-        public IEnumerator StartGame(GameStartParam param, Action<GameResource> action)
+        public IEnumerator StartGame(GameStartParam param, Action<Models.Game> action)
         {
             CheckIfGameStarted();
             
             const string path = APIUrl + "/game/start";
             
-            param.gameId = GameResource.id;
+            param.gameId = Game.id;
 
             var request = PostRequest(path, param);
 
             yield return HandleRequest(request);
             
-            var game = JsonUtility.FromJson<GameResource>(request.downloadHandler.text);
+            var game = JsonUtility.FromJson<Models.Game>(request.downloadHandler.text);
 
-            GameResource = game;
+            Game = game;
 
             action(game);
         }
 
-        public IEnumerator DrawCard(Action<CardResource> action)
+        public IEnumerator DrawCard(Action<Card> action)
         {
             CheckIfGameStarted();
             
-            var uuid = GameResource.id;
+            var uuid = Game.id;
             
             var path = APIUrl + "/game/draw?gameId="+uuid;
 
@@ -71,20 +71,20 @@ namespace API
 
             yield return HandleRequest(request);
             
-            var card = JsonUtility.FromJson<CardResource>(request.downloadHandler.text);
+            var card = JsonUtility.FromJson<Card>(request.downloadHandler.text);
 
             action(card);
         }
 
-        public IEnumerator CardDone(CardResource cardResource, Action action)
+        public IEnumerator CardDone(Card card, Action action)
         {
             CheckIfGameStarted();
             
             const string path = APIUrl + "/game/card-done";
             
-            var uuid = GameResource.id;
+            var uuid = Game.id;
 
-            var options = new CardDoneParam {cardId = cardResource.id, gameId = uuid};
+            var options = new CardDoneParam {cardId = card.id, gameId = uuid};
 
             var request = PostRequest(path, options);
 
@@ -99,33 +99,44 @@ namespace API
             
             const string path = APIUrl + "/game/finish";
 
-            var param = new FinishGameParam() {gameId = GameResource.id};
+            var param = new FinishGameParam() {gameId = Game.id};
 
             yield return PostRequest(path, param);
 
-            GameResource = null;
+            Game = null;
 
             action();
         }
 
-        public IEnumerator GetAllCards(Action<List<CardResource>> action)
+        public IEnumerator GetAllCards(Action<List<Card>> action)
         {
-            CheckIfGameStarted();
-
             var path = APIUrl + "/game/cards";
 
             var request = GetRequest(path);
 
             yield return HandleRequest(request);
 
-            var cards = JsonHelper.FromJson<CardResource>(request.downloadHandler.text);
+            var cards = JsonHelper.FromJson<Card>(request.downloadHandler.text);
 
             action(cards.ToList());
         }
 
+        public IEnumerator GetCardSets(Action<List<CardSet>> action)
+        {
+            var path = APIUrl + "/game/cardsets";
+
+            var request = GetRequest(path);
+
+            yield return HandleRequest(request);
+
+            var cardSets = JsonHelper.FromJson<CardSet>(request.downloadHandler.text);
+
+            action(cardSets.ToList());
+        }
+
         protected void CheckIfGameStarted()
         {
-            if (GameResource == null)
+            if (Game == null)
             {
                 throw new NullReferenceException("Game not initialized");
             }

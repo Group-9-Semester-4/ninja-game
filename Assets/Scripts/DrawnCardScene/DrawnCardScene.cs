@@ -16,7 +16,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public WebReq webReq;
 
-    public CardResource currentCard;
+    public Card currentCard;
 
     public void Start()
     {
@@ -32,7 +32,7 @@ public class DrawnCardScene : MonoBehaviour
             ShowTimer(currentCard.difficulty);
         }
 
-        webReq.cardResource = currentCard;
+        webReq.card = currentCard;
         webReq.RenderCard();
     }
     
@@ -77,7 +77,7 @@ public class DrawnCardScene : MonoBehaviour
             HideTimer();
         }
 
-        webReq.cardResource = currentCard;
+        webReq.card = currentCard;
         webReq.RenderCard();
     }
     

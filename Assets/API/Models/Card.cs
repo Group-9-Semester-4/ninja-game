@@ -3,7 +3,7 @@ using System;
 namespace API.Models
 {
     [Serializable]
-    public class CardResource
+    public class Card
     {
         public string id;
         public string name;

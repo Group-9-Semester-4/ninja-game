@@ -6,7 +6,7 @@ namespace API.Params
     public class GameInitParam
     {
         public int timeLimit = 3600;
-        public bool singlePlayer = true;
+        public bool multiPlayer = false;
         public bool playingAlone = true;
     }
 }

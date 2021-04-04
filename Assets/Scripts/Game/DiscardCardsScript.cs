@@ -20,7 +20,7 @@ public class DiscardCardsScript : MonoBehaviour
         StartCoroutine(routine);
     }
 
-    private void PopulateCards(List<CardResource> cards)
+    private void PopulateCards(List<Card> cards)
     {
         var y = 0;
 
@@ -37,7 +37,7 @@ public class DiscardCardsScript : MonoBehaviour
 
             newGameObject.AddComponent(typeof(CardScript));
             var cardScript = (CardScript) newGameObject.GetComponent(typeof(CardScript));
-            cardScript.cardResource = card;
+            cardScript.card = card;
             
             y += 1;
         }
@@ -54,7 +54,7 @@ public class DiscardCardsScript : MonoBehaviour
             if (toggle.isOn)
             {
                 var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
-                excludedCards.Add(cardScript.cardResource.id);
+                excludedCards.Add(cardScript.card.id);
             }
         }
 

@@ -20,7 +20,7 @@ namespace Game
 
         public int Points { get; set; }
 
-        public CardResource CurrentCard { get; set; }
+        public Card CurrentCard { get; set; }
 
     }
 }
