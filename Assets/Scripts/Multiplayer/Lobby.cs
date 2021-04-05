@@ -65,9 +65,9 @@ public class Lobby : DiscardCardsScript
 
         var gameInfo = GameData.Instance.GameInfo;
         
-        foreach (var player in gameInfo.players)
+        foreach (var player in gameInfo.lobby.players)
         {
-            var lobbyOwner = player.sessionId == gameInfo.lobbyOwnerId;
+            var lobbyOwner = player.sessionId == gameInfo.lobby.lobbyOwnerId;
             AddPlayer(player, lobbyOwner);
         }
     }
