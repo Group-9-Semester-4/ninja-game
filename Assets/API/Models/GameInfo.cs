@@ -11,6 +11,7 @@ namespace API.Models
         public List<Player> players;
         public string lobbyCode;
         public bool started;
+        public string lobbyOwnerId;
 
     }
 }

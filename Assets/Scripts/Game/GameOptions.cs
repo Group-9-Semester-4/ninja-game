@@ -22,7 +22,6 @@ public class GameOptions : MonoBehaviour
     {
         var socketIO = SocketClient.Init("game");
         socketIO.ConnectAsync();
-        SocketClient.Client = socketIO;
     }
 
     public void onMultiplayerToggle()

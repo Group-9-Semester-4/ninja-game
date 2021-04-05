@@ -982,6 +982,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3702811523709173354, guid: 49779ad76bc4d9006bfb740a8907ffb5,
+        type: 3}
+      propertyPath: m_Text
+      value: <b>Game lobby</b>
+      objectReference: {fileID: 0}
     - target: {fileID: 5938422017250966855, guid: 49779ad76bc4d9006bfb740a8907ffb5,
         type: 3}
       propertyPath: m_Name
@@ -1317,6 +1322,7 @@ MonoBehaviour:
     type: 3}
   playerContainer: {fileID: 45045155}
   reloadLobby: 0
+  startGame: 0
 --- !u!1 &757519893
 GameObject:
   m_ObjectHideFlags: 0

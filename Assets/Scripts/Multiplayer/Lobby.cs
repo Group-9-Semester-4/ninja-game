@@ -2,6 +2,7 @@ using System;
 using API;
 using API.Models;
 using Game;
+using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,23 +13,28 @@ public class Lobby : DiscardCardsScript
     public Transform playerContainer;
 
     public bool reloadLobby;
+    public bool startGame;
+
+    private SocketIO _socketIO;
     
     void Start()
     {
         base.Start();
+
+        _socketIO = SocketClient.Client;
         
-        SocketClient.Client.On("join", response =>
+        _socketIO.On("lobby-update", response =>
         {
             GameData.Instance.GameInfo = response.GetValue<GameInfo>();
 
             reloadLobby = true;
         });
         
-        SocketClient.Client.On("leave", response =>
+        _socketIO.On("start", response =>
         {
             GameData.Instance.GameInfo = response.GetValue<GameInfo>();
 
-            reloadLobby = true;
+            startGame = true;
         });
 
         InitLobbyData();
@@ -41,6 +47,11 @@ public class Lobby : DiscardCardsScript
             InitLobbyData();
             reloadLobby = false;
         }
+
+        if (startGame)
+        {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     private void InitLobbyData()
@@ -51,28 +62,33 @@ public class Lobby : DiscardCardsScript
         {
             Destroy(playerContainer.GetChild(i).gameObject);
         }
+
+        var gameInfo = GameData.Instance.GameInfo;
         
-        foreach (var player in GameData.Instance.GameInfo.players)
+        foreach (var player in gameInfo.players)
         {
-            AddPlayer(player);
+            var lobbyOwner = player.sessionId == gameInfo.lobbyOwnerId;
+            AddPlayer(player, lobbyOwner);
         }
     }
 
-    private void AddPlayer(Player player)
+    private void AddPlayer(Player player, bool lobbyOwner)
     {
         var playerObject = Instantiate(playerPrefab, playerContainer);
 
         var text = playerObject.GetComponentInChildren<Text>();
         text.text = player.name;
+
+        if (lobbyOwner)
+        {
+            text.fontStyle = FontStyle.BoldAndItalic;
+        }
     }
 
     public void StartGame()
     {
         var options = getGameStartParam();
 
-        StartCoroutine(APIClient.Instance.StartGame(options, resource =>
-        {
-            SceneManager.LoadScene("GameScene");
-        }));
+        _socketIO.EmitAsync("start", options);
     }
 }
