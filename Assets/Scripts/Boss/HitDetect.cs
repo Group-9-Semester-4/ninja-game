@@ -15,4 +15,12 @@ public class HitDetect : MonoBehaviour
     {
         
     }
+    void OnTriggerEnter(Collider col)
+    {
+        
+            Debug.Log("boss hit");
+            Destroy(col.gameObject);
+            Destroy(gameObject);
+        
+    }
 }
