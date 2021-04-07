@@ -134,6 +134,19 @@ namespace API
             action(cardSets.ToList());
         }
 
+        public IEnumerator GetGameModes(Action<string[]> action)
+        {
+            var path = APIUrl + "/game/game-modes";
+
+            var request = GetRequest(path);
+
+            yield return HandleRequest(request);
+
+            var gameModes = JsonHelper.FromJson<string>(request.downloadHandler.text);
+
+            action(gameModes);
+        }
+
         protected void CheckIfGameStarted()
         {
             if (Game == null)

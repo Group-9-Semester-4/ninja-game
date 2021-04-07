@@ -11,6 +11,7 @@ public class Lobby : DiscardCardsScript
 {
     public GameObject playerPrefab;
     public Transform playerContainer;
+    public Dropdown gameModesDropdown;
 
     public bool reloadLobby;
     public bool startGame;
@@ -36,6 +37,17 @@ public class Lobby : DiscardCardsScript
 
             startGame = true;
         });
+
+        var routine = APIClient.Instance.GetGameModes(gameModes =>
+        {
+            foreach (var gameMode in gameModes)
+            {
+                var optionItem = new Dropdown.OptionData(gameMode);
+                gameModesDropdown.options.Add(optionItem);
+            }
+        });
+
+        StartCoroutine(routine);
 
         InitLobbyData();
     }
