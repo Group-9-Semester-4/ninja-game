@@ -66,7 +66,21 @@ public class Lobby : DiscardCardsScript
 
         if (startGame)
         {
-            SceneManager.LoadScene("GameScene");
+            var gameMode = getSelectedGameMode();
+
+            switch (gameMode)
+            {
+                case "basic":
+                {
+                    SceneManager.LoadScene("Scenes/Multiplayer/BasicGame");
+                    break;
+                }
+                default:
+                {
+                    SceneManager.LoadScene("GameScene");
+                    break;
+                }
+            }
         }
     }
 
@@ -103,18 +117,22 @@ public class Lobby : DiscardCardsScript
 
     public void StartGame()
     {
+        var options = getGameStartParam();
+        options.gameMode = getSelectedGameMode();
+
+
+        _socketIO.EmitAsync("start", options);
+    }
+
+    private string getSelectedGameMode()
+    {
         var gameModeValue = gameModesDropdown.value;
 
         if (gameModeValue == 0)
         {
-            Debug.Log("Choose correct game mode");
-            return;
+            throw new Exception("Choose correct game mode");
         }
         
-        var options = getGameStartParam();
-        options.gameMode = _gameModes[gameModeValue];
-
-
-        _socketIO.EmitAsync("start", options);
+        return _gameModes[gameModeValue];
     }
 }

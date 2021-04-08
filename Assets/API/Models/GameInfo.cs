@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace API.Models
 {
@@ -9,7 +9,7 @@ namespace API.Models
         public string gameId;
         public bool started;
         public Lobby lobby;
-        public object gameModeData;
+        public JObject gameModeData;
 
     }
 }
