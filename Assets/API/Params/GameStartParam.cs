@@ -9,5 +9,6 @@ namespace API.Params
         public string gameId;
         public string cardSetId;
         public List<string> unwantedCards;
+        public string gameMode;
     }
 }

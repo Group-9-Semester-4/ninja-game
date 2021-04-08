@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using API;
 using API.Models;
 using Game;
@@ -17,6 +18,7 @@ public class Lobby : DiscardCardsScript
     public bool startGame;
 
     private SocketIO _socketIO;
+    private List<string> _gameModes;
     
     void Start()
     {
@@ -40,10 +42,12 @@ public class Lobby : DiscardCardsScript
 
         var routine = APIClient.Instance.GetGameModes(gameModes =>
         {
+            _gameModes = new List<string>() { "undefined" };
             foreach (var gameMode in gameModes)
             {
                 var optionItem = new Dropdown.OptionData(gameMode);
                 gameModesDropdown.options.Add(optionItem);
+                _gameModes.Add(gameMode);
             }
         });
 
@@ -99,7 +103,17 @@ public class Lobby : DiscardCardsScript
 
     public void StartGame()
     {
+        var gameModeValue = gameModesDropdown.value;
+
+        if (gameModeValue == 0)
+        {
+            Debug.Log("Choose correct game mode");
+            return;
+        }
+        
         var options = getGameStartParam();
+        options.gameMode = _gameModes[gameModeValue];
+
 
         _socketIO.EmitAsync("start", options);
     }
