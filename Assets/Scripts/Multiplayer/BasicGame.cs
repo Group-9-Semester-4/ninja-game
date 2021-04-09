@@ -1,4 +1,6 @@
+using System;
 using API;
+using API.Models;
 using API.Models.GameModes;
 using Game;
 using SocketIOClient;
@@ -6,26 +8,62 @@ using UnityEngine;
 
 public class BasicGame : MonoBehaviour
 {
+    public WebReq webReq;
+    
     public GameObject playerPrefab;
     public Transform playerContainer;
 
+    public GameObject drawCardButton;
+    public GameObject completeButton;
+
     private SocketIO _socketIO;
-    
+
+    private bool _isOnTurn;
+
+    private bool _refresh;
+
     void Start()
     {
         _socketIO = SocketClient.Client;
+        
+        _socketIO.On("game-update", response =>
+        {
+            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            _refresh = true;
+        });
+        
         RefreshPlayerData();
     }
 
-    void Update()
+    private void Update()
     {
-        
+        if (_refresh)
+        {
+            _refresh = false;
+            RefreshPlayerData();
+        }
+    }
+
+    public void DrawCard()
+    {
+        drawCardButton.SetActive(false);
+        _socketIO.EmitAsync("basic.draw", new object());
+    }
+    
+    public void Complete()
+    {
+        completeButton.SetActive(false);
+        _socketIO.EmitAsync("basic.complete", new object());
     }
 
     public void RefreshPlayerData()
     {
         CleanPlayerContainer();
+
+        _isOnTurn = false;
         
+        drawCardButton.SetActive(_isOnTurn);
+
         var gameInfo = GameData.Instance.GameInfo;
 
         var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
@@ -33,18 +71,18 @@ public class BasicGame : MonoBehaviour
         if (gameModeData.drawnCard == null)
         {
             InstantiatePlayers(gameModeData);
+            drawCardButton.SetActive(_isOnTurn);
         }
         else
         {
             InstantiateDrawnCardPlayers(gameModeData);
+            completeButton.SetActive(true);
+            webReq.card = gameModeData.drawnCard;
+            webReq.RenderCard();
         }
-        
     }
-    
-    
-    
-    
-    
+
+
     // Helper methods
 
     private void InstantiateDrawnCardPlayers(BasicGameMode gameModeData)
@@ -57,7 +95,12 @@ public class BasicGame : MonoBehaviour
 
             playerScript.player = player;
 
-            var cardCompleted = gameModeData.completeStates[player.sessionId];
+            var cardCompleted = false;
+
+            if (gameModeData.completeStates.ContainsKey(player.sessionId))
+            {
+                cardCompleted = gameModeData.completeStates[player.sessionId];
+            }
                 
             if (cardCompleted)
             {
@@ -84,6 +127,11 @@ public class BasicGame : MonoBehaviour
             if (gameModeData.playerOnTurn == player.sessionId)
             {
                 playerScript.setOnTurn();
+                
+                if (player.sessionId == _socketIO.Id)
+                {
+                    _isOnTurn = true;
+                }
             }
             else
             {

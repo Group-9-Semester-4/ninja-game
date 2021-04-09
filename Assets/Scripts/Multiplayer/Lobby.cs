@@ -66,7 +66,7 @@ public class Lobby : DiscardCardsScript
 
         if (startGame)
         {
-            var gameMode = getSelectedGameMode();
+            var gameMode = GameData.Instance.GameInfo.gameModeId;
 
             switch (gameMode)
             {

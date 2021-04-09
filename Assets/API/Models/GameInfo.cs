@@ -10,6 +10,7 @@ namespace API.Models
         public bool started;
         public Lobby lobby;
         public JObject gameModeData;
+        public string gameModeId;
 
     }
 }

@@ -8,7 +8,6 @@ namespace API.Models
     {
         public string lobbyCode;
         public string lobbyOwnerId;
-        public string gameMode;
         public List<Player> players;
     }
 }
