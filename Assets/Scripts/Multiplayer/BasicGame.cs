@@ -1,14 +1,19 @@
+using API;
 using API.Models.GameModes;
 using Game;
+using SocketIOClient;
 using UnityEngine;
 
 public class BasicGame : MonoBehaviour
 {
     public GameObject playerPrefab;
     public Transform playerContainer;
+
+    private SocketIO _socketIO;
     
     void Start()
     {
+        _socketIO = SocketClient.Client;
         RefreshPlayerData();
     }
 
@@ -27,49 +32,65 @@ public class BasicGame : MonoBehaviour
 
         if (gameModeData.drawnCard == null)
         {
-            foreach (var player in gameModeData.players)
-            {
-                var playerGameObject = Instantiate(playerPrefab, playerContainer);
-
-                var playerScript = playerGameObject.GetComponent<PlayerScript>();
-
-                playerScript.player = player;
-
-                if (gameModeData.playerOnTurn == player.sessionId)
-                {
-                    playerScript.setOnTurn();
-                }
-                else
-                {
-                    playerScript.setPassive();
-                }
-
-            }
+            InstantiatePlayers(gameModeData);
         }
         else
         {
-            foreach (var player in gameModeData.players)
-            {
-                var playerGameObject = Instantiate(playerPrefab, playerContainer);
-
-                var playerScript = playerGameObject.GetComponent<PlayerScript>();
-
-                playerScript.player = player;
-
-                var cardCompleted = gameModeData.completeStates[player.sessionId];
-                
-                if (cardCompleted)
-                {
-                    playerScript.setComplete();
-                }
-                else
-                {
-                    playerScript.setPassive();
-                }
-
-            }
+            InstantiateDrawnCardPlayers(gameModeData);
         }
         
+    }
+    
+    
+    
+    
+    
+    // Helper methods
+
+    private void InstantiateDrawnCardPlayers(BasicGameMode gameModeData)
+    {
+        foreach (var player in gameModeData.players)
+        {
+            var playerGameObject = Instantiate(playerPrefab, playerContainer);
+
+            var playerScript = playerGameObject.GetComponent<PlayerScript>();
+
+            playerScript.player = player;
+
+            var cardCompleted = gameModeData.completeStates[player.sessionId];
+                
+            if (cardCompleted)
+            {
+                playerScript.setComplete();
+            }
+            else
+            {
+                playerScript.setPassive();
+            }
+
+        }
+    }
+    
+    private void InstantiatePlayers(BasicGameMode gameModeData)
+    {
+        foreach (var player in gameModeData.players)
+        {
+            var playerGameObject = Instantiate(playerPrefab, playerContainer);
+
+            var playerScript = playerGameObject.GetComponent<PlayerScript>();
+
+            playerScript.player = player;
+
+            if (gameModeData.playerOnTurn == player.sessionId)
+            {
+                playerScript.setOnTurn();
+            }
+            else
+            {
+                playerScript.setPassive();
+            }
+
+        }
     }
 
     private void CleanPlayerContainer()
