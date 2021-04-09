@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HitDetect : MonoBehaviour
 {
@@ -17,10 +18,9 @@ public class HitDetect : MonoBehaviour
     }
     void OnTriggerEnter(Collider col)
     {
-        
-            Debug.Log("boss hit");
-            Destroy(col.gameObject);
-            Destroy(gameObject);
-        
+
+        Destroy(gameObject);
+        Shooting.HitCount++;
+
     }
 }

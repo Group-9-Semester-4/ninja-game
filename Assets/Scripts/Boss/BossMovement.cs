@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossMovement : MonoBehaviour
 {
     //move speed (how much the translation value should change per update)
-    public float speed = 0.05f;
+    public float speed = 0.5f;
 
     //translation values ( current movement values)
     public float x;
@@ -22,15 +22,7 @@ public class BossMovement : MonoBehaviour
     bool movingLeft = false;
     bool movingRight = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-       
-    }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         xPos = transform.position.x;
         yPos = transform.position.y;

@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer/Lobby.unity
     guid: b87b555e493fed5488f0e4770c518e87
+  - enabled: 1
+    path: Assets/Scenes/BossScene.unity
+    guid: c8014f914af03a34f9b44cccf3eeaec5
   m_configObjects: {}
