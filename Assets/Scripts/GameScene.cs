@@ -20,7 +20,16 @@ public class GameScene : MonoBehaviour
         StartCoroutine(APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
-            SceneManager.LoadScene("DrawnCardScene");
+
+            if (card != null)
+            {
+                SceneManager.LoadScene("DrawnCardScene");
+            }
+            else
+            {
+                SceneManager.LoadScene("BossScene");
+            }
+            
         }));
     }
 }
