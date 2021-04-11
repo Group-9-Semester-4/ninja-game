@@ -8,11 +8,18 @@ public class GameScene : MonoBehaviour
 {
     public Text ScoreText;
 
+    public GameObject startBossFight;
+
     void Start()
     {
         var points = GameData.Instance.Points;
 
         ScoreText.text = points.ToString();
+
+        if (points > 0)
+        {
+            startBossFight.SetActive(true);
+        }
     }
 
     public void DrawCard()
@@ -20,7 +27,21 @@ public class GameScene : MonoBehaviour
         StartCoroutine(APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
-            SceneManager.LoadScene("DrawnCardScene");
+
+            if (card != null)
+            {
+                SceneManager.LoadScene("DrawnCardScene");
+            }
+            else
+            {
+                SceneManager.LoadScene("BossScene");
+            }
+            
         }));
+    }
+
+    public void BossFight()
+    {
+        SceneManager.LoadScene("BossScene");
     }
 }

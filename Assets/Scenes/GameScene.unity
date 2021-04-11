@@ -269,6 +269,172 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 657132991}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1323424480
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1386131780}
+    m_Modifications:
+    - target: {fileID: 8408032882282021854, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882282021854, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882282021855, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_Text
+      value: Start boss fight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_Name
+      value: BossFightButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 228.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 72.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -83.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1386131781}
+    - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BossFight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameScene, Assembly-CSharp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9c8be29edc59db03584e59c6e7bb1523, type: 3}
+--- !u!224 &1323424481 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 1323424480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1323424482 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 1323424480}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1386131776
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -364,6 +530,7 @@ RectTransform:
   - {fileID: 1935966343}
   - {fileID: 1927049639}
   - {fileID: 657132992}
+  - {fileID: 1323424481}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -385,6 +552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1927049641}
+  startBossFight: {fileID: 1323424482}
 --- !u!1 &1503985358
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +736,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 455.97498, y: 177.67499}
+  m_AnchoredPosition: {x: 277.6, y: -0.000015259}
   m_SizeDelta: {x: 293, y: 129.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1927049641
@@ -645,10 +813,10 @@ RectTransform:
   m_Father: {fileID: 1386131780}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: -0.0024567}
-  m_SizeDelta: {x: 1533, y: 739.99}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1935966344
 MonoBehaviour:

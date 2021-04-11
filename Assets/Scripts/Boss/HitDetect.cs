@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HitDetect : MonoBehaviour
 {
@@ -14,5 +15,12 @@ public class HitDetect : MonoBehaviour
     void Update()
     {
         
+    }
+    void OnTriggerEnter(Collider col)
+    {
+
+        Destroy(gameObject);
+        Shooting.HitCount++;
+
     }
 }

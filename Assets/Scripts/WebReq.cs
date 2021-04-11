@@ -8,7 +8,7 @@ public class WebReq : MonoBehaviour
 {
     //[SerializeField] public TextMeshPro textMesh;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    public CardResource cardResource;
+    public Card card;
 
     private void GetTexture(string url, Action<string> onError, Action<Texture2D> onSucces)
     {
@@ -66,7 +66,7 @@ public class WebReq : MonoBehaviour
 
     public void RenderCard()
     {
-        GetTexture(cardResource.absoluteServerPath, (string error) => {
+        GetTexture(card.absoluteServerPath, (string error) => {
             //error
             Debug.Log("Error: " + error);
             //textMesh.SetText("Error: " + error);
