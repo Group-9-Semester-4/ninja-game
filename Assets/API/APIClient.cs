@@ -70,8 +70,13 @@ namespace API
             var request = GetRequest(path);
 
             yield return HandleRequest(request);
+
+            Card card = null;
             
-            var card = JsonUtility.FromJson<Card>(request.downloadHandler.text);
+            if (request.responseCode != 204)
+            {
+                card = JsonUtility.FromJson<Card>(request.downloadHandler.text);
+            }
 
             action(card);
         }

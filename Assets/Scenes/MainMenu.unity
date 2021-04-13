@@ -664,22 +664,22 @@ PrefabInstance:
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8018994934248722576}
+      objectReference: {fileID: 8018994934248722580}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SceneLoader
+      value: OnStart
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Manager, Assembly-CSharp
+      value: MainMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
@@ -1103,6 +1103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8018994934248722577}
   - component: {fileID: 8018994934248722576}
+  - component: {fileID: 8018994934248722580}
   m_Layer: 0
   m_Name: GameManagerObject
   m_TagString: Untagged
@@ -1110,3 +1111,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8018994934248722580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018994934248722579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e479327d66f9448be8001413561ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

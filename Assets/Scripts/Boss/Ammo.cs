@@ -13,7 +13,14 @@ public class Ammo : MonoBehaviour
     {
         var points = GameData.Instance.Points;
 
-        ammo = 5;
+        if (points != 0)
+        {
+            ammo = points;
+        }
+        else
+        {
+            ammo = 50;
+        }
     }
 
 

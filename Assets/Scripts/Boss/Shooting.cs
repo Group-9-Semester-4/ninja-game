@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shooting : MonoBehaviour
 {
+    public static int HitCount;
+    
     public GameObject AmmoClass;
+    public Text hitCount;
 
     public float bulletZ = 8f;
     public float force = 50f;
@@ -23,12 +27,14 @@ public class Shooting : MonoBehaviour
     {
         lastShot = Time.time;
 
+        HitCount = 0;
+
         ammosource = AmmoClass.GetComponent<Ammo>();
 
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if ((Time.time - delay > lastShot))
         {
@@ -49,5 +55,7 @@ public class Shooting : MonoBehaviour
                 ammosource.ammo--;
             }
         }
+        
+        hitCount.text = "Hits: " + HitCount;
     }
 }
