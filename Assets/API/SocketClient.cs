@@ -7,7 +7,8 @@ namespace API
 
         public static SocketIO Init(string namespaceUrl)
         {
-            return new SocketIO($"http://localhost:8081/{namespaceUrl}");
+            Client = new SocketIO($"http://localhost:8081/{namespaceUrl}");
+            return Client;
         }
     }
 }

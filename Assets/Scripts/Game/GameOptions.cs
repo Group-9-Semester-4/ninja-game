@@ -22,7 +22,6 @@ public class GameOptions : MonoBehaviour
     {
         var socketIO = SocketClient.Init("game");
         socketIO.ConnectAsync();
-        SocketClient.Client = socketIO;
     }
 
     public void onMultiplayerToggle()
@@ -65,7 +64,7 @@ public class GameOptions : MonoBehaviour
 
     private void ConnectToLobby(API.Models.Game game)
     {
-        var param = new JoinGameParam() {lobbyCode = game.gameInfo.lobbyCode, userName = UserName.text};
+        var param = new JoinGameParam() {lobbyCode = game.gameInfo.lobby.lobbyCode, userName = UserName.text};
 
         var task = SocketClient.Client.EmitAsync("join", ack =>
         {
