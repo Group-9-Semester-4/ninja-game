@@ -19,4 +19,9 @@ public class MainMenu : MonoBehaviour
             SceneManager.LoadScene("DiscardScene");
         }));
     }
+
+    public void OnMultiplayer()
+    {
+        SceneManager.LoadScene("MultiplayerMainMenu");
+    }
 }
