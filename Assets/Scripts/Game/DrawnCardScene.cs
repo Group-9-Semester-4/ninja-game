@@ -27,7 +27,7 @@ public class DrawnCardScene : MonoBehaviour
         // Show timer stuff when card is timer related
         currentCard = GameData.Instance.CurrentCard;
         
-        if (currentCard.difficultyType)
+        if (currentCard.hasTimer)
         {
             ShowTimer(currentCard.difficulty);
         }
@@ -67,14 +67,11 @@ public class DrawnCardScene : MonoBehaviour
     public void RenderCard()
     {
         currentCard = GameData.Instance.CurrentCard;
-
-        if (currentCard.difficultyType)
+        HideTimer();
+        Debug.Log(currentCard.hasTimer);
+        if (currentCard.hasTimer)
         {
             ShowTimer(currentCard.difficulty);
-        }
-        else
-        {
-            HideTimer();
         }
 
         webReq.card = currentCard;

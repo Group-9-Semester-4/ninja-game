@@ -9,7 +9,7 @@ namespace API.Models
         public string name;
         public string description;
         public int points;
-        public bool difficultyType;
+        public bool hasTimer;
         public int difficulty;
         public string filepath;
         public string absoluteServerPath;
