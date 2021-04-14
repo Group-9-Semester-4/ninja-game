@@ -21,7 +21,6 @@ public class Ammo : MonoBehaviour
         {
             ammo = 5000;
         }
-        ammo = 5000;
     }
 
 
