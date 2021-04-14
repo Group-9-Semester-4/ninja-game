@@ -1,28 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public static int HitCount;
     
     public GameObject AmmoClass;
-    public Text hitCount;
 
     public float bulletZ = 8f;
     public float force = 50f;
     public GameObject bullet;
 
-    public GameObject cooldownBar;
     Ammo ammosource;
     
     // Start is called before the first frame update
     void Start()
     {
-
-        HitCount = 0;
 
         ammosource = AmmoClass.GetComponent<Ammo>();
 
@@ -43,12 +34,7 @@ public class Shooting : MonoBehaviour
 
             firedBullet.GetComponent<Rigidbody>().velocity += force * bulletDirection;
 
-            cooldownBar.transform.localScale = new UnityEngine.Vector3(0f, 0.3f, 1f);
-
             ammosource.ammo--;
         }
-        
-        
-        hitCount.text = "Hits: " + HitCount;
     }
 }

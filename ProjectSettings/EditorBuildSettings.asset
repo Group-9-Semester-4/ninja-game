@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer/JoinGame.unity
     guid: 5e89c3ff271be374ca7ebc333658b5d5
+  - enabled: 1
+    path: Assets/Scenes/FinishScene.unity
+    guid: d9b2331cfa0386e49be896d3ab195e6b
   m_configObjects: {}
