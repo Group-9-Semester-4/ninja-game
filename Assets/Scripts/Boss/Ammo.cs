@@ -19,7 +19,7 @@ public class Ammo : MonoBehaviour
         }
         else
         {
-            ammo = 50;
+            ammo = 5000;
         }
     }
 
