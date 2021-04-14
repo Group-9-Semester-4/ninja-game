@@ -78,6 +78,11 @@ public class WebReq : MonoBehaviour
 
         });
     }
+
+    public void HideCard()
+    {
+        spriteRenderer.sprite = null;
+    }
 }
 
 

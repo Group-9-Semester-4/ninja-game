@@ -57,6 +57,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
+        HideCurrentCard();
         StartCoroutine(APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
@@ -76,6 +77,11 @@ public class DrawnCardScene : MonoBehaviour
 
         webReq.card = currentCard;
         webReq.RenderCard();
+    }
+
+    public void HideCurrentCard()
+    {
+        webReq.HideCard();
     }
     
     public void CompleteCard()
