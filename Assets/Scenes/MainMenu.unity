@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 338257753}
   - component: {fileID: 338257755}
   - component: {fileID: 338257754}
+  - component: {fileID: 338257756}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -218,8 +219,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.37e-13, y: -2.9}
-  m_SizeDelta: {x: 500, y: 44.2}
+  m_AnchoredPosition: {x: 0.000013351, y: 0.000072896}
+  m_SizeDelta: {x: 433.5, y: 51.968}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &338257754
 MonoBehaviour:
@@ -244,17 +245,17 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <b>Ninja Game</b>
+  m_Text: Ninja Game
 --- !u!222 &338257755
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -263,6 +264,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338257752}
   m_CullTransparentMesh: 0
+--- !u!114 &338257756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338257752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: name
 --- !u!1 &844161437
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,8 +827,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.75, y: 140.43}
-  m_SizeDelta: {x: -366.5, y: -398.07}
+  m_AnchoredPosition: {x: 0, y: 101.6}
+  m_SizeDelta: {x: -375.3, y: -389.84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1740100159
 MonoBehaviour:
