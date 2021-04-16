@@ -33,11 +33,19 @@ class I18n
     /// </summary>
     public static Dictionary<String, String> Fields { get; private set; }
 
+    private static string Language = "en";
+
     /// <summary>
     /// Init on first use
     /// </summary>
     static I18n()
     {
+        LoadLanguage();
+    }
+
+    public static void Reinstantiate(string language)
+    {
+        Language = language;
         LoadLanguage();
     }
 
@@ -50,14 +58,16 @@ class I18n
             Fields = new Dictionary<string, string>();
 
         Fields.Clear();
-        string lang = Get2LetterISOCodeFromSystemLanguage().ToLower();
+        
+        //string lang = Get2LetterISOCodeFromSystemLanguage().ToLower();
         //lang = "dk";
-        var textAsset = Resources.Load(@"I18n/" + lang); //no .txt needed
+        
+        var textAsset = Resources.Load(@"I18n/" + Language); //no .txt needed
         string allTexts = "";
         if (textAsset == null)
             textAsset = Resources.Load(@"I18n/en") as TextAsset; //no .txt needed
         if (textAsset == null)
-            Debug.LogError("File not found for I18n: Assets/Resources/I18n/" + lang + ".txt");
+            Debug.LogError("File not found for I18n: Assets/Resources/I18n/" + Language + ".txt");
         allTexts = (textAsset as TextAsset).text;
         string[] lines = allTexts.Split(new string[] { "\r\n", "\n" },
             StringSplitOptions.None);
