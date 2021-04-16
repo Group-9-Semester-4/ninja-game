@@ -2,10 +2,19 @@
 
 public class HitDetect : MonoBehaviour
 {
+    public Rigidbody thisProjectile;
+    private bool hit = false;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        hit = true;
+        Stick();
+    }
+
     void OnTriggerEnter(Collider col)
     {
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
 
         var boss = col.gameObject;
 
@@ -19,4 +28,12 @@ public class HitDetect : MonoBehaviour
             bossScript.FinishGame();
         }
     }
+
+
+
+    private void Stick()
+    {
+        thisProjectile.constraints = RigidbodyConstraints.FreezeAll;
+    }
 }
+
