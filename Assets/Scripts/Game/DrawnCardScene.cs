@@ -16,6 +16,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public Text cardDescription;
     public Text cardRepetitions;
+    public GameObject completeButton;
 
     public WebReq webReq;
 
@@ -45,6 +46,7 @@ public class DrawnCardScene : MonoBehaviour
             timerText.text = (timeLeft).ToString("0");
             if (timeLeft < 0)
             {
+                completeButton.SetActive(true);
                 timerFinished = true;
             }
         }
@@ -58,6 +60,7 @@ public class DrawnCardScene : MonoBehaviour
 
     public void RedrawCard()
     {
+        completeButton.SetActive(true);
         HideCurrentCard();
         var card = GameService.Instance.DrawCard();
         
@@ -108,6 +111,7 @@ public class DrawnCardScene : MonoBehaviour
     
     private void ShowTimer(int seconds)
     {
+        completeButton.SetActive(false);
         timerStarted = false;
         timerFinished = false;
         

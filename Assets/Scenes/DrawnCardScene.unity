@@ -655,6 +655,7 @@ MonoBehaviour:
   timerFinished: 0
   cardDescription: {fileID: 1827040202}
   cardRepetitions: {fileID: 1452173679}
+  completeButton: {fileID: 585647035}
   webReq: {fileID: 512070504}
   currentCard:
     id: 
@@ -845,6 +846,12 @@ PrefabInstance:
 --- !u!224 &585647034 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 585647033}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &585647035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
     type: 3}
   m_PrefabInstance: {fileID: 585647033}
   m_PrefabAsset: {fileID: 0}
