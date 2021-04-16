@@ -115,5 +115,23 @@ public class DiscardCardsScript : MonoBehaviour
 
         return new GameStartParam {unwantedCards = excludedCards, cardSetId = cardSet.id};
     }
+
+    protected List<Card> getCards()
+    {
+        var toggles = CardContainer.GetComponentsInChildren<Toggle>();
+
+        var cards = new List<Card>();
+
+        foreach (var toggle in toggles)
+        {
+            if (toggle.isOn)
+            {
+                var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
+                cards.Add(cardScript.card);
+            }
+        }
+
+        return cards;
+    }
 }
 

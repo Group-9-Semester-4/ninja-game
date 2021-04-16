@@ -22,9 +22,7 @@ namespace API
 
         // TODO: Change to dynamic env
         public const string APIUrl = "http://localhost:8080/api";
-
-        public Models.Game Game;
-
+        
         public IEnumerator InitGame(GameInitParam param, Action<Models.Game> action)
         {
             const string path = APIUrl + "/game/init";
@@ -35,82 +33,7 @@ namespace API
         
             var game = JsonUtility.FromJson<Models.Game>(request.downloadHandler.text);
 
-            Game = game;
-
             action(game);
-        }
-
-        public IEnumerator StartGame(GameStartParam param, Action<Models.Game> action)
-        {
-            CheckIfGameStarted();
-            
-            const string path = APIUrl + "/game/start";
-            
-            param.gameId = Game.id;
-
-            var request = PostRequest(path, param);
-
-            yield return HandleRequest(request);
-            
-            var game = JsonUtility.FromJson<Models.Game>(request.downloadHandler.text);
-
-            Game = game;
-
-            action(game);
-        }
-
-        public IEnumerator DrawCard(Action<Card> action)
-        {
-            CheckIfGameStarted();
-            
-            var uuid = Game.id;
-            
-            var path = APIUrl + "/game/draw?gameId="+uuid;
-
-            var request = GetRequest(path);
-
-            yield return HandleRequest(request);
-
-            Card card = null;
-            
-            if (request.responseCode != 204)
-            {
-                card = JsonUtility.FromJson<Card>(request.downloadHandler.text);
-            }
-
-            action(card);
-        }
-
-        public IEnumerator CardDone(Card card, Action action)
-        {
-            CheckIfGameStarted();
-            
-            const string path = APIUrl + "/game/card-done";
-            
-            var uuid = Game.id;
-
-            var options = new CardDoneParam {cardId = card.id, gameId = uuid};
-
-            var request = PostRequest(path, options);
-
-            yield return HandleRequest(request);
-
-            action();
-        }
-
-        public IEnumerator FinishGame(Action action)
-        {
-            CheckIfGameStarted();
-            
-            const string path = APIUrl + "/game/finish";
-
-            var param = new FinishGameParam() {gameId = Game.id};
-
-            yield return PostRequest(path, param);
-
-            Game = null;
-
-            action();
         }
 
         public IEnumerator GetAllCards(Action<List<Card>> action)
@@ -152,14 +75,6 @@ namespace API
             action(gameModes);
         }
 
-        protected void CheckIfGameStarted()
-        {
-            if (Game == null)
-            {
-                throw new NullReferenceException("Game not initialized");
-            }
-        }
-        
         private IEnumerator HandleRequest(UnityWebRequest request)
         {
             request.SendWebRequest();

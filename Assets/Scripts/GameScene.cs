@@ -1,5 +1,4 @@
-﻿using API;
-using Game;
+﻿using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,8 +7,9 @@ public class GameScene : MonoBehaviour
 {
     public Text ScoreText;
 
+    public GameObject drawCardButton;
     public GameObject startBossFight;
-
+    
     void Start()
     {
         var points = GameData.Instance.Points;
@@ -20,24 +20,23 @@ public class GameScene : MonoBehaviour
         {
             startBossFight.SetActive(true);
         }
+
+        if (GameService.Instance.remainingCards().Count == 0)
+        {
+            drawCardButton.SetActive(false);
+        }
     }
 
     public void DrawCard()
     {
-        StartCoroutine(APIClient.Instance.DrawCard(card =>
-        {
-            GameData.Instance.CurrentCard = card;
+        var card = GameService.Instance.DrawCard();
+        
+        GameData.Instance.CurrentCard = card;
 
-            if (card != null)
-            {
-                SceneManager.LoadScene("DrawnCardScene");
-            }
-            else
-            {
-                SceneManager.LoadScene("BossScene");
-            }
-            
-        }));
+        if (card != null)
+        {
+            SceneManager.LoadScene("DrawnCardScene");
+        }
     }
 
     public void BossFight()

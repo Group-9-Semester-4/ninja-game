@@ -1,4 +1,4 @@
-using API;
+using Game;
 using UnityEngine.SceneManagement;
 
 public class DiscardScene : DiscardCardsScript
@@ -10,12 +10,8 @@ public class DiscardScene : DiscardCardsScript
 
     public void Continue()
     {
-        var options = getGameStartParam();
-
-        StartCoroutine(APIClient.Instance.StartGame(options, resource =>
-        {
-            SceneManager.LoadScene("GameScene");
-        }));
-
+        GameService.Instance.StartGame(getCards());
+        
+        SceneManager.LoadScene("GameScene");
     }
 }

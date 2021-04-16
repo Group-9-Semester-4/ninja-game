@@ -269,6 +269,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 657132991}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &657132993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 657132991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1323424480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -552,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1927049641}
+  drawCardButton: {fileID: 657132993}
   startBossFight: {fileID: 1323424482}
 --- !u!1 &1503985358
 GameObject:

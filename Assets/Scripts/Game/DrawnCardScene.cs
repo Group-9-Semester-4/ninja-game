@@ -59,12 +59,12 @@ public class DrawnCardScene : MonoBehaviour
     public void RedrawCard()
     {
         HideCurrentCard();
-        StartCoroutine(APIClient.Instance.DrawCard(card =>
-        {
-            GameData.Instance.CurrentCard = card;
-            SetCardInfo(card);
-            RenderCard();
-        }));
+        var card = GameService.Instance.DrawCard();
+        
+        GameData.Instance.CurrentCard = card;
+        
+        SetCardInfo(card);
+        RenderCard();
     }
 
     public void RenderCard()
@@ -94,13 +94,11 @@ public class DrawnCardScene : MonoBehaviour
         {
             gameData.Points += gameData.CurrentCard.points;
         }
+        
+        GameService.Instance.CardDone(gameData.CurrentCard);
+        
+        SceneManager.LoadScene("GameScene");
 
-        var routine = APIClient.Instance.CardDone(gameData.CurrentCard, () =>
-        {
-            SceneManager.LoadScene("GameScene");
-        });
-
-        StartCoroutine(routine);
     }
 
     public void StartTimer()
