@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 1909099650}
-  maxHealth: 5
+  maxHealth: 100
   health: 0
 --- !u!114 &1909099650
 MonoBehaviour:
