@@ -129,11 +129,11 @@ public class DrawnCardScene : MonoBehaviour
 
         if (card.hasTimer)
         {
-            cardRepetitions.text = "Do for " + card.difficulty + " seconds";
+            cardRepetitions.text = card.difficulty + " seconds";
         }
         else
         {
-            cardRepetitions.text = card.difficulty + " times";
+            cardRepetitions.text = card.difficulty + " repetitions";
         }
     }
 }
