@@ -375,7 +375,7 @@ MonoBehaviour:
   AmmoClass: {fileID: 443243378}
   bulletZ: 100
   force: 0.3
-  bullet: {fileID: 981385234032371502, guid: 5912fc496bf7ebc45b75b1ad5e3892c9, type: 3}
+  bullet: {fileID: 1187546458036812, guid: d5aeb9c866c9c56428af104ef949e9ca, type: 3}
 --- !u!1001 &283414814
 PrefabInstance:
   m_ObjectHideFlags: 0
