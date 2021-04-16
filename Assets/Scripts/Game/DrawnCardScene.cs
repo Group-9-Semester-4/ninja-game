@@ -14,16 +14,15 @@ public class DrawnCardScene : MonoBehaviour
     public bool timerStarted;
     public bool timerFinished;
 
+    public Text cardDescription;
+    public Text cardRepetitions;
+
     public WebReq webReq;
 
     public Card currentCard;
 
     public void Start()
     {
-        // Get webReq reference
-        var findObject = GameObject.Find("GameManagerObject");
-        webReq = findObject.GetComponent<WebReq>();
-        
         // Show timer stuff when card is timer related
         currentCard = GameData.Instance.CurrentCard;
         
@@ -31,6 +30,8 @@ public class DrawnCardScene : MonoBehaviour
         {
             ShowTimer(currentCard.difficulty);
         }
+
+        SetCardInfo(currentCard);
 
         webReq.card = currentCard;
         webReq.RenderCard();
@@ -61,6 +62,7 @@ public class DrawnCardScene : MonoBehaviour
         StartCoroutine(APIClient.Instance.DrawCard(card =>
         {
             GameData.Instance.CurrentCard = card;
+            SetCardInfo(card);
             RenderCard();
         }));
     }
@@ -119,5 +121,19 @@ public class DrawnCardScene : MonoBehaviour
     private void HideTimer()
     {
         timer.SetActive(false);
+    }
+
+    private void SetCardInfo(Card card)
+    {
+        cardDescription.text = card.description;
+
+        if (card.hasTimer)
+        {
+            cardRepetitions.text = "Do for " + card.difficulty + " seconds";
+        }
+        else
+        {
+            cardRepetitions.text = card.difficulty + " times";
+        }
     }
 }

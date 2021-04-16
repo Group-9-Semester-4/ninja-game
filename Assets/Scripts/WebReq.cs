@@ -3,11 +3,12 @@ using System.Collections;
 using API.Models;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class WebReq : MonoBehaviour
 {
-    //[SerializeField] public TextMeshPro textMesh;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    public Image image;
+    public GameObject loader;
     public Card card;
 
     private void GetTexture(string url, Action<string> onError, Action<Texture2D> onSucces)
@@ -73,15 +74,27 @@ public class WebReq : MonoBehaviour
         }, (Texture2D texture2D) => {
             //succesfully contacted URL
             //textMesh.SetText("Success!");
-            Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(.5f, .5f), 100.0f);
-            spriteRenderer.sprite = sprite;
+            image.sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(.5f, .5f), 100.0f);
+            
+            var color = image.color;
 
+            color.a = 1;
+
+            image.color = color;
+            loader.SetActive(false);
         });
     }
 
     public void HideCard()
     {
-        spriteRenderer.sprite = null;
+        image.sprite  = null;
+        var color = image.color;
+
+        color.a = 0;
+
+        image.color = color;
+        
+        loader.SetActive(true);
     }
 }
 
