@@ -118,6 +118,13 @@ public class DiscardCardsScript : MonoBehaviour
 
     protected List<Card> getCards()
     {
+        var cardSet = getSelectedCardSet();
+
+        if (string.IsNullOrEmpty(cardSet.id))
+        {
+            throw new NullReferenceException("Card set not chosen");
+        }
+
         var toggles = CardContainer.GetComponentsInChildren<Toggle>();
 
         var cards = new List<Card>();

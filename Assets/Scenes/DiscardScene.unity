@@ -1567,7 +1567,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: -- Choose card set --
+  m_Text: -- Choose card set -- as da
 --- !u!222 &1189388643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1864,6 +1864,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505998119}
   m_CullTransparentMesh: 0
+--- !u!1 &1807349746 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8408032882282021853, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 8905288945630581912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1807349750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807349746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: continue
 --- !u!1 &1831953109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,6 +2451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3702811523709173354, guid: 49779ad76bc4d9006bfb740a8907ffb5,
         type: 3}
+      propertyPath: m_Text
+      value: Discard cards
+      objectReference: {fileID: 0}
+    - target: {fileID: 3702811523709173354, guid: 49779ad76bc4d9006bfb740a8907ffb5,
+        type: 3}
       propertyPath: m_FontData.m_BestFit
       value: 1
       objectReference: {fileID: 0}
@@ -2454,6 +2478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_Alignment
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3702811523709173354, guid: 49779ad76bc4d9006bfb740a8907ffb5,
+        type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3702811523709173365, guid: 49779ad76bc4d9006bfb740a8907ffb5,
         type: 3}
@@ -2482,6 +2511,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49779ad76bc4d9006bfb740a8907ffb5, type: 3}
+--- !u!1 &4808431641439278753 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702811523709173364, guid: 49779ad76bc4d9006bfb740a8907ffb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4808431641439278752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4808431641439278754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4808431641439278753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: discard_cards
 --- !u!1001 &8905288945630581912
 PrefabInstance:
   m_ObjectHideFlags: 0

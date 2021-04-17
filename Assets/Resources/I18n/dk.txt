@@ -1,1 +1,11 @@
 name=Ninja Spillet
+start=Start
+multiplayer=Multiplayer
+discard_cards=Discard cards
+continue=Continue
+draw_card=Draw Card
+start_boss_fight=Start boss fight
+completed=Completed
+redraw=Redraw
+game_finished=Game finished
+play_again=Play again
