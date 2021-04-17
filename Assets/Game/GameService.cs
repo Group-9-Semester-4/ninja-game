@@ -13,6 +13,7 @@ namespace Game
         public static GameService Instance => _instance ??= new GameService();
 
         private List<Card> _cards;
+        private Card lastDrawnCard;
 
         static Random _random = new Random();
 
@@ -44,8 +45,20 @@ namespace Game
         public Card DrawCard()
         {
             var r = _random.Next(_cards.Count);
+            Card card = _cards[r];
+            if (_cards.Count == 1)
+            {
+                return card;
+            }
+            
+            while (card == lastDrawnCard)
+            {
+                r = _random.Next(_cards.Count);
+                card = _cards[r];
+            }
 
-            return _cards[r];
+            lastDrawnCard = card;
+            return card;
         }
 
         public void CardDone(Card card)
