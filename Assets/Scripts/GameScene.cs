@@ -43,4 +43,9 @@ public class GameScene : MonoBehaviour
     {
         SceneManager.LoadScene("BossScene");
     }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("FinishScene");
+    }
 }
