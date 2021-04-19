@@ -8,6 +8,11 @@ public class Ammo : MonoBehaviour
 {
     public int ammo;
     public Text ammoTxt;
+
+    public Boss bossScript;
+
+    public bool finishTriggered;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +33,11 @@ public class Ammo : MonoBehaviour
     void Update()
     {
         ammoTxt.text = "Ammo: " + ammo;
+        
+        if (ammo < 1 && !finishTriggered)
+        {
+            bossScript.FinishGame();
+            finishTriggered = true;
+        }
     }
 }

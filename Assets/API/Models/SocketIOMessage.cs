@@ -7,5 +7,10 @@ namespace API.Models
     {
         public string type;
         public string reason;
+
+        public bool IsSuccess()
+        {
+            return type == "SUCCESS";
+        }
     }
 }

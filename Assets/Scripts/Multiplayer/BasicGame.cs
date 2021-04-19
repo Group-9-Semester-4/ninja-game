@@ -1,10 +1,10 @@
-using System;
 using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
 using SocketIOClient;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BasicGame : MonoBehaviour
 {
@@ -73,6 +73,13 @@ public class BasicGame : MonoBehaviour
 
         if (gameModeData.drawnCard == null)
         {
+            if (gameModeData.remainingCards.Count == 0)
+            {
+                // Move on to boss fight
+                GameData.Instance.IsMultiplayer = true;
+                SceneManager.LoadScene("Scenes/BossScene");
+                return;
+            }
             InstantiatePlayers(gameModeData);
             webReq.HideCard();
             SetImagesActive(false);

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Shooting : MonoBehaviour
 {
@@ -36,10 +35,6 @@ public class Shooting : MonoBehaviour
             firedBullet.GetComponent<Rigidbody>().velocity += force * bulletDirection;
 
             ammosource.ammo--;
-            if (ammosource.ammo < 1)
-            {
-                SceneManager.LoadScene("FinishScene");
-            }
         }
     }
 }

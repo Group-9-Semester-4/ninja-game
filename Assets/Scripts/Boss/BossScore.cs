@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossHealth : MonoBehaviour
+public class BossScore : MonoBehaviour
 {
     public Text scoreText;
 
     public int score;
 
-    // Start is called before the first frame update
     void Start()
     {
         scoreText.text = "Score: " + score;

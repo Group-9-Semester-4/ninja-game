@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1c93f41fc74624588c224af1f65866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossHealth: {fileID: 1909099649}
+  bossScore: {fileID: 1909099649}
   multiplayerMoveOn: 0
 --- !u!1 &443243378
 GameObject:
@@ -628,6 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 0
   ammoTxt: {fileID: 443243381}
+  bossScript: {fileID: 341672679}
 --- !u!114 &443243381
 MonoBehaviour:
   m_ObjectHideFlags: 0
