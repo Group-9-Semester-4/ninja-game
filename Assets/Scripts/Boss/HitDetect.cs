@@ -21,12 +21,6 @@ public class HitDetect : MonoBehaviour
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
         
         bossScript.bossHealth.TakeDamage();
-
-        if (bossScript.bossHealth.health <= 0)
-        {
-            Destroy(boss);
-            bossScript.FinishGame();
-        }
     }
 
 

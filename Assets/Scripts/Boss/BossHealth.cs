@@ -3,28 +3,26 @@ using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
-    public Text healthText;
+    public Text scoreText;
 
-    public int maxHealth = 100;
-    public int health;
+    public int score;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
-        healthText.text = "Health: " + health;
+        scoreText.text = "Score: " + score;
     }
 
     public void TakeDamage(int damage = 1)
     {
-        health -= damage;
+        score += damage;
 
-        if (health <= 0)
+        if (score <= 0)
         {
-            healthText.text = "";
+            scoreText.text = "";
             return;
         }
         
-        healthText.text = "Health: " + health;
+        scoreText.text = "Score: " + score;
     }
 }
