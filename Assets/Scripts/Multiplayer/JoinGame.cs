@@ -30,7 +30,7 @@ public class JoinGame : MonoBehaviour
         {
             var message = response.GetValue<GameInfoMessage>();
 
-            if (message.type == "SUCCESS")
+            if (message.IsSuccess())
             {
                 GameData.Reinstantiate.GameInfo = message.data;
                 connect = true;

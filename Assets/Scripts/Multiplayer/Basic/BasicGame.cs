@@ -1,10 +1,10 @@
-using System;
 using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
 using SocketIOClient;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BasicGame : MonoBehaviour
 {
@@ -16,6 +16,9 @@ public class BasicGame : MonoBehaviour
     public GameObject drawCardButton;
     public GameObject completeButton;
 
+    public GameObject loadingImage;
+    public GameObject cardImage;
+    
     private SocketIO _socketIO;
 
     private bool _isOnTurn;
@@ -70,13 +73,23 @@ public class BasicGame : MonoBehaviour
 
         if (gameModeData.drawnCard == null)
         {
+            if (gameModeData.remainingCards.Count == 0)
+            {
+                // Move on to boss fight
+                GameData.Instance.IsMultiplayer = true;
+                SceneManager.LoadScene("Scenes/BossScene");
+                return;
+            }
             InstantiatePlayers(gameModeData);
+            webReq.HideCard();
+            SetImagesActive(false);
             drawCardButton.SetActive(_isOnTurn);
         }
         else
         {
             InstantiateDrawnCardPlayers(gameModeData);
             completeButton.SetActive(true);
+            SetImagesActive(true);
             webReq.card = gameModeData.drawnCard;
             webReq.RenderCard();
         }
@@ -149,5 +162,11 @@ public class BasicGame : MonoBehaviour
         {
             Destroy(playerContainer.GetChild(i).gameObject);
         }
+    }
+
+    private void SetImagesActive(bool state)
+    {
+        loadingImage.SetActive(state);
+        cardImage.SetActive(state);
     }
 }

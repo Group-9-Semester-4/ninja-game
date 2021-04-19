@@ -14,5 +14,6 @@ namespace API.Models.GameModes
         public List<Player> players;
         
         public Dictionary<string, bool> completeStates;
+        public Dictionary<string, int> bossFightScores;
     }
 }

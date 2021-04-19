@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class WebReq : MonoBehaviour
 {
     public Image image;
-    public GameObject loader;
     public Card card;
 
     private void GetTexture(string url, Action<string> onError, Action<Texture2D> onSucces)
@@ -81,7 +80,6 @@ public class WebReq : MonoBehaviour
             color.a = 1;
 
             image.color = color;
-            loader.SetActive(false);
         });
     }
 
@@ -93,8 +91,6 @@ public class WebReq : MonoBehaviour
         color.a = 0;
 
         image.color = color;
-        
-        loader.SetActive(true);
     }
 }
 

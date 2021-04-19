@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
-using API;
+﻿using API;
 using API.Models;
 using API.Params;
 using Game;
@@ -15,6 +12,8 @@ public class GameOptions : MonoBehaviour
     public Toggle MultiplayerToggle;
     public Text LobbyCode;
     public Text UserName;
+
+    public bool joinLobby;
     
     public GameObject multiplayerInfo;
 
@@ -22,6 +21,14 @@ public class GameOptions : MonoBehaviour
     {
         var socketIO = SocketClient.Init("game");
         socketIO.ConnectAsync();
+    }
+
+    private void Update()
+    {
+        if (joinLobby)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
     }
 
     public void onMultiplayerToggle()
@@ -66,23 +73,17 @@ public class GameOptions : MonoBehaviour
     {
         var param = new JoinGameParam() {lobbyCode = game.gameInfo.lobby.lobbyCode, userName = UserName.text};
 
-        var task = SocketClient.Client.EmitAsync("join", ack =>
+        SocketClient.Client.EmitAsync("join", ack =>
         {
-            var gameInfo = ack.GetValue<GameInfoMessage>().data;
-            GameData.Reinstantiate.GameInfo = gameInfo;
+            var message = ack.GetValue<GameInfoMessage>();
+            if (message.IsSuccess())
+            {
+                var gameInfo = message.data;
+                GameData.Reinstantiate.GameInfo = gameInfo;
+                joinLobby = true;
+            }
         }, param);
 
-        StartCoroutine(ConnectToLobbyRoutine(task));
-    }
-
-    private IEnumerator ConnectToLobbyRoutine(IAsyncResult task)
-    {
-        while (!task.IsCompleted)
-        {
-            yield return 0;
-        }
-        
-        SceneManager.LoadScene("Lobby");
     }
 
 }
