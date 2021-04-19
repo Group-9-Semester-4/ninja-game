@@ -16,6 +16,9 @@ public class BasicGame : MonoBehaviour
     public GameObject drawCardButton;
     public GameObject completeButton;
 
+    public GameObject loadingImage;
+    public GameObject cardImage;
+    
     private SocketIO _socketIO;
 
     private bool _isOnTurn;
@@ -71,12 +74,15 @@ public class BasicGame : MonoBehaviour
         if (gameModeData.drawnCard == null)
         {
             InstantiatePlayers(gameModeData);
+            webReq.HideCard();
+            SetImagesActive(false);
             drawCardButton.SetActive(_isOnTurn);
         }
         else
         {
             InstantiateDrawnCardPlayers(gameModeData);
             completeButton.SetActive(true);
+            SetImagesActive(true);
             webReq.card = gameModeData.drawnCard;
             webReq.RenderCard();
         }
@@ -149,5 +155,11 @@ public class BasicGame : MonoBehaviour
         {
             Destroy(playerContainer.GetChild(i).gameObject);
         }
+    }
+
+    private void SetImagesActive(bool state)
+    {
+        loadingImage.SetActive(state);
+        cardImage.SetActive(state);
     }
 }
