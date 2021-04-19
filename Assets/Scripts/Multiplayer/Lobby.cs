@@ -36,6 +36,7 @@ public class Lobby : DiscardCardsScript
         _socketIO.On("start", response =>
         {
             GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.IsMultiplayer = true;
 
             startGame = true;
         });
@@ -72,7 +73,7 @@ public class Lobby : DiscardCardsScript
             {
                 case "basic":
                 {
-                    SceneManager.LoadScene("Scenes/Multiplayer/BasicGame");
+                    SceneManager.LoadScene("Scenes/Multiplayer/Basic/BasicGame");
                     break;
                 }
                 default:

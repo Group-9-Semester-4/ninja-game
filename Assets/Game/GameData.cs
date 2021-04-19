@@ -21,6 +21,8 @@ namespace Game
         public int Points { get; set; }
 
         public Card CurrentCard { get; set; }
+        
+        public bool IsMultiplayer { get; set; }
 
         public GameInfo GameInfo { get; set; }
     }
