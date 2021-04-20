@@ -19,6 +19,7 @@ public class Boss : MonoBehaviour
             return;
         }
 
+        GameService.Instance.score = bossScore.score;
         SceneManager.LoadScene("FinishScene");
     }
     

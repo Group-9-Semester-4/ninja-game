@@ -14,6 +14,7 @@ namespace Game
 
         private List<Card> _cards;
         private Card lastDrawnCard;
+        public int score;
 
         static Random _random = new Random();
 
