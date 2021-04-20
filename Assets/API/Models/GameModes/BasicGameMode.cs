@@ -9,6 +9,8 @@ namespace API.Models.GameModes
     {
         public string playerOnTurn;
         public Card drawnCard;
+
+        public int score;
         
         public List<Card> remainingCards;
         public List<Player> players;

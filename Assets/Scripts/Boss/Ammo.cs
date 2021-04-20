@@ -9,7 +9,7 @@ public class Ammo : MonoBehaviour
     public int ammo;
     public Text ammoTxt;
 
-    public Boss bossScript;
+    public GameObject finishButton;
 
     public bool finishTriggered;
     
@@ -36,7 +36,7 @@ public class Ammo : MonoBehaviour
         
         if (ammo < 1 && !finishTriggered)
         {
-            bossScript.FinishGame();
+            finishButton.SetActive(true);
             finishTriggered = true;
         }
     }

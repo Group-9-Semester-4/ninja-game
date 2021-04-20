@@ -1,3 +1,4 @@
+using System;
 using API;
 using API.Models;
 using API.Models.GameModes;
@@ -76,8 +77,7 @@ public class BasicGame : MonoBehaviour
             if (gameModeData.remainingCards.Count == 0)
             {
                 // Move on to boss fight
-                GameData.Instance.IsMultiplayer = true;
-                SceneManager.LoadScene("Scenes/BossScene");
+                StartBossFight();
                 return;
             }
             InstantiatePlayers(gameModeData);
@@ -97,6 +97,19 @@ public class BasicGame : MonoBehaviour
 
 
     // Helper methods
+
+    private void StartBossFight()
+    {
+        GameData.Instance.IsMultiplayer = true;
+        
+        var gameInfo = GameData.Instance.GameInfo;
+
+        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
+
+        GameData.Instance.Points = (int) (Math.Sqrt(gameModeData.score) * 1.5);
+        
+        SceneManager.LoadScene("Scenes/BossScene");
+    }
 
     private void InstantiateDrawnCardPlayers(BasicGameMode gameModeData)
     {
