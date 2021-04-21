@@ -21,6 +21,9 @@ public class HitDetect : MonoBehaviour
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
         
         bossScript.bossScore.TakeDamage(); //change TakeDamage into what bodypart that is hit (use tags)
+        bossScript.bossScore.TakeDamage(3); // Take damage to head
+        bossScript.bossScore.TakeDamage(2); // Take damage to torso
+
 
         StartCoroutine(ColorChangeTime());
     }
