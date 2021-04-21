@@ -1,3 +1,4 @@
+using System.Collections;
 using API;
 using API.Models;
 using API.Params;
@@ -65,6 +66,24 @@ public class Boss : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void TakeHit()
+    {
+        StartCoroutine(ColorChangeTime());
+    }
+    
+    
+    IEnumerator ColorChangeTime()
+    {
+        // Change color to red
+        GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0f);
+        
+        // Wait one second
+        yield return new WaitForSecondsRealtime(0.1F);
+
+        // change color back to normal
+        GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f);
     }
     
 }

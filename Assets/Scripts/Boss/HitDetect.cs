@@ -15,47 +15,44 @@ public class HitDetect : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-
+        if (hit)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        hit = true;
 
         var boss = col.gameObject;
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
 
-       
-        if(col.gameObject.CompareTag("ArmLeg"))
+
+        switch (col.gameObject.tag)
         {
-            bossScript.bossScore.TakeDamage();
-            StartCoroutine(ColorChangeTime(bossScript));
+            case "Head":
+            {
+                bossScript.bossScore.TakeDamage(3);
+                bossScript.TakeHit();
+                break;
+            }
+            case "Torso":
+            {
+                bossScript.bossScore.TakeDamage(2);
+                bossScript.TakeHit();
+                break;
+            }
+            case "ArmLeg":
+            {
+                bossScript.bossScore.TakeDamage();
+                bossScript.TakeHit();
+                break;
+            }
         }
 
-        if (col.gameObject.CompareTag("Torso"))
-        {
-            bossScript.bossScore.TakeDamage(2);
-            StartCoroutine(ColorChangeTime(bossScript));
-        }
-
-        if (col.gameObject.CompareTag("Head"))
-        {
-            bossScript.bossScore.TakeDamage(3);
-            StartCoroutine(ColorChangeTime(bossScript));
-        }
-       
-    }
-
-    IEnumerator ColorChangeTime(Boss bossScript)
-    {
-        // Change color to red
-        bossScript.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0f);
-        
-        // Wait one second
-        yield return new WaitForSecondsRealtime(0.1F);
-
-        // change color back to normal
-        bossScript.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f);
-        
         Destroy(gameObject);
     }
-    
+
     private void Stick()
     {
         thisProjectile.constraints = RigidbodyConstraints.FreezeAll;
