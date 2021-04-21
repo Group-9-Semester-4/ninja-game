@@ -31,6 +31,10 @@ public class DrawnCardScene : MonoBehaviour
         {
             ShowTimer(currentCard.difficulty);
         }
+        //prevents from a bug - initial load of gamescene often had both timer & completed button
+        else {
+            HideTimer();
+        }
 
         SetCardInfo(currentCard);
 
@@ -99,6 +103,8 @@ public class DrawnCardScene : MonoBehaviour
         }
         
         GameService.Instance.CardDone(gameData.CurrentCard);
+
+        GameService.Instance.cardsCompleted++;
         
         SceneManager.LoadScene("GameScene");
 
@@ -137,5 +143,10 @@ public class DrawnCardScene : MonoBehaviour
         {
             cardRepetitions.text = card.difficulty + " repetitions";
         }
+    }
+
+    public void FinishGame()
+    {
+        SceneManager.LoadScene("FinishScene");
     }
 }

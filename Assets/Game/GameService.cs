@@ -15,6 +15,9 @@ namespace Game
         private List<Card> _cards;
         private Card lastDrawnCard;
         public int score;
+        public int cardsCompleted = 0;
+        public int successfulHits = 0;
+        public int ammo;
 
         static Random _random = new Random();
 
