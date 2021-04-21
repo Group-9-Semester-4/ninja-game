@@ -20,7 +20,9 @@ public class Ammo : MonoBehaviour
 
         if (points != 0)
         {
-            ammo = points;
+            ammo = (int) (Mathf.Sqrt(points)*1.5);
+            GameService.Instance.ammo = ammo;
+            //ammo = points;
         }
         else
         {
