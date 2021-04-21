@@ -13,11 +13,22 @@ public class HitDetect : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+
+
         var boss = col.gameObject;
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
         
         bossScript.bossScore.TakeDamage();
+        if(Time.fixedDeltaTime < 0.5f) {
+           
+            bossScript.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0f);
+        }
+        else
+        {
+            bossScript.GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f);
+        }
+        
     }
 
 
@@ -26,5 +37,7 @@ public class HitDetect : MonoBehaviour
     {
         thisProjectile.constraints = RigidbodyConstraints.FreezeAll;
     }
+
+
 }
 
