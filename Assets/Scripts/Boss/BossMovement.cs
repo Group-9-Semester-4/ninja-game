@@ -19,8 +19,8 @@ public class BossMovement : MonoBehaviour
     public float zPos;
    
     //direction of boss movement
-    bool movingLeft = false;
-    bool movingRight = true;
+    bool movingLeft = true;
+    bool movingRight = false;
 
     void FixedUpdate()
     {
@@ -29,7 +29,7 @@ public class BossMovement : MonoBehaviour
         zPos = transform.position.z;
         if (movingLeft == true)
         {
-            transform.Translate(x + speed, y, z);
+            transform.Translate(x - speed, y, z);
             if (xPos < -9.5)
             {
                 movingLeft = false;
@@ -38,7 +38,7 @@ public class BossMovement : MonoBehaviour
         }
         if (movingRight == true)
         {
-            transform.Translate(x - speed, y, z);
+            transform.Translate(x + speed, y, z);
             if (xPos > 9.5)
             {
                 movingRight = false;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ParrelSync.NonCore;
+using System.Collections;
 using UnityEngine;
 
 public class HitDetect : MonoBehaviour
@@ -19,12 +20,27 @@ public class HitDetect : MonoBehaviour
         var boss = col.gameObject;
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
-        
-        bossScript.bossScore.TakeDamage(); //change TakeDamage into what bodypart that is hit (use tags)
-        bossScript.bossScore.TakeDamage(3); // Take damage to head
-        bossScript.bossScore.TakeDamage(2); // Take damage to torso
+       
+        if(col.gameObject.CompareTag("ArmLeg"))
+        {
+            bossScript.bossScore.TakeDamage();
+            StartCoroutine(ColorChangeTime(bossScript));
+        }
 
-        StartCoroutine(ColorChangeTime(bossScript));
+        if (col.gameObject.CompareTag("Torso"))
+        {
+            bossScript.bossScore.TakeDamage(2);
+            StartCoroutine(ColorChangeTime(bossScript));
+        }
+
+        if (col.gameObject.CompareTag("Head"))
+        {
+            bossScript.bossScore.TakeDamage(3);
+            StartCoroutine(ColorChangeTime(bossScript));
+        }
+       
+
+        
     }
 
     IEnumerator ColorChangeTime(Boss bossScript)
