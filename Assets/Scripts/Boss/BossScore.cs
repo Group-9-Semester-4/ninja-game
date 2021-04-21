@@ -12,7 +12,7 @@ public class BossScore : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
-    public void TakeDamage(int damage = 1)
+    public void TakeDamageArmLeg(int damage = 1)
     {
         score += damage;
 
@@ -22,6 +22,32 @@ public class BossScore : MonoBehaviour
             return;
         }
         
+        scoreText.text = "Score: " + score;
+    }
+
+    public void TakeDamageHead(int damage = 3)
+    {
+        score += damage;
+
+        if (score <= 0)
+        {
+            scoreText.text = "";
+            return;
+        }
+
+        scoreText.text = "Score: " + score;
+    }
+
+    public void TakeDamageTorso(int damage = 2)
+    {
+        score += damage;
+
+        if (score <= 0)
+        {
+            scoreText.text = "";
+            return;
+        }
+
         scoreText.text = "Score: " + score;
     }
 }

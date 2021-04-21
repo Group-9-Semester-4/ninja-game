@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class HitDetect : MonoBehaviour
 {
@@ -19,19 +20,15 @@ public class HitDetect : MonoBehaviour
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
         
-        bossScript.bossScore.TakeDamage();
-        if(Time.fixedDeltaTime < 0.5f) {
-           
-            bossScript.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0f);
-        }
-        else
-        {
-            bossScript.GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f);
-        }
-        
+        bossScript.bossScore.TakeDamage(); //change TakeDamage into what bodypart that is hit (use tags)
+
+        StartCoroutine(ColorChangeTime());
     }
 
+    IEnumerator ColorChangeTime()
+    {
 
+    }
 
     private void Stick()
     {
