@@ -13,6 +13,7 @@ public class FinishGame : MonoBehaviour
     void Start()
     {
         textScore.text = "Final score: "+GameService.Instance.score;
+        GameService.Instance.score = 0;
     }
 
     // Update is called once per frame
