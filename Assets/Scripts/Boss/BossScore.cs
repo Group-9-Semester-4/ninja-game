@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game;
 
 public class BossScore : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class BossScore : MonoBehaviour
             scoreText.text = "";
             return;
         }
-        
+        GameService.Instance.successfulHits++;
         scoreText.text = "Score: " + score;
     }
 

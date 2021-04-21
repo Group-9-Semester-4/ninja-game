@@ -20,6 +20,7 @@ public class HitDetect : MonoBehaviour
         var boss = col.gameObject;
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
+
        
         if(col.gameObject.CompareTag("ArmLeg"))
         {
@@ -39,8 +40,6 @@ public class HitDetect : MonoBehaviour
             StartCoroutine(ColorChangeTime(bossScript));
         }
        
-
-        
     }
 
     IEnumerator ColorChangeTime(Boss bossScript)
