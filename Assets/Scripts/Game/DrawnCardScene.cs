@@ -138,4 +138,9 @@ public class DrawnCardScene : MonoBehaviour
             cardRepetitions.text = card.difficulty + " repetitions";
         }
     }
+
+    public void FinishGame()
+    {
+        SceneManager.LoadScene("FinishScene");
+    }
 }

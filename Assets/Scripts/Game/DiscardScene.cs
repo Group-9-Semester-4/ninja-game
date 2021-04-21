@@ -14,4 +14,9 @@ public class DiscardScene : DiscardCardsScript
         
         SceneManager.LoadScene("GameScene");
     }
+    
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

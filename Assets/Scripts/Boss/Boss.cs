@@ -13,6 +13,7 @@ public class Boss : MonoBehaviour
 
     public void FinishGame()
     {
+        GameData.Instance.Points = 0;
         if (GameData.Instance.IsMultiplayer)
         {
             SendResult();
