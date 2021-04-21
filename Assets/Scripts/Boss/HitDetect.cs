@@ -15,7 +15,7 @@ public class HitDetect : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
 
-
+        
         var boss = col.gameObject;
 
         var bossScript = (Boss) boss.GetComponent(typeof(Boss));
@@ -24,23 +24,15 @@ public class HitDetect : MonoBehaviour
         bossScript.bossScore.TakeDamage(3); // Take damage to head
         bossScript.bossScore.TakeDamage(2); // Take damage to torso
 
-        StartCoroutine(ColorChangeTime(bossScript));
+
+        StartCoroutine(ColorChangeTime());
     }
 
-    IEnumerator ColorChangeTime(Boss bossScript)
+    IEnumerator ColorChangeTime()
     {
-        // Change color to red
-        bossScript.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0f);
-        
-        // Wait one second
-        yield return new WaitForSecondsRealtime(0.1F);
 
-        // change color back to normal
-        bossScript.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f);
-        
-        Destroy(gameObject);
     }
-    
+
     private void Stick()
     {
         thisProjectile.constraints = RigidbodyConstraints.FreezeAll;
