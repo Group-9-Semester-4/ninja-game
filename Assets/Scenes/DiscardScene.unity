@@ -1868,17 +1868,17 @@ PrefabInstance:
     - target: {fileID: 1425169827021912373, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_FontData.m_MaxSize
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1425169827021912373, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_FontData.m_MinSize
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1425169827021912373, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2340287999424702934, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
@@ -1981,7 +1981,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916528510}
   m_Direction: 2
   m_Value: 1.0000014
-  m_Size: 0.8534333
+  m_Size: 0.85343343
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
