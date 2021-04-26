@@ -10,5 +10,7 @@ namespace API.Models.GameModes
         public Dictionary<string, int> playerScores;
         
         public Dictionary<string, int> numberOfPlayerCardsDone;
+
+        public Dictionary<string, int> bossFightScores;
     }
 }

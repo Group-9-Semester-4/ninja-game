@@ -37,6 +37,11 @@ public class Boss : MonoBehaviour
                     SceneManager.LoadScene("Scenes/Multiplayer/Basic/AfterBoss");
                     break;
                 }
+                case "concurrent":
+                {
+                    SceneManager.LoadScene("Scenes/Multiplayer/Concurrent/AfterConcurrentBoss");
+                    break;
+                }
             }
         }
     }
@@ -53,6 +58,21 @@ public class Boss : MonoBehaviour
             case "basic":
             {
                 socketIo.EmitAsync("basic.boss-complete", response =>
+                {
+                    var message = response.GetValue<GameInfoMessage>();
+
+                    if (message.IsSuccess())
+                    {
+                        GameData.Instance.GameInfo = message.data;
+                        multiplayerMoveOn = true;
+                    }
+                
+                }, bossScoreParam);
+                break;
+            }
+            case "concurrent":
+            {
+                socketIo.EmitAsync("concurrent.boss-complete", response =>
                 {
                     var message = response.GetValue<GameInfoMessage>();
 
