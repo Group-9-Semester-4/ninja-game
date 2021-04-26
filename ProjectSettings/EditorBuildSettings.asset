@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer/Basic/AfterBoss.unity
     guid: 419f1b9cafb43d54d8d709edaf21d5ad
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Concurrent/Concurrent.unity
+    guid: 96476cdc53a1e854685033f1f6770fc4
   m_configObjects: {}
