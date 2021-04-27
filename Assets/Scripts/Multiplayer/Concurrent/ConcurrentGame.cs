@@ -6,11 +6,18 @@ using Game;
 using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ConcurrentGame : MonoBehaviour
 {
     public WebReq webReq;
-    
+
+    public GameObject timer;
+    public Text timerText;
+    public float timeLeft;
+    public bool timerStarted;
+    public bool timerFinished;
+
     public GameObject playerPrefab;
     public Transform playerContainer;
 
@@ -19,9 +26,9 @@ public class ConcurrentGame : MonoBehaviour
 
     public GameObject loadingImage;
     public GameObject cardImage;
-    
+
     private SocketIO _socketIO;
-    
+
     private bool _refresh;
 
     private Card _drawnCard;
@@ -35,19 +42,19 @@ public class ConcurrentGame : MonoBehaviour
     void Start()
     {
         _socketIO = SocketClient.Client;
-        
+
         _socketIO.On("game-update", response =>
         {
             GameData.Instance.GameInfo = response.GetValue<GameInfo>();
             _refresh = true;
         });
-        
+
         _socketIO.On("boss-start", response =>
         {
             GameData.Instance.GameInfo = response.GetValue<GameInfo>();
             _startBoss = true;
         });
-        
+
         RefreshPlayerData();
         DrawCard();
     }
@@ -61,12 +68,36 @@ public class ConcurrentGame : MonoBehaviour
             RefreshPlayerData();
         }
 
+        if (!timerFinished && timerStarted)
+        {
+            timeLeft -= Time.deltaTime;
+            timerText.text = (timeLeft).ToString("0");
+            if (timeLeft < 0)
+            {
+                completeButton.SetActive(true);
+                timerFinished = true;
+            }
+        }
+
+        if (timerFinished)
+        {
+            // Timer was finished start blinking time left
+            timerText.text = Time.fixedTime % .5 < .2 ? "" : "0";
+        }
+
         if (_refreshCard)
         {
             _refreshCard = false;
             webReq.card = _drawnCard;
             webReq.HideCard();
             webReq.RenderCard();
+            if (_drawnCard.hasTimer)
+            {
+                ShowTimer(_drawnCard.difficulty);
+            }
+            else {
+                SetButtonsActive(true);
+            }
         }
 
         if (_cardComplete)
@@ -74,6 +105,7 @@ public class ConcurrentGame : MonoBehaviour
             _cardComplete = false;
             SetButtonsActive(true);
             DrawCard();
+            
         }
 
         if (_startBoss)
@@ -84,6 +116,7 @@ public class ConcurrentGame : MonoBehaviour
 
     public void DrawCard()
     {
+        HideTimer();
         _socketIO.EmitAsync("concurrent.draw", response =>
         {
             var message = response.GetValue<DrawCardMessage>();
@@ -112,26 +145,26 @@ public class ConcurrentGame : MonoBehaviour
 
         var gameInfo = GameData.Instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode) gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
-        
+        var gameModeData = (ConcurrentGameMode)gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+
         InstantiatePlayers(gameModeData);
     }
 
     public void StartBossFight()
     {
         var instance = GameData.Instance;
-        
+
         instance.IsMultiplayer = true;
-            
-        var gameModeData = (ConcurrentGameMode) instance.GameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+
+        var gameModeData = (ConcurrentGameMode)instance.GameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
 
         var score = gameModeData.playerScores[_socketIO.Id];
-            
-        instance.Points = (int) (Math.Sqrt(score) * 1.5);
-        
+
+        instance.Points = (int)(Math.Sqrt(score) * 1.5);
+
         SceneManager.LoadScene("Scenes/BossScene");
     }
-    
+
     private void InstantiatePlayers(ConcurrentGameMode gameModeData)
     {
         foreach (var player in gameModeData.players)
@@ -142,7 +175,7 @@ public class ConcurrentGame : MonoBehaviour
             {
                 cardsDone = gameModeData.numberOfPlayerCardsDone[player.sessionId];
             }
-            
+
             var playerGameObject = Instantiate(playerPrefab, playerContainer);
 
             var playerScript = playerGameObject.GetComponent<ConcurrentPlayerScript>();
@@ -156,7 +189,7 @@ public class ConcurrentGame : MonoBehaviour
     private void CleanPlayerContainer()
     {
         var childCount = playerContainer.childCount;
-        
+
         for (var i = childCount - 1; i >= 0; i--)
         {
             Destroy(playerContainer.GetChild(i).gameObject);
@@ -168,5 +201,26 @@ public class ConcurrentGame : MonoBehaviour
         drawCardButton.SetActive(active);
         completeButton.SetActive(active);
     }
-    
+
+    public void StartTimer()
+    {
+        timerStarted = true;
+    }
+
+    private void ShowTimer(int seconds)
+    {
+        completeButton.SetActive(false);
+        timerStarted = false;
+        timerFinished = false;
+
+        timeLeft = seconds;
+        timer.SetActive(true);
+        timerText.text = (timeLeft).ToString("0");
+    }
+
+    private void HideTimer()
+    {
+        timer.SetActive(false);
+    }
+
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 using API;
 using API.Models;
 using API.Models.GameModes;
@@ -6,10 +7,17 @@ using Game;
 using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BasicGame : MonoBehaviour
 {
     public WebReq webReq;
+    
+    public GameObject timer;
+    public Text timerText;
+    public float timeLeft;
+    public bool timerStarted;
+    public bool timerFinished;
     
     public GameObject playerPrefab;
     public Transform playerContainer;
@@ -46,6 +54,23 @@ public class BasicGame : MonoBehaviour
             _refresh = false;
             RefreshPlayerData();
         }
+        
+        if (!timerFinished && timerStarted)
+        {
+            timeLeft -= Time.deltaTime;
+            timerText.text = (timeLeft).ToString("0");
+            if (timeLeft < 0)
+            {
+                completeButton.SetActive(true);
+                timerFinished = true;
+            }
+        }
+
+        if (timerFinished)
+        {
+            // Timer was finished start blinking time left
+            timerText.text = Time.fixedTime % .5 < .2 ? "" : "0";
+        }
     }
 
     public void DrawCard()
@@ -72,6 +97,8 @@ public class BasicGame : MonoBehaviour
 
         var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
 
+        HideTimer();
+        
         if (gameModeData.drawnCard == null)
         {
             if (gameModeData.remainingCards.Count == 0)
@@ -92,6 +119,10 @@ public class BasicGame : MonoBehaviour
             SetImagesActive(true);
             webReq.card = gameModeData.drawnCard;
             webReq.RenderCard();
+            if (gameModeData.drawnCard.hasTimer)
+            {
+                ShowTimer(gameModeData.drawnCard.difficulty);
+            }
         }
     }
 
@@ -181,5 +212,26 @@ public class BasicGame : MonoBehaviour
     {
         loadingImage.SetActive(state);
         cardImage.SetActive(state);
+    }
+    
+    public void StartTimer()
+    {
+        timerStarted = true;
+    }
+    
+    private void ShowTimer(int seconds)
+    {
+        completeButton.SetActive(false);
+        timerStarted = false;
+        timerFinished = false;
+        
+        timeLeft = seconds;
+        timer.SetActive(true);
+        timerText.text = (timeLeft).ToString("0");
+    }
+
+    private void HideTimer()
+    {
+        timer.SetActive(false);
     }
 }
