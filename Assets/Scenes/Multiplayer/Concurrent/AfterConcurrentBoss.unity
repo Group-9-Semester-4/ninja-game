@@ -277,7 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 756541107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a76821fc21dd8a40a5dcdb8ab774403, type: 3}
+  m_Script: {fileID: 11500000, guid: daa63f4b16ffa4f65ae0e62875cd1698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerScorePrefab: {fileID: 8633548657885144197, guid: d5b18ff0f2375714a8ec9292d864188a,

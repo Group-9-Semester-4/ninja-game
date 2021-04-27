@@ -41,7 +41,7 @@ public class AfterConcurrentGame : MonoBehaviour
     {
         var childCount = playerScoreContainer.childCount;
         
-        for (var i = childCount - 1; i >= 0; i--)
+        for (var i = 0; i < childCount; i++)
         {
             Destroy(playerScoreContainer.GetChild(i).gameObject);
         }
@@ -50,9 +50,7 @@ public class AfterConcurrentGame : MonoBehaviour
         
         var gameModeData = (ConcurrentGameMode) gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
         
-        var myList = gameModeData.bossFightScores.ToList();
-
-        myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
+        var myList = gameModeData.bossFightScores.OrderByDescending(score=>score.Value).ToList();
 
         var playerList = gameModeData.players;
 
