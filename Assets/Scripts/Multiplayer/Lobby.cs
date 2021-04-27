@@ -76,6 +76,11 @@ public class Lobby : DiscardCardsScript
                     SceneManager.LoadScene("Scenes/Multiplayer/Basic/BasicGame");
                     break;
                 }
+                case "concurrent":
+                {
+                    SceneManager.LoadScene("Scenes/Multiplayer/Concurrent/Concurrent");
+                    break;
+                }
                 default:
                 {
                     SceneManager.LoadScene("GameScene");
