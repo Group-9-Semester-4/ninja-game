@@ -6,11 +6,18 @@ using Game;
 using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ConcurrentGame : MonoBehaviour
 {
     public WebReq webReq;
     
+    public GameObject timer;
+    public Text timerText;
+    public float timeLeft;
+    public bool timerStarted;
+    public bool timerFinished;
+        
     public GameObject playerPrefab;
     public Transform playerContainer;
 
@@ -55,6 +62,23 @@ public class ConcurrentGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (!timerFinished && timerStarted)
+        // {
+        //     timeLeft -= Time.deltaTime;
+        //     timerText.text = (timeLeft).ToString("0");
+        //     if (timeLeft < 0)
+        //     {
+        //         completeButton.SetActive(true);
+        //         timerFinished = true;
+        //     }
+        // }
+        //
+        // if (timerFinished)
+        // {
+        //     // Timer was finished start blinking time left
+        //     timerText.text = Time.fixedTime % .5 < .2 ? "" : "0";
+        // }
+        
         if (_refresh)
         {
             _refresh = false;
@@ -84,6 +108,7 @@ public class ConcurrentGame : MonoBehaviour
 
     public void DrawCard()
     {
+        HideTimer();
         _socketIO.EmitAsync("concurrent.draw", response =>
         {
             var message = response.GetValue<DrawCardMessage>();
@@ -91,6 +116,10 @@ public class ConcurrentGame : MonoBehaviour
             if (message.IsSuccess())
             {
                 _drawnCard = message.data;
+                // if (_drawnCard.hasTimer)
+                // {
+                //     ShowTimer(_drawnCard.difficulty);
+                // }
                 _refreshCard = true;
             }
         });
@@ -167,6 +196,27 @@ public class ConcurrentGame : MonoBehaviour
     {
         drawCardButton.SetActive(active);
         completeButton.SetActive(active);
+    }
+    
+    public void StartTimer()
+    {
+        timerStarted = true;
+    }
+    
+    private void ShowTimer(int seconds)
+    {
+        completeButton.SetActive(false);
+        timerStarted = false;
+        timerFinished = false;
+        
+        timeLeft = seconds;
+        timer.SetActive(true);
+        timerText.text = (timeLeft).ToString("0");
+    }
+
+    private void HideTimer()
+    {
+        timer.SetActive(false);
     }
     
 }
