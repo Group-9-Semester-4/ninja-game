@@ -30,7 +30,7 @@ public class Shooting : MonoBehaviour
         {
             GameObject firedBullet = Instantiate(bullet, transform.position, UnityEngine.Quaternion.identity);
 
-            UnityEngine.Vector3 bulletDirection = new UnityEngine.Vector3(mousePos.x, mousePos.y, bulletZ) - transform.position;
+            UnityEngine.Vector3 bulletDirection = new UnityEngine.Vector3(mousePos.x, mousePos.y, bulletZ);
 
             firedBullet.GetComponent<Rigidbody>().velocity += force * bulletDirection;
 
