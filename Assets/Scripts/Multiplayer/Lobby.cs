@@ -46,9 +46,12 @@ public class Lobby : DiscardCardsScript
             _gameModes = new List<string>() { "undefined" };
             foreach (var gameMode in gameModes)
             {
-                var optionItem = new Dropdown.OptionData(gameMode);
-                gameModesDropdown.options.Add(optionItem);
-                _gameModes.Add(gameMode);
+                if (!(gameMode.Equals("singleplayer")))
+                 {
+                    var optionItem = new Dropdown.OptionData(gameMode);
+                    gameModesDropdown.options.Add(optionItem);
+                    _gameModes.Add(gameMode);
+                 }
             }
         });
 

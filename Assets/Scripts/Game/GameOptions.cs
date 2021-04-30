@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class GameOptions : MonoBehaviour
 {
     public Text GameTimeInput;
-    public Toggle MultiplayerToggle;
     public Text LobbyCode;
     public Text UserName;
 
@@ -21,6 +20,7 @@ public class GameOptions : MonoBehaviour
     {
         var socketIO = SocketClient.Init("game");
         socketIO.ConnectAsync();
+        multiplayerInfo.SetActive(true);
     }
 
     private void Update()
@@ -29,11 +29,6 @@ public class GameOptions : MonoBehaviour
         {
             SceneManager.LoadScene("Lobby");
         }
-    }
-
-    public void onMultiplayerToggle()
-    {
-        multiplayerInfo.SetActive(MultiplayerToggle.isOn);
     }
 
     public void onContinue()
@@ -46,7 +41,7 @@ public class GameOptions : MonoBehaviour
             
             // We need seconds, so multiply by 60
             gameOptions.timeLimit = gameTime * 60;
-            gameOptions.multiPlayer = MultiplayerToggle.isOn;
+            gameOptions.multiPlayer = true;
             gameOptions.lobbyCode = LobbyCode.text;
 
             StartCoroutine(APIClient.Instance.InitGame(gameOptions, resource =>
