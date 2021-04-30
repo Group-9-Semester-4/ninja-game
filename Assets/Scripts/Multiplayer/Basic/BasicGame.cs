@@ -27,6 +27,11 @@ public class BasicGame : MonoBehaviour
 
     public GameObject loadingImage;
     public GameObject cardImage;
+
+    public GameObject cardInfo;
+    public Text cardDescription;
+    public Text cardRepetitions;
+    public Card currentCard;
     
     private SocketIO _socketIO;
 
@@ -36,6 +41,7 @@ public class BasicGame : MonoBehaviour
 
     void Start()
     {
+        cardInfo.SetActive(false);
         _socketIO = SocketClient.Client;
         
         _socketIO.On("game-update", response =>
@@ -98,7 +104,7 @@ public class BasicGame : MonoBehaviour
         var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
 
         HideTimer();
-        
+
         if (gameModeData.drawnCard == null)
         {
             if (gameModeData.remainingCards.Count == 0)
@@ -114,6 +120,8 @@ public class BasicGame : MonoBehaviour
         }
         else
         {
+            SetCardInfo(gameModeData.drawnCard);
+            cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
             completeButton.SetActive(true);
             SetImagesActive(true);
@@ -212,6 +220,20 @@ public class BasicGame : MonoBehaviour
     {
         loadingImage.SetActive(state);
         cardImage.SetActive(state);
+    }
+    
+    private void SetCardInfo(Card card)
+    {
+        cardDescription.text = card.description;
+
+        if (card.hasTimer)
+        {
+            cardRepetitions.text = card.difficulty + " seconds";
+        }
+        else
+        {
+            cardRepetitions.text = card.difficulty + " repetitions";
+        }
     }
     
     public void StartTimer()

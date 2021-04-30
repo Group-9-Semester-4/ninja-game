@@ -12,11 +12,16 @@ public class DrawnCardScene : MonoBehaviour
     public Text timerText;
     public float timeLeft;
     public bool timerStarted;
+    public bool timerStopped;
+    
     public bool timerFinished;
-
+    public GameObject stopTimerButton;
+    public GameObject startTimerButton;
+    
     public Text cardDescription;
     public Text cardRepetitions;
     public GameObject completeButton;
+    public GameObject redrawButton;
 
     public WebReq webReq;
 
@@ -26,7 +31,7 @@ public class DrawnCardScene : MonoBehaviour
     {
         // Show timer stuff when card is timer related
         currentCard = GameData.Instance.CurrentCard;
-        
+        stopTimerButton.SetActive(false);
         if (currentCard.hasTimer)
         {
             ShowTimer(currentCard.difficulty);
@@ -44,14 +49,23 @@ public class DrawnCardScene : MonoBehaviour
     
     void Update()
     {
-        if (!timerFinished && timerStarted)
+        if (!timerFinished && timerStarted && !timerStopped)
         {
+            startTimerButton.SetActive(false);
+            stopTimerButton.SetActive(true);
             timeLeft -= Time.deltaTime;
             timerText.text = (timeLeft).ToString("0");
             if (timeLeft < 0)
             {
+                stopTimerButton.SetActive(false);
                 completeButton.SetActive(true);
+                timer.SetActive(false);
                 timerFinished = true;
+            }
+            else
+            {
+                redrawButton.SetActive(false);
+                stopTimerButton.SetActive(true);
             }
         }
 
@@ -113,6 +127,16 @@ public class DrawnCardScene : MonoBehaviour
     public void StartTimer()
     {
         timerStarted = true;
+        timerStopped = false;
+    }
+
+    public void StopTimer()
+    {
+        timerStopped = true;
+        startTimerButton.SetActive(true);
+        stopTimerButton.SetActive(false);
+        completeButton.SetActive(false);
+        redrawButton.SetActive(true);
     }
     
     private void ShowTimer(int seconds)
