@@ -18,6 +18,10 @@ public class BasicGame : MonoBehaviour
     public float timeLeft;
     public bool timerStarted;
     public bool timerFinished;
+    public bool timerStopped;
+    
+    public GameObject stopTimerButton;
+    public GameObject startTimerButton;
     
     public GameObject playerPrefab;
     public Transform playerContainer;
@@ -31,17 +35,17 @@ public class BasicGame : MonoBehaviour
     public GameObject cardInfo;
     public Text cardDescription;
     public Text cardRepetitions;
-    public Card currentCard;
     
+    public Card currentCard;
     private SocketIO _socketIO;
 
     private bool _isOnTurn;
-
     private bool _refresh;
 
     void Start()
     {
         cardInfo.SetActive(false);
+        stopTimerButton.SetActive(false);
         _socketIO = SocketClient.Client;
         
         _socketIO.On("game-update", response =>
@@ -61,14 +65,22 @@ public class BasicGame : MonoBehaviour
             RefreshPlayerData();
         }
         
-        if (!timerFinished && timerStarted)
+        if (!timerFinished && timerStarted && !timerStopped)
         {
+            startTimerButton.SetActive(false);
+            stopTimerButton.SetActive(true);
             timeLeft -= Time.deltaTime;
             timerText.text = (timeLeft).ToString("0");
             if (timeLeft < 0)
             {
+                stopTimerButton.SetActive(false);
                 completeButton.SetActive(true);
+                timer.SetActive(false);
                 timerFinished = true;
+            }
+            else
+            {
+                stopTimerButton.SetActive(true);
             }
         }
 
@@ -239,6 +251,15 @@ public class BasicGame : MonoBehaviour
     public void StartTimer()
     {
         timerStarted = true;
+        timerStopped = false;
+    }
+    
+    public void StopTimer()
+    {
+        timerStopped = true;
+        startTimerButton.SetActive(true);
+        stopTimerButton.SetActive(false);
+        completeButton.SetActive(false);
     }
     
     private void ShowTimer(int seconds)

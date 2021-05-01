@@ -13,8 +13,8 @@ public class DrawnCardScene : MonoBehaviour
     public float timeLeft;
     public bool timerStarted;
     public bool timerStopped;
-    
     public bool timerFinished;
+    
     public GameObject stopTimerButton;
     public GameObject startTimerButton;
     
@@ -92,7 +92,6 @@ public class DrawnCardScene : MonoBehaviour
     {
         currentCard = GameData.Instance.CurrentCard;
         HideTimer();
-        Debug.Log(currentCard.hasTimer);
         if (currentCard.hasTimer)
         {
             ShowTimer(currentCard.difficulty);
