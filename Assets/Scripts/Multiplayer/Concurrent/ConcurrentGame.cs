@@ -13,6 +13,7 @@ public class ConcurrentGame : MonoBehaviour
     public WebReq webReq;
 
     public GameObject timer;
+    public GameObject cardInfo;
     public Text timerText;
     public float timeLeft;
     public bool timerStarted;
@@ -45,6 +46,7 @@ public class ConcurrentGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cardInfo.SetActive(false);
         stopTimerButton.SetActive(false);
         _socketIO = SocketClient.Client;
 
@@ -88,6 +90,7 @@ public class ConcurrentGame : MonoBehaviour
             }
             else
             {
+                cardInfo.SetActive(true);
                 stopTimerButton.SetActive(true);
             }
         }
@@ -137,6 +140,7 @@ public class ConcurrentGame : MonoBehaviour
             if (message.IsSuccess())
             {
                 _drawnCard = message.data;
+                SetCardInfo(_drawnCard);
                 _refreshCard = true;
             }
         });
@@ -248,7 +252,7 @@ public class ConcurrentGame : MonoBehaviour
     private void SetCardInfo(Card card)
     {
         cardDescription.text = card.description;
-
+    
         if (card.hasTimer)
         {
             cardRepetitions.text = card.difficulty + " seconds";
