@@ -13,14 +13,22 @@ public class ConcurrentGame : MonoBehaviour
     public WebReq webReq;
 
     public GameObject timer;
+    public GameObject cardInfo;
     public Text timerText;
     public float timeLeft;
     public bool timerStarted;
     public bool timerFinished;
+    public bool timerStopped;
 
+    public GameObject stopTimerButton;
+    public GameObject startTimerButton;
+    
     public GameObject playerPrefab;
     public Transform playerContainer;
 
+    public Text cardDescription;
+    public Text cardRepetitions;
+    
     public GameObject drawCardButton;
     public GameObject completeButton;
 
@@ -28,19 +36,18 @@ public class ConcurrentGame : MonoBehaviour
     public GameObject cardImage;
 
     private SocketIO _socketIO;
+    private Card _drawnCard;
 
     private bool _refresh;
-
-    private Card _drawnCard;
     private bool _refreshCard;
-
     private bool _cardComplete;
-
     private bool _startBoss;
 
     // Start is called before the first frame update
     void Start()
     {
+        cardInfo.SetActive(false);
+        stopTimerButton.SetActive(false);
         _socketIO = SocketClient.Client;
 
         _socketIO.On("game-update", response =>
@@ -68,14 +75,23 @@ public class ConcurrentGame : MonoBehaviour
             RefreshPlayerData();
         }
 
-        if (!timerFinished && timerStarted)
+        if (!timerFinished && timerStarted && !timerStopped)
         {
+            startTimerButton.SetActive(false);
+            stopTimerButton.SetActive(true);
             timeLeft -= Time.deltaTime;
             timerText.text = (timeLeft).ToString("0");
             if (timeLeft < 0)
             {
+                stopTimerButton.SetActive(false);
                 completeButton.SetActive(true);
+                timer.SetActive(false);
                 timerFinished = true;
+            }
+            else
+            {
+                cardInfo.SetActive(true);
+                stopTimerButton.SetActive(true);
             }
         }
 
@@ -124,6 +140,7 @@ public class ConcurrentGame : MonoBehaviour
             if (message.IsSuccess())
             {
                 _drawnCard = message.data;
+                SetCardInfo(_drawnCard);
                 _refreshCard = true;
             }
         });
@@ -205,6 +222,15 @@ public class ConcurrentGame : MonoBehaviour
     public void StartTimer()
     {
         timerStarted = true;
+        timerStopped = false;
+    }
+    
+    public void StopTimer()
+    {
+        timerStopped = true;
+        startTimerButton.SetActive(true);
+        stopTimerButton.SetActive(false);
+        completeButton.SetActive(false);
     }
 
     private void ShowTimer(int seconds)
@@ -221,6 +247,20 @@ public class ConcurrentGame : MonoBehaviour
     private void HideTimer()
     {
         timer.SetActive(false);
+    }
+    
+    private void SetCardInfo(Card card)
+    {
+        cardDescription.text = card.description;
+    
+        if (card.hasTimer)
+        {
+            cardRepetitions.text = card.difficulty + " seconds";
+        }
+        else
+        {
+            cardRepetitions.text = card.difficulty + " repetitions";
+        }
     }
 
 }
