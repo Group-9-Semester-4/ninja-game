@@ -32,9 +32,9 @@ public class BasicGame : MonoBehaviour
     public GameObject loadingImage;
     public GameObject cardImage;
 
-    // public GameObject cardInfo;
-    // public Text cardDescription;
-    // public Text cardRepetitions;
+    public GameObject cardInfo;
+    public Text cardDescription;
+    public Text cardRepetitions;
     
     public Card currentCard;
     private SocketIO _socketIO;
@@ -44,7 +44,7 @@ public class BasicGame : MonoBehaviour
 
     void Start()
     {
-        //cardInfo.SetActive(false);
+        cardInfo.SetActive(false);
         stopTimerButton.SetActive(false);
         _socketIO = SocketClient.Client;
         
@@ -55,6 +55,7 @@ public class BasicGame : MonoBehaviour
         });
         
         RefreshPlayerData();
+        
     }
 
     private void Update()
@@ -127,13 +128,14 @@ public class BasicGame : MonoBehaviour
             }
             InstantiatePlayers(gameModeData);
             webReq.HideCard();
+            cardInfo.SetActive(false);
             SetImagesActive(false);
             drawCardButton.SetActive(_isOnTurn);
         }
         else
         {
-            //SetCardInfo(gameModeData.drawnCard);
-            //cardInfo.SetActive(true);
+            SetCardInfo(gameModeData.drawnCard);
+            cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
             completeButton.SetActive(true);
             SetImagesActive(true);
@@ -234,19 +236,19 @@ public class BasicGame : MonoBehaviour
         cardImage.SetActive(state);
     }
     
-    // private void SetCardInfo(Card card)
-    // {
-    //     cardDescription.text = card.description;
-    //
-    //     if (card.hasTimer)
-    //     {
-    //         cardRepetitions.text = card.difficulty + " seconds";
-    //     }
-    //     else
-    //     {
-    //         cardRepetitions.text = card.difficulty + " repetitions";
-    //     }
-    // }
+    private void SetCardInfo(Card card)
+    {
+        cardDescription.text = card.description;
+    
+        if (card.hasTimer)
+        {
+            cardRepetitions.text = card.difficulty + " seconds";
+        }
+        else
+        {
+            cardRepetitions.text = card.difficulty + " repetitions";
+        }
+    }
     
     public void StartTimer()
     {
