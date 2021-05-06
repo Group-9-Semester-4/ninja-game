@@ -13,14 +13,11 @@ public class GameOptions : MonoBehaviour
     public Text UserName;
 
     public bool joinLobby;
-    
-    public GameObject multiplayerInfo;
 
     private void Start()
     {
         var socketIO = SocketClient.Init("game");
         socketIO.ConnectAsync();
-        multiplayerInfo.SetActive(true);
     }
 
     private void Update()
@@ -44,17 +41,7 @@ public class GameOptions : MonoBehaviour
             gameOptions.multiPlayer = true;
             gameOptions.lobbyCode = LobbyCode.text;
 
-            StartCoroutine(APIClient.Instance.InitGame(gameOptions, resource =>
-            {
-                if (gameOptions.multiPlayer)
-                {
-                    ConnectToLobby(resource);
-                }
-                else
-                {
-                    SceneManager.LoadScene("DiscardScene");
-                }
-            }));
+            StartCoroutine(APIClient.Instance.InitGame(gameOptions, ConnectToLobby));
         }
         else
         {
