@@ -17,6 +17,8 @@ public class Lobby : DiscardCardsScript
     public bool reloadLobby;
     public bool startGame;
 
+    public GameObject[] lobbyLeaderObjects;
+
     private SocketIO _socketIO;
     private List<string> _gameModes;
     
@@ -47,11 +49,11 @@ public class Lobby : DiscardCardsScript
             foreach (var gameMode in gameModes)
             {
                 if (!(gameMode.Equals("singleplayer")))
-                 {
+                {
                     var optionItem = new Dropdown.OptionData(gameMode);
                     gameModesDropdown.options.Add(optionItem);
                     _gameModes.Add(gameMode);
-                 }
+                }
             }
         });
 
@@ -108,6 +110,11 @@ public class Lobby : DiscardCardsScript
         {
             var lobbyOwner = player.sessionId == gameInfo.lobby.lobbyOwnerId;
             AddPlayer(player, lobbyOwner);
+
+            if (player.sessionId == _socketIO.Id)
+            {
+                ShowLobbyLeaderObjects(lobbyOwner);
+            }
         }
     }
 
@@ -144,4 +151,13 @@ public class Lobby : DiscardCardsScript
         
         return _gameModes[gameModeValue];
     }
+
+    private void ShowLobbyLeaderObjects(bool active)
+    {
+        foreach (var gameObject in lobbyLeaderObjects)
+        {
+            gameObject.SetActive(active);
+        }
+    }
+    
 }

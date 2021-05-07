@@ -49,15 +49,13 @@ public class AfterBasicGame : MonoBehaviour
         
         var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
         
-        var myList = gameModeData.bossFightScores.ToList();
-
-        myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
+        var sortedScores = from entry in gameModeData.bossFightScores.ToList() orderby entry.Value descending select entry;
 
         var playerList = gameModeData.players;
 
         var position = 1;
         
-        foreach (var pair in myList)
+        foreach (var pair in sortedScores)
         {
             var player = playerList.Find(playerEl => playerEl.sessionId == pair.Key);
 

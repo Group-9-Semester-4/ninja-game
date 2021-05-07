@@ -137,7 +137,16 @@ public class BasicGame : MonoBehaviour
             SetCardInfo(gameModeData.drawnCard);
             cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
-            completeButton.SetActive(true);
+            
+            if (gameModeData.completeStates.ContainsKey(_socketIO.Id))
+            {
+                completeButton.SetActive(!gameModeData.completeStates[_socketIO.Id]);
+            }
+            else
+            {
+                completeButton.SetActive(true);
+            }
+            
             SetImagesActive(true);
             webReq.card = gameModeData.drawnCard;
             webReq.RenderCard();

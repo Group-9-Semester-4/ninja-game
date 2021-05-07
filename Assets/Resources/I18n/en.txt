@@ -14,4 +14,5 @@ choose_language=Choose a language
 start_timer=Start timer
 choose_card_set=-- Choose card set --
 exit_game=Exit Game
+exit=Exit
 go_back=Go Back
