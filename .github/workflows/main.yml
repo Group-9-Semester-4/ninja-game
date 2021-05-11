@@ -1,7 +1,7 @@
 name: Build Unity project and deploy to server
 on: 
   push:
-    branches: [ develop, main ]
+    branches: [ devops, develop, main ]
 
 jobs:
   build:
