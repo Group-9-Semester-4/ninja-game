@@ -1,0 +1,36 @@
+name: Build Unity project and deploy to server
+on: 
+  push:
+    branches: [ develop, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get cached library data for build 
+    - uses: actions/cache@v2
+      with:
+        path: path/to/your/project/Library
+        key: Library-MyProjectName-TargetPlatform
+        restore-keys: |
+          Library-MyProjectName-
+          Library-
+    - name: Build process
+    - uses: game-ci/unity-builder@v2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      with:
+        targetPlatform: WebGL
+    - name: Push Unity build to server
+      uses: burnett01/rsync-deployments@4.1
+      with:
+        switches: -avzr --delete
+        path: build/
+        remote_path: ~/build
+        remote_host: ${{ secrets.VPS_IP }}
+        remote_port: ${{ secrets.VPS_PORT }}
+        remote_user: ${{ secrets.VPS_USER }}
+        remote_key: ${{ secrets.VPS_PRIVATE_KEY }}
+
+    
+    
