@@ -7,14 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Get cached library data for build 
-      uses: actions/cache@v2
-      with:
-        path: path/to/your/project/Library
-        key: Library-MyProjectName-TargetPlatform
-        restore-keys: |
-          Library-MyProjectName-
-          Library-
+    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: 
     - name: Build process
       uses: game-ci/unity-builder@v2
       env:
