@@ -140,5 +140,30 @@ public class DiscardCardsScript : MonoBehaviour
 
         return cards;
     }
+    
+    protected List<Card> getDiscardedCards()
+    {
+        var cardSet = getSelectedCardSet();
+
+        if (string.IsNullOrEmpty(cardSet.id))
+        {
+            throw new NullReferenceException("Card set not chosen");
+        }
+
+        var toggles = CardContainer.GetComponentsInChildren<Toggle>();
+
+        var cards = new List<Card>();
+
+        foreach (var toggle in toggles)
+        {
+            if (!toggle.isOn)
+            {
+                var cardScript = (CardScript) toggle.GetComponent(typeof(CardScript));
+                cards.Add(cardScript.card);
+            }
+        }
+
+        return cards;
+    }
 }
 

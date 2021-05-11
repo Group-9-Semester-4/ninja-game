@@ -35,6 +35,17 @@ namespace API
 
             action(game);
         }
+        
+        public IEnumerator FinishGame(FinishGameParam param, Action action)
+        {
+            const string path = APIUrl + "/game/finish";
+            
+            var request = PostRequest(path, param);
+
+            yield return HandleRequest(request);
+
+            action();
+        }
 
         public IEnumerator GetAllCards(Action<List<Card>> action)
         {

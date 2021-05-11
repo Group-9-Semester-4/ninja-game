@@ -22,7 +22,13 @@ public class Boss : MonoBehaviour
         }
 
         GameService.Instance.score = bossScore.score;
-        SceneManager.LoadScene("FinishScene");
+
+        var finishParam = GameService.Instance.FinishGameParam();
+
+        StartCoroutine(APIClient.Instance.FinishGame(finishParam, () =>
+        {
+            SceneManager.LoadScene("FinishScene");
+        }));
     }
     
     public void Update()

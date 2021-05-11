@@ -80,7 +80,7 @@ public class DrawnCardScene : MonoBehaviour
     {
         completeButton.SetActive(true);
         HideCurrentCard();
-        var card = GameService.Instance.DrawCard();
+        var card = GameService.Instance.DrawCard(true);
         
         GameData.Instance.CurrentCard = card;
         
@@ -117,8 +117,6 @@ public class DrawnCardScene : MonoBehaviour
         
         GameService.Instance.CardDone(gameData.CurrentCard);
 
-        GameService.Instance.cardsCompleted++;
-        
         SceneManager.LoadScene("GameScene");
 
     }

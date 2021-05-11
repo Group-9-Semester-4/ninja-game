@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace API.Params
 {
@@ -6,5 +7,12 @@ namespace API.Params
     public class FinishGameParam
     {
         public string gameId;
+        public string cardSetId;
+        
+        public int cardsCompleted;
+        public int timeInSeconds;
+
+        public List<string> unwantedCards;
+        public List<string> listOfRedrawnCards;
     }
 }

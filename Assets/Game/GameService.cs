@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using API.Models;
+using API.Params;
 using UnityEngine;
 using Random = System.Random;
 
@@ -11,15 +12,26 @@ namespace Game
     {
         private static GameService _instance;
         public static GameService Instance => _instance ??= new GameService();
+        public static GameService Reinstantiate()
+        {
+            return new GameService();
+        }
 
         private List<Card> _cards;
         private Card lastDrawnCard;
+        private int started;
+        private List<string> listOfRedrawnCards = new List<string>();
+        private string cardSetId;
+        private List<string> discardedCards = new List<string>();
+        
+        public API.Models.Game game;
+        
         public int score;
-        public int cardsCompleted = 0;
-        public int successfulHits = 0;
+        public int cardsCompleted;
+        public int successfulHits;
         public int ammo;
 
-        static Random _random = new Random();
+        private static readonly Random Random = new Random();
 
         public byte[] GetCardImage(Card card)
         {
@@ -41,14 +53,30 @@ namespace Game
             return Application.persistentDataPath + "/card-images/";
         }
 
-        public void StartGame(List<Card> cards)
+        public void StartGame(List<Card> cards, List<Card> discardedCards, string cardSetId)
         {
+            this.cardSetId = cardSetId;
+
+            foreach (var card in discardedCards)
+            {
+                this.discardedCards.Add(card.id);
+            }
+            
+            started = Epoch.Current();
             _cards = cards;
         }
 
-        public Card DrawCard()
+        public Card DrawCard(bool redraw = false)
         {
-            var r = _random.Next(_cards.Count);
+            if (redraw)
+            {
+                if (lastDrawnCard != null)
+                {
+                    listOfRedrawnCards.Add(lastDrawnCard.id);
+                }
+            }
+            
+            var r = Random.Next(_cards.Count);
             Card card = _cards[r];
             if (_cards.Count == 1)
             {
@@ -57,7 +85,7 @@ namespace Game
             
             while (card == lastDrawnCard)
             {
-                r = _random.Next(_cards.Count);
+                r = Random.Next(_cards.Count);
                 card = _cards[r];
             }
 
@@ -67,6 +95,7 @@ namespace Game
 
         public void CardDone(Card card)
         {
+            cardsCompleted++;
             _cards.Remove(card);
         }
 
@@ -74,5 +103,48 @@ namespace Game
         {
             return _cards;
         }
+
+        public FinishGameParam FinishGameParam()
+        {
+            var timeElapsed = Epoch.Current() - started;
+
+            var param = new FinishGameParam
+            {
+                gameId = game.id,
+                cardSetId = cardSetId,
+                timeInSeconds = timeElapsed,
+                cardsCompleted = cardsCompleted,
+                unwantedCards = discardedCards,
+                listOfRedrawnCards = listOfRedrawnCards
+            };
+
+            return param;
+        }
+    }
+    
+    public static class Epoch {
+ 
+        public static int Current()
+        {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            int currentEpochTime = (int)(DateTime.UtcNow - epochStart).TotalSeconds;
+ 
+            return currentEpochTime;
+        }
+ 
+        public static int SecondsElapsed(int t1)
+        {
+            int difference = Current() - t1;
+ 
+            return Mathf.Abs(difference);
+        }
+ 
+        public static int SecondsElapsed(int t1, int t2)
+        {
+            int difference = t1 - t2;
+ 
+            return Mathf.Abs(difference);
+        }
+ 
     }
 }
