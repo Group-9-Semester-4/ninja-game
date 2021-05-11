@@ -7,9 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Checkout repository
-      uses: 
+      uses: actions/checkout@v2
     - name: Build process
       uses: game-ci/unity-builder@v2
       env:
