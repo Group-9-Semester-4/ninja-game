@@ -12,9 +12,11 @@ namespace Game
     {
         private static GameService _instance;
         public static GameService Instance => _instance ??= new GameService();
+
         public static GameService Reinstantiate()
         {
-            return new GameService();
+            _instance = new GameService();
+            return _instance;
         }
 
         private List<Card> _cards;

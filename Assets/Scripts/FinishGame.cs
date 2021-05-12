@@ -16,8 +16,6 @@ public class FinishGame : MonoBehaviour
         cardsDone.text = "Cards completed: "+GameService.Instance.cardsCompleted;
         double accuracyInPercent = ((double)GameService.Instance.successfulHits/GameService.Instance.ammo)*100;
         accuracy.text = "Your throwing accuracy was: "+(int)accuracyInPercent+"%";
-
-        GameService.Reinstantiate();
     }
 
 }

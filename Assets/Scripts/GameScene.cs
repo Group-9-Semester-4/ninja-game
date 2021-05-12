@@ -46,6 +46,6 @@ public class GameScene : MonoBehaviour
 
     public void EndGame()
     {
-        SceneManager.LoadScene("FinishScene");
+        SceneManager.LoadScene("MainMenu");
     }
 }
