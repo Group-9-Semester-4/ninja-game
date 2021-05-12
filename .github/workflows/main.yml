@@ -18,6 +18,7 @@ jobs:
     - name: Checkout backend repo
       uses: actions/checkout@v2
       with:
+        repository:  Group-9-Semester-4/ninja-game-backend
         path: backend
     - name: Check backend repo
       run: cd $GITHUB_WORKSPACE/backend ; ls -laf ; git status
