@@ -9,12 +9,12 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Build process
-      uses: game-ci/unity-builder@v2
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      with:
-        targetPlatform: WebGL
+#     - name: Build process
+#       uses: game-ci/unity-builder@v2
+#       env:
+#         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+#       with:
+#         targetPlatform: WebGL
     - name: Checkout backend repo
       uses: actions/checkout@v2
       with:
