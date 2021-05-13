@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1790902888}
   m_HandleRect: {fileID: 1790902887}
   m_Direction: 2
-  m_Value: 1.0000006
+  m_Value: 1.0000012
   m_Size: 0.82733166
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1790,6 +1790,7 @@ MonoBehaviour:
   CardSetDropdown: {fileID: 1306458172}
   cardPrefab: {fileID: 7227461621205651560, guid: b3eb744bf44e92d49a9452511c90ff9e,
     type: 3}
+  continueButton: {fileID: 676296570}
   playerPrefab: {fileID: 5449198159084182239, guid: bc64a23df8b7c404aa75386fbd154916,
     type: 3}
   playerContainer: {fileID: 45045155}
