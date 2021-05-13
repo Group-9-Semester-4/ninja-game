@@ -12,6 +12,7 @@ public class DiscardCardsScript : MonoBehaviour
     public Transform CardContainer;
     public Dropdown CardSetDropdown;
     public GameObject cardPrefab;
+    public GameObject continueButton;
 
     protected List<CardSet> _cardSets;
     
@@ -22,6 +23,7 @@ public class DiscardCardsScript : MonoBehaviour
         var cardSetRoutine = APIClient.Instance.GetCardSets(PopulateCardSets);
 
         StartCoroutine(cardSetRoutine);
+        continueButton.SetActive(false);
     }
 
     protected void PopulateCards(List<Card> cards)
@@ -35,7 +37,6 @@ public class DiscardCardsScript : MonoBehaviour
         
         var y = 0;
         
-        Debug.Log("Populating "+ cards.Count);
 
         foreach (var card in cards)
         {
@@ -51,9 +52,7 @@ public class DiscardCardsScript : MonoBehaviour
             newGameObject.AddComponent(typeof(CardScript));
             var cardScript = (CardScript) newGameObject.GetComponent(typeof(CardScript));
             cardScript.card = card;
-            
-            Debug.Log(SceneManager.GetActiveScene().name);
-            
+
             // TODO: Fix scale after all screens are fixed
             if (SceneManager.GetActiveScene().name == "DiscardScene")
             {
@@ -86,6 +85,7 @@ public class DiscardCardsScript : MonoBehaviour
 
     public void onCardSetChange()
     {
+        continueButton.SetActive(true);
         var cardSet = getSelectedCardSet();
 
         PopulateCards(cardSet.cards);

@@ -767,7 +767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 142.49992}
+  m_AnchoredPosition: {x: 0, y: 142.15483}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &547368046
@@ -1176,6 +1176,7 @@ MonoBehaviour:
   CardSetDropdown: {fileID: 845959886}
   cardPrefab: {fileID: 7227461621205651560, guid: b3eb744bf44e92d49a9452511c90ff9e,
     type: 3}
+  continueButton: {fileID: 8905288945630581913}
 --- !u!1 &916528509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,7 +1790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1744047155, guid: 70a815616ed5ade45b5da4cb1d56211e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -24.899994
+      value: -24.899963
       objectReference: {fileID: 0}
     - target: {fileID: 1744047155, guid: 70a815616ed5ade45b5da4cb1d56211e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2068,7 +2069,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916528510}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9987895
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2845,7 +2846,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1130158279}
   m_HandleRect: {fileID: 1130158278}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3324,3 +3325,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c8be29edc59db03584e59c6e7bb1523, type: 3}
+--- !u!1 &8905288945630581913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8408032882721313688, guid: 9c8be29edc59db03584e59c6e7bb1523,
+    type: 3}
+  m_PrefabInstance: {fileID: 8905288945630581912}
+  m_PrefabAsset: {fileID: 0}
