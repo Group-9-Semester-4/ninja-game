@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: develop
     - name: Build Unity
       uses: game-ci/unity-builder@v2
       env:
@@ -16,7 +18,7 @@ jobs:
       with:
         targetPlatform: WebGL
     - name: Upload WebGL Unity build as artifact    
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: unity_webgl_develop
         path: build
