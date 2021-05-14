@@ -21,7 +21,7 @@ namespace API
 
 
         // TODO: Change to dynamic env
-        public const string APIUrl = "http://167.71.40.34:8080/api";
+        public const string APIUrl = "http://localhost:8080/api";
         
         public IEnumerator InitGame(GameInitParam param, Action<Models.Game> action)
         {
