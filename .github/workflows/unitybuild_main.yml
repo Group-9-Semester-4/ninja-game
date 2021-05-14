@@ -9,8 +9,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-        with:
-          ref: main
+      with:
+        ref: main
     - name: Build Unity
       uses: game-ci/unity-builder@v2
       env:
