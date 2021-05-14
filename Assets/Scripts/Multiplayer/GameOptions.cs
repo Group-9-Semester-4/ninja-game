@@ -40,6 +40,7 @@ public class GameOptions : MonoBehaviour
             gameOptions.timeLimit = gameTime * 60;
             gameOptions.multiPlayer = true;
             gameOptions.lobbyCode = LobbyCode.text;
+            gameOptions.email = GameService.playerEmail;
 
             StartCoroutine(APIClient.Instance.InitGame(gameOptions, ConnectToLobby));
         }

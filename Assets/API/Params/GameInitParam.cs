@@ -9,6 +9,6 @@ namespace API.Params
         public bool multiPlayer = false;
         public bool playingAlone = true;
         public string lobbyCode;
-        public string email = "test@test.com";
+        public string email;
     }
 }
