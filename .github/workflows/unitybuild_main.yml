@@ -1,0 +1,24 @@
+name: Build WebGL Unity project from the main branch and upload as artifact
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+        with:
+          ref: main
+    - name: Build Unity
+      uses: game-ci/unity-builder@v2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      with:
+        targetPlatform: WebGL
+    - name: Upload WebGL Unity build as artifact    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: unity_webgl_main
+        path: build
