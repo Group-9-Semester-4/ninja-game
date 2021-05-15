@@ -16,7 +16,7 @@ public class GameOptions : MonoBehaviour
 
     private void Start()
     {
-        var socketIO = SocketClient.Init("game");
+        var socketIO = SocketClient.Init();
         socketIO.ConnectAsync();
     }
 

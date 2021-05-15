@@ -17,7 +17,7 @@ public class JoinGame : MonoBehaviour
     
     void Start()
     {
-        _socketIO = SocketClient.Init("game");
+        _socketIO = SocketClient.Init();
 
         _socketIO.ConnectAsync();
     }
