@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using API;
 using API.Models;
 using Game;
-using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
+using UnitySocketIO.SocketIO;
 
 public class Lobby : DiscardCardsScript
 {
@@ -19,25 +20,23 @@ public class Lobby : DiscardCardsScript
 
     public GameObject[] lobbyLeaderObjects;
 
-    private SocketIO _socketIO;
+    public SocketIOController socketIOController = SocketClient.Client;
     private List<string> _gameModes;
     
     void Start()
     {
         base.Start();
 
-        _socketIO = SocketClient.Client;
-        
-        _socketIO.On("lobby-update", response =>
+        socketIOController.On("lobby-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
 
             reloadLobby = true;
         });
         
-        _socketIO.On("start", response =>
+        socketIOController.On("start", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             GameData.Instance.IsMultiplayer = true;
 
             startGame = true;
@@ -111,7 +110,7 @@ public class Lobby : DiscardCardsScript
             var lobbyOwner = player.sessionId == gameInfo.lobby.lobbyOwnerId;
             AddPlayer(player, lobbyOwner);
 
-            if (player.sessionId == _socketIO.Id)
+            if (player.sessionId == socketIOController.SocketID)
             {
                 ShowLobbyLeaderObjects(lobbyOwner);
             }
@@ -137,7 +136,7 @@ public class Lobby : DiscardCardsScript
         options.gameMode = getSelectedGameMode();
 
 
-        _socketIO.EmitAsync("start", options);
+        socketIOController.Emit("start", JsonUtility.ToJson(options));
     }
 
     private string getSelectedGameMode()

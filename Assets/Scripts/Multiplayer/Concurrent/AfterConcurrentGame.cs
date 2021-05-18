@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
-using UnityEngine;
 
 public class AfterConcurrentGame : MonoBehaviour
 {
@@ -21,7 +18,7 @@ public class AfterConcurrentGame : MonoBehaviour
         
         socketIo.On("boss-score-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             _reload = true;
         });
         LoadLeaderBoard();

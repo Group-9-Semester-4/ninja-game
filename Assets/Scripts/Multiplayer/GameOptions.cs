@@ -1,4 +1,5 @@
-﻿using API;
+﻿using System;
+using API;
 using API.Models;
 using API.Params;
 using Game;
@@ -13,15 +14,11 @@ public class GameOptions : MonoBehaviour
     public Text UserName;
 
     public bool joinLobby;
-
-    private void Start()
-    {
-        var socketIO = SocketClient.Init();
-        socketIO.ConnectAsync();
-    }
+    public string result = "none";
 
     private void Update()
     {
+        Debug.Log(result);
         if (joinLobby)
         {
             SceneManager.LoadScene("Lobby");
@@ -56,16 +53,17 @@ public class GameOptions : MonoBehaviour
     {
         var param = new JoinGameParam() {lobbyCode = game.gameInfo.lobby.lobbyCode, userName = UserName.text};
 
-        SocketClient.Client.EmitAsync("join", ack =>
+        SocketClient.Client.Emit("join", JsonUtility.ToJson(param), ack =>
         {
-            var message = ack.GetValue<GameInfoMessage>();
+            result = ack;
+            var message = JsonUtility.FromJson<GameInfoMessage>(ack);
             if (message.IsSuccess())
             {
                 var gameInfo = message.data;
                 GameData.Reinstantiate.GameInfo = gameInfo;
                 joinLobby = true;
             }
-        }, param);
+        });
 
     }
 

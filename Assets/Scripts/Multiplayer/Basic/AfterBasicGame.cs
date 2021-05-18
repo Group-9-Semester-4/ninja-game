@@ -19,7 +19,7 @@ public class AfterBasicGame : MonoBehaviour
         
         socketIo.On("boss-score-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             _reload = true;
         });
         

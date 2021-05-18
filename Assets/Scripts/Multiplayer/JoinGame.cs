@@ -2,41 +2,39 @@ using API;
 using API.Models;
 using API.Params;
 using Game;
-using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
+using UnitySocketIO.SocketIO;
 
 public class JoinGame : MonoBehaviour
 {
     public Text userName;
     public Text lobbyCode;
     
-    private SocketIO _socketIO;
+    private SocketIOController _socketIO;
     private bool connect;
     
     void Start()
     {
-        _socketIO = SocketClient.Init();
-
-        _socketIO.ConnectAsync();
+        _socketIO = SocketClient.Client;
     }
 
     public void Connect()
     {
         var param = new JoinGameParam() {lobbyCode = lobbyCode.text, userName = userName.text};
 
-        var task = _socketIO.EmitAsync("join", response =>
+        _socketIO.Emit("join", JsonUtility.ToJson(param), response =>
         {
-            var message = response.GetValue<GameInfoMessage>();
+            var message = JsonUtility.FromJson<GameInfoMessage>(response);
 
             if (message.IsSuccess())
             {
                 GameData.Reinstantiate.GameInfo = message.data;
                 connect = true;
             }
-
-        }, param);
+        });
 
     }
 

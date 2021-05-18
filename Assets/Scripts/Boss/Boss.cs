@@ -63,9 +63,9 @@ public class Boss : MonoBehaviour
         {
             case "basic":
             {
-                socketIo.EmitAsync("basic.boss-complete", response =>
+                socketIo.Emit("basic.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = response.GetValue<GameInfoMessage>();
+                    var message = JsonUtility.FromJson<GameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {
@@ -73,14 +73,14 @@ public class Boss : MonoBehaviour
                         multiplayerMoveOn = true;
                     }
                 
-                }, bossScoreParam);
+                });
                 break;
             }
             case "concurrent":
             {
-                socketIo.EmitAsync("concurrent.boss-complete", response =>
+                socketIo.Emit("concurrent.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = response.GetValue<GameInfoMessage>();
+                    var message = JsonUtility.FromJson<GameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {
@@ -88,7 +88,7 @@ public class Boss : MonoBehaviour
                         multiplayerMoveOn = true;
                     }
                 
-                }, bossScoreParam);
+                });
                 break;
             }
         }

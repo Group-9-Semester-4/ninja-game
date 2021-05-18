@@ -3,10 +3,11 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
-using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
+using UnitySocketIO.SocketIO;
 
 public class ConcurrentGame : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class ConcurrentGame : MonoBehaviour
     public GameObject loadingImage;
     public GameObject cardImage;
 
-    private SocketIO _socketIO;
+    private SocketIOController _socketIO;
     private Card _drawnCard;
 
     private bool _refresh;
@@ -52,13 +53,13 @@ public class ConcurrentGame : MonoBehaviour
 
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             _refresh = true;
         });
 
         _socketIO.On("boss-start", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             _startBoss = true;
         });
 
@@ -133,9 +134,9 @@ public class ConcurrentGame : MonoBehaviour
     public void DrawCard()
     {
         HideTimer();
-        _socketIO.EmitAsync("concurrent.draw", response =>
+        _socketIO.Emit("concurrent.draw", response =>
         {
-            var message = response.GetValue<DrawCardMessage>();
+            var message = JsonUtility.FromJson<DrawCardMessage>(response);
 
             if (message.IsSuccess())
             {
@@ -150,7 +151,7 @@ public class ConcurrentGame : MonoBehaviour
     {
         SetButtonsActive(false);
         webReq.HideCard();
-        _socketIO.EmitAsync("concurrent.complete", response =>
+        _socketIO.Emit("concurrent.complete", response =>
         {
             _cardComplete = true;
         });
@@ -175,7 +176,7 @@ public class ConcurrentGame : MonoBehaviour
 
         var gameModeData = (ConcurrentGameMode)instance.GameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
 
-        var score = gameModeData.playerScores[_socketIO.Id];
+        var score = gameModeData.playerScores[_socketIO.SocketID];
 
         instance.Points = (int)(Math.Sqrt(score) * 1.5);
 

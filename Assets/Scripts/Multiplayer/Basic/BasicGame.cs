@@ -4,10 +4,11 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
-using SocketIOClient;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
+using UnitySocketIO.SocketIO;
 
 public class BasicGame : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class BasicGame : MonoBehaviour
     public Text cardRepetitions;
     
     public Card currentCard;
-    private SocketIO _socketIO;
+    private SocketIOController _socketIO;
 
     private bool _isOnTurn;
     private bool _refresh;
@@ -50,7 +51,7 @@ public class BasicGame : MonoBehaviour
         
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
             _refresh = true;
         });
         
@@ -95,13 +96,13 @@ public class BasicGame : MonoBehaviour
     public void DrawCard()
     {
         drawCardButton.SetActive(false);
-        _socketIO.EmitAsync("basic.draw", new object());
+        _socketIO.Emit("basic.draw");
     }
     
     public void Complete()
     {
         completeButton.SetActive(false);
-        _socketIO.EmitAsync("basic.complete", new object());
+        _socketIO.Emit("basic.complete");
     }
 
     public void RefreshPlayerData()
@@ -138,9 +139,9 @@ public class BasicGame : MonoBehaviour
             cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
             
-            if (gameModeData.completeStates.ContainsKey(_socketIO.Id))
+            if (gameModeData.completeStates.ContainsKey(_socketIO.SocketID))
             {
-                completeButton.SetActive(!gameModeData.completeStates[_socketIO.Id]);
+                completeButton.SetActive(!gameModeData.completeStates[_socketIO.SocketID]);
             }
             else
             {
@@ -216,7 +217,7 @@ public class BasicGame : MonoBehaviour
             {
                 playerScript.setOnTurn();
                 
-                if (player.sessionId == _socketIO.Id)
+                if (player.sessionId == _socketIO.SocketID)
                 {
                     _isOnTurn = true;
                 }

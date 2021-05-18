@@ -1,8 +1,10 @@
 using System.Text.RegularExpressions;
+using API;
 using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
 
 public class StartScene : MonoBehaviour
 {
@@ -14,6 +16,14 @@ public class StartScene : MonoBehaviour
     
     public InputField emailInput;
     public GameObject errorMessage;
+
+    public SocketIOController socketIOController;
+
+    private void Start()
+    {
+        SocketClient.Client = socketIOController;
+        socketIOController.Connect();
+    }
 
     public void OnContinue()
     {
