@@ -2,11 +2,11 @@ using API;
 using API.Models;
 using API.Params;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnitySocketIO;
-using UnitySocketIO.SocketIO;
 
 public class JoinGame : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class JoinGame : MonoBehaviour
 
         _socketIO.Emit("join", JsonUtility.ToJson(param), response =>
         {
-            var message = JsonUtility.FromJson<GameInfoMessage>(response);
+            var message = JsonConvert.DeserializeObject<GameInfoMessage>(response);
 
             if (message.IsSuccess())
             {

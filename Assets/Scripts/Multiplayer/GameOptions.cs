@@ -1,8 +1,8 @@
-﻿using System;
-using API;
+﻿using API;
 using API.Models;
 using API.Params;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,11 +14,9 @@ public class GameOptions : MonoBehaviour
     public Text UserName;
 
     public bool joinLobby;
-    public string result = "none";
 
     private void Update()
     {
-        Debug.Log(result);
         if (joinLobby)
         {
             SceneManager.LoadScene("Lobby");
@@ -41,12 +39,6 @@ public class GameOptions : MonoBehaviour
 
             StartCoroutine(APIClient.Instance.InitGame(gameOptions, ConnectToLobby));
         }
-        else
-        {
-            
-            // TODO: Some error message
-            Debug.Log("Nothing happened");
-        }
     }
 
     private void ConnectToLobby(API.Models.Game game)
@@ -55,8 +47,7 @@ public class GameOptions : MonoBehaviour
 
         SocketClient.Client.Emit("join", JsonUtility.ToJson(param), ack =>
         {
-            result = ack;
-            var message = JsonUtility.FromJson<GameInfoMessage>(ack);
+            var message = JsonConvert.DeserializeObject<GameInfoMessage>(ack);
             if (message.IsSuccess())
             {
                 var gameInfo = message.data;

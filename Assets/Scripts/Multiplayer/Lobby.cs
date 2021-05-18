@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using API;
 using API.Models;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnitySocketIO;
-using UnitySocketIO.SocketIO;
 
 public class Lobby : DiscardCardsScript
 {
@@ -20,23 +20,25 @@ public class Lobby : DiscardCardsScript
 
     public GameObject[] lobbyLeaderObjects;
 
-    public SocketIOController socketIOController = SocketClient.Client;
+    private SocketIOController socketIOController;
     private List<string> _gameModes;
     
     void Start()
     {
         base.Start();
 
+        socketIOController = SocketClient.Client;
+        
         socketIOController.On("lobby-update", response =>
         {
-            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
+            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
 
             reloadLobby = true;
         });
         
         socketIOController.On("start", response =>
         {
-            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
+            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
             GameData.Instance.IsMultiplayer = true;
 
             startGame = true;

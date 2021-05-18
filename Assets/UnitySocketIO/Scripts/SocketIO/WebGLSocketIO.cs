@@ -42,7 +42,7 @@ namespace UnitySocketIO.SocketIO {
         void AddSocketIO() {
             Application.ExternalEval(@"
                 var socketIOScript = document.createElement('script');
-                socketIOScript.setAttribute('src', 'http" + (settings.sslEnabled ? "s" : "") + @"://" + settings.url + (!settings.sslEnabled && settings.port != 0 ? ":" + settings.port.ToString() : "") +  @"/socket.io/socket.io.js');
+                socketIOScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.4/socket.io.js');
                 document.head.appendChild(socketIOScript);
             ");
         }

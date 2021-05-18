@@ -3,6 +3,7 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class AfterBasicGame : MonoBehaviour
@@ -19,7 +20,7 @@ public class AfterBasicGame : MonoBehaviour
         
         socketIo.On("boss-score-update", response =>
         {
-            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
+            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
             _reload = true;
         });
         

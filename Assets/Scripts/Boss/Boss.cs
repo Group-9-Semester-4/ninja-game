@@ -3,6 +3,7 @@ using API;
 using API.Models;
 using API.Params;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -65,7 +66,7 @@ public class Boss : MonoBehaviour
             {
                 socketIo.Emit("basic.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = JsonUtility.FromJson<GameInfoMessage>(response);
+                    var message = JsonConvert.DeserializeObject<GameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {
@@ -80,7 +81,7 @@ public class Boss : MonoBehaviour
             {
                 socketIo.Emit("concurrent.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = JsonUtility.FromJson<GameInfoMessage>(response);
+                    var message = JsonConvert.DeserializeObject<GameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {

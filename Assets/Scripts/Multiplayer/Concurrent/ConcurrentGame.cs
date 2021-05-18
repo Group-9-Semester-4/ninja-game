@@ -3,6 +3,7 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -53,13 +54,13 @@ public class ConcurrentGame : MonoBehaviour
 
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
+            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
             _refresh = true;
         });
 
         _socketIO.On("boss-start", response =>
         {
-            GameData.Instance.GameInfo = JsonUtility.FromJson<GameInfo>(response.data);
+            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
             _startBoss = true;
         });
 
