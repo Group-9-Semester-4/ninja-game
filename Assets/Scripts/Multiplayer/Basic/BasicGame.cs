@@ -1,13 +1,13 @@
 using System;
-using System.Net.Mime;
 using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
-using SocketIOClient;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
 
 public class BasicGame : MonoBehaviour
 {
@@ -37,7 +37,7 @@ public class BasicGame : MonoBehaviour
     public Text cardRepetitions;
     
     public Card currentCard;
-    private SocketIO _socketIO;
+    private SocketIOController _socketIO;
 
     private bool _isOnTurn;
     private bool _refresh;
@@ -50,7 +50,7 @@ public class BasicGame : MonoBehaviour
         
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _refresh = true;
         });
         
@@ -95,13 +95,13 @@ public class BasicGame : MonoBehaviour
     public void DrawCard()
     {
         drawCardButton.SetActive(false);
-        _socketIO.EmitAsync("basic.draw", new object());
+        _socketIO.Emit("basic.draw");
     }
     
     public void Complete()
     {
         completeButton.SetActive(false);
-        _socketIO.EmitAsync("basic.complete", new object());
+        _socketIO.Emit("basic.complete");
     }
 
     public void RefreshPlayerData()
@@ -112,13 +112,13 @@ public class BasicGame : MonoBehaviour
         
         drawCardButton.SetActive(_isOnTurn);
 
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
+        var gameModeData = gameInfo.GameModeData();
 
         HideTimer();
 
-        if (gameModeData.drawnCard == null)
+        if (gameModeData.drawnCard?.id == null)
         {
             if (gameModeData.remainingCards.Count == 0)
             {
@@ -138,9 +138,9 @@ public class BasicGame : MonoBehaviour
             cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
             
-            if (gameModeData.completeStates.ContainsKey(_socketIO.Id))
+            if (gameModeData.HasCompleted(_socketIO.SocketID))
             {
-                completeButton.SetActive(!gameModeData.completeStates[_socketIO.Id]);
+                completeButton.SetActive(false);
             }
             else
             {
@@ -164,9 +164,9 @@ public class BasicGame : MonoBehaviour
     {
         GameData.Instance.IsMultiplayer = true;
         
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
+        var gameModeData = gameInfo.GameModeData();
 
         GameData.Instance.Points = (int) (Math.Sqrt(gameModeData.score) * 1.5);
         
@@ -183,13 +183,8 @@ public class BasicGame : MonoBehaviour
 
             playerScript.player = player;
 
-            var cardCompleted = false;
+            var cardCompleted = gameModeData.HasCompleted(player.sessionId);
 
-            if (gameModeData.completeStates.ContainsKey(player.sessionId))
-            {
-                cardCompleted = gameModeData.completeStates[player.sessionId];
-            }
-                
             if (cardCompleted)
             {
                 playerScript.setComplete();
@@ -216,7 +211,7 @@ public class BasicGame : MonoBehaviour
             {
                 playerScript.setOnTurn();
                 
-                if (player.sessionId == _socketIO.Id)
+                if (player.sessionId == _socketIO.SocketID)
                 {
                     _isOnTurn = true;
                 }

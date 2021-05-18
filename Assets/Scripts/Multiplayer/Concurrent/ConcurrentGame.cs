@@ -3,10 +3,12 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
-using SocketIOClient;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnitySocketIO;
+using UnitySocketIO.SocketIO;
 
 public class ConcurrentGame : MonoBehaviour
 {
@@ -35,7 +37,7 @@ public class ConcurrentGame : MonoBehaviour
     public GameObject loadingImage;
     public GameObject cardImage;
 
-    private SocketIO _socketIO;
+    private SocketIOController _socketIO;
     private Card _drawnCard;
 
     private bool _refresh;
@@ -52,13 +54,13 @@ public class ConcurrentGame : MonoBehaviour
 
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _refresh = true;
         });
 
         _socketIO.On("boss-start", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _startBoss = true;
         });
 
@@ -133,9 +135,9 @@ public class ConcurrentGame : MonoBehaviour
     public void DrawCard()
     {
         HideTimer();
-        _socketIO.EmitAsync("concurrent.draw", response =>
+        _socketIO.Emit("concurrent.draw", response =>
         {
-            var message = response.GetValue<DrawCardMessage>();
+            var message = JsonUtility.FromJson<DrawCardMessage>(response);
 
             if (message.IsSuccess())
             {
@@ -150,7 +152,7 @@ public class ConcurrentGame : MonoBehaviour
     {
         SetButtonsActive(false);
         webReq.HideCard();
-        _socketIO.EmitAsync("concurrent.complete", response =>
+        _socketIO.Emit("concurrent.complete", response =>
         {
             _cardComplete = true;
         });
@@ -160,9 +162,9 @@ public class ConcurrentGame : MonoBehaviour
     {
         CleanPlayerContainer();
 
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (ConcurrentGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode)gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+        var gameModeData = gameInfo.GameModeData();
 
         InstantiatePlayers(gameModeData);
     }
@@ -172,10 +174,12 @@ public class ConcurrentGame : MonoBehaviour
         var instance = GameData.Instance;
 
         instance.IsMultiplayer = true;
+        
+        var gameInfo = (ConcurrentGameModeGameInfo) instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode)instance.GameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+        var gameModeData = gameInfo.GameModeData();
 
-        var score = gameModeData.playerScores[_socketIO.Id];
+        var score = gameModeData.GetScore(_socketIO.SocketID);
 
         instance.Points = (int)(Math.Sqrt(score) * 1.5);
 
@@ -186,12 +190,7 @@ public class ConcurrentGame : MonoBehaviour
     {
         foreach (var player in gameModeData.players)
         {
-            var cardsDone = 0;
-
-            if (gameModeData.numberOfPlayerCardsDone.ContainsKey(player.sessionId))
-            {
-                cardsDone = gameModeData.numberOfPlayerCardsDone[player.sessionId];
-            }
+            var cardsDone = gameModeData.NumberOfCardsDone(player.sessionId);
 
             var playerGameObject = Instantiate(playerPrefab, playerContainer);
 

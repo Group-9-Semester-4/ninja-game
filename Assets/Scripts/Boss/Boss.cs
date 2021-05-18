@@ -1,8 +1,10 @@
 using System.Collections;
 using API;
 using API.Models;
+using API.Models.GameModes;
 using API.Params;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,7 +37,7 @@ public class Boss : MonoBehaviour
     {
         if (multiplayerMoveOn)
         {
-            var gameMode = GameData.Instance.GameInfo.gameModeId;
+            var gameMode = GameData.Instance.GameInfo.GameModeId();
             switch (gameMode)
             {
                 case "basic":
@@ -58,37 +60,37 @@ public class Boss : MonoBehaviour
 
         var bossScoreParam = new BossScoreParam() { score = bossScore.score };
         
-        var gameMode = GameData.Instance.GameInfo.gameModeId;
+        var gameMode = GameData.Instance.GameInfo.GameModeId();
         switch (gameMode)
         {
             case "basic":
             {
-                socketIo.EmitAsync("basic.boss-complete", response =>
+                socketIo.Emit("basic.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = response.GetValue<GameInfoMessage>();
+                    var message = JsonUtility.FromJson<BasicGameModeGameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {
-                        GameData.Instance.GameInfo = message.data;
+                        GameData.Instance.GameInfo = message.GameInfo();
                         multiplayerMoveOn = true;
                     }
                 
-                }, bossScoreParam);
+                });
                 break;
             }
             case "concurrent":
             {
-                socketIo.EmitAsync("concurrent.boss-complete", response =>
+                socketIo.Emit("concurrent.boss-complete", JsonUtility.ToJson(bossScoreParam), response =>
                 {
-                    var message = response.GetValue<GameInfoMessage>();
+                    var message = JsonUtility.FromJson<ConcurrentGameModeGameInfoMessage>(response);
 
                     if (message.IsSuccess())
                     {
-                        GameData.Instance.GameInfo = message.data;
+                        GameData.Instance.GameInfo = message.GameInfo();
                         multiplayerMoveOn = true;
                     }
                 
-                }, bossScoreParam);
+                });
                 break;
             }
         }

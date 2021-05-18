@@ -3,6 +3,7 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class AfterBasicGame : MonoBehaviour
@@ -19,7 +20,7 @@ public class AfterBasicGame : MonoBehaviour
         
         socketIo.On("boss-score-update", response =>
         {
-            GameData.Instance.GameInfo = response.GetValue<GameInfo>();
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _reload = true;
         });
         
@@ -44,22 +45,22 @@ public class AfterBasicGame : MonoBehaviour
         {
             Destroy(playerScoreContainer.GetChild(i).gameObject);
         }
+
+        var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
         
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameModeData = gameInfo.GameModeData();
         
-        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
-        
-        var sortedScores = from entry in gameModeData.bossFightScores.ToList() orderby entry.Value descending select entry;
+        var sortedScores = from entry in gameModeData.bossFightScores.ToList() orderby entry.score descending select entry;
 
         var playerList = gameModeData.players;
 
         var position = 1;
         
-        foreach (var pair in sortedScores)
+        foreach (var score in sortedScores)
         {
-            var player = playerList.Find(playerEl => playerEl.sessionId == pair.Key);
+            var player = playerList.Find(playerEl => playerEl.sessionId == score.playerId);
 
-            AddScore(position, player.name, pair.Value);
+            AddScore(position, player.name, score.score);
 
             playerList.Remove(player);
 
