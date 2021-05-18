@@ -3,7 +3,7 @@ using System;
 namespace API.Models
 {
     [Serializable]
-    public class SocketIOMessage
+    public class SocketIOMessage : ISocketIOMessage
     {
         public string type;
         public string reason;
@@ -12,5 +12,10 @@ namespace API.Models
         {
             return type == "SUCCESS";
         }
+    }
+
+    public interface ISocketIOMessage
+    {
+        public bool IsSuccess();
     }
 }

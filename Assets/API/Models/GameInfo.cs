@@ -1,16 +1,35 @@
 using System;
-using Newtonsoft.Json.Linq;
 
 namespace API.Models
 {
     [Serializable]
-    public class GameInfo
+    public class GameInfo : IGameInfo
     {
         public string gameId;
         public bool started;
         public Lobby lobby;
-        public JObject gameModeData;
         public string gameModeId;
 
+        public object GameModeData()
+        {
+            return null;
+        }
+
+        public Lobby Lobby()
+        {
+            return lobby;
+        }
+
+        public string GameModeId()
+        {
+            return gameModeId;
+        }
+    }
+
+    public interface IGameInfo
+    {
+        public object GameModeData();
+        public Lobby Lobby();
+        public string GameModeId();
     }
 }

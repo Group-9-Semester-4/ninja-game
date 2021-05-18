@@ -47,10 +47,10 @@ public class GameOptions : MonoBehaviour
 
         SocketClient.Client.Emit("join", JsonUtility.ToJson(param), ack =>
         {
-            var message = JsonConvert.DeserializeObject<GameInfoMessage>(ack);
+            var message = Helper.DeserializeGameInfoMessage(ack);
             if (message.IsSuccess())
             {
-                var gameInfo = message.data;
+                var gameInfo = message.GameInfo();
                 GameData.Reinstantiate.GameInfo = gameInfo;
                 joinLobby = true;
             }

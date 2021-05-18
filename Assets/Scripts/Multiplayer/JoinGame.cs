@@ -27,11 +27,11 @@ public class JoinGame : MonoBehaviour
 
         _socketIO.Emit("join", JsonUtility.ToJson(param), response =>
         {
-            var message = JsonConvert.DeserializeObject<GameInfoMessage>(response);
+            var message = Helper.DeserializeGameInfoMessage(response);
 
             if (message.IsSuccess())
             {
-                GameData.Reinstantiate.GameInfo = message.data;
+                GameData.Reinstantiate.GameInfo = message.GameInfo();
                 connect = true;
             }
         });

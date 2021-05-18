@@ -24,6 +24,6 @@ namespace Game
         
         public bool IsMultiplayer { get; set; }
 
-        public GameInfo GameInfo { get; set; }
+        public IGameInfo GameInfo { get; set; }
     }
 }

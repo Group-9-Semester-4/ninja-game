@@ -45,7 +45,7 @@ public class AfterConcurrentGame : MonoBehaviour
         
         var gameInfo = GameData.Instance.GameInfo;
         
-        var gameModeData = (ConcurrentGameMode) gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+        var gameModeData = (ConcurrentGameMode) gameInfo.GameModeData();
         
         var myList = gameModeData.bossFightScores.OrderByDescending(score=>score.Value).ToList();
 

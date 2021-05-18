@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using API;
 using API.Models;
 using Game;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,14 +30,14 @@ public class Lobby : DiscardCardsScript
         
         socketIOController.On("lobby-update", response =>
         {
-            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
 
             reloadLobby = true;
         });
         
         socketIOController.On("start", response =>
         {
-            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             GameData.Instance.IsMultiplayer = true;
 
             startGame = true;
@@ -73,7 +72,7 @@ public class Lobby : DiscardCardsScript
 
         if (startGame)
         {
-            var gameMode = GameData.Instance.GameInfo.gameModeId;
+            var gameMode = GameData.Instance.GameInfo.GameModeId();
 
             switch (gameMode)
             {
@@ -107,9 +106,9 @@ public class Lobby : DiscardCardsScript
 
         var gameInfo = GameData.Instance.GameInfo;
         
-        foreach (var player in gameInfo.lobby.players)
+        foreach (var player in gameInfo.Lobby().players)
         {
-            var lobbyOwner = player.sessionId == gameInfo.lobby.lobbyOwnerId;
+            var lobbyOwner = player.sessionId == gameInfo.Lobby().lobbyOwnerId;
             AddPlayer(player, lobbyOwner);
 
             if (player.sessionId == socketIOController.SocketID)

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Game;
+using API.Models.HelperModels;
 
 namespace API.Models.GameModes
 {
@@ -15,7 +15,34 @@ namespace API.Models.GameModes
         public List<Card> remainingCards;
         public List<Player> players;
         
-        public Dictionary<string, bool> completeStates;
-        public Dictionary<string, int> bossFightScores;
+        public List<string> completeStates;
+        public List<BossFightScore> bossFightScores;
+
+        public bool HasCompleted(string playerId)
+        {
+            return completeStates.Contains(playerId);
+        }
+    }
+
+    [Serializable]
+    public class BasicGameModeGameInfo : GameInfo
+    {
+        public new BasicGameMode gameModeData;
+        
+        public new object GameModeData()
+        {
+            return gameModeData;
+        }
+    }
+
+    [Serializable]
+    public class BasicGameModeGameInfoMessage : GameInfoMessage
+    {
+        public new BasicGameModeGameInfo data;
+        
+        public new BasicGameModeGameInfo GameInfo()
+        {
+            return data;
+        }
     }
 }

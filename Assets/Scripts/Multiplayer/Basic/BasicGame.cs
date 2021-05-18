@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mime;
 using API;
 using API.Models;
 using API.Models.GameModes;
@@ -9,7 +8,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnitySocketIO;
-using UnitySocketIO.SocketIO;
 
 public class BasicGame : MonoBehaviour
 {
@@ -52,7 +50,7 @@ public class BasicGame : MonoBehaviour
         
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _refresh = true;
         });
         
@@ -114,13 +112,13 @@ public class BasicGame : MonoBehaviour
         
         drawCardButton.SetActive(_isOnTurn);
 
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
+        var gameModeData = (BasicGameMode) gameInfo.GameModeData();
 
         HideTimer();
 
-        if (gameModeData.drawnCard == null)
+        if (gameModeData.drawnCard?.id == null)
         {
             if (gameModeData.remainingCards.Count == 0)
             {
@@ -140,9 +138,9 @@ public class BasicGame : MonoBehaviour
             cardInfo.SetActive(true);
             InstantiateDrawnCardPlayers(gameModeData);
             
-            if (gameModeData.completeStates.ContainsKey(_socketIO.SocketID))
+            if (gameModeData.HasCompleted(_socketIO.SocketID))
             {
-                completeButton.SetActive(!gameModeData.completeStates[_socketIO.SocketID]);
+                completeButton.SetActive(false);
             }
             else
             {
@@ -166,9 +164,9 @@ public class BasicGame : MonoBehaviour
     {
         GameData.Instance.IsMultiplayer = true;
         
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.gameModeData.ToObject(typeof(BasicGameMode));
+        var gameModeData = (BasicGameMode) gameInfo.GameModeData();
 
         GameData.Instance.Points = (int) (Math.Sqrt(gameModeData.score) * 1.5);
         
@@ -185,13 +183,8 @@ public class BasicGame : MonoBehaviour
 
             playerScript.player = player;
 
-            var cardCompleted = false;
+            var cardCompleted = gameModeData.HasCompleted(player.sessionId);
 
-            if (gameModeData.completeStates.ContainsKey(player.sessionId))
-            {
-                cardCompleted = gameModeData.completeStates[player.sessionId];
-            }
-                
             if (cardCompleted)
             {
                 playerScript.setComplete();

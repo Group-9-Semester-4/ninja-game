@@ -54,13 +54,13 @@ public class ConcurrentGame : MonoBehaviour
 
         _socketIO.On("game-update", response =>
         {
-            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _refresh = true;
         });
 
         _socketIO.On("boss-start", response =>
         {
-            GameData.Instance.GameInfo = JsonConvert.DeserializeObject<GameInfo>(response.data);
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
             _startBoss = true;
         });
 
@@ -164,7 +164,7 @@ public class ConcurrentGame : MonoBehaviour
 
         var gameInfo = GameData.Instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode)gameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+        var gameModeData = (ConcurrentGameMode) gameInfo.GameModeData();
 
         InstantiatePlayers(gameModeData);
     }
@@ -175,7 +175,7 @@ public class ConcurrentGame : MonoBehaviour
 
         instance.IsMultiplayer = true;
 
-        var gameModeData = (ConcurrentGameMode)instance.GameInfo.gameModeData.ToObject(typeof(ConcurrentGameMode));
+        var gameModeData = (ConcurrentGameMode) instance.GameInfo.GameModeData();
 
         var score = gameModeData.playerScores[_socketIO.SocketID];
 
