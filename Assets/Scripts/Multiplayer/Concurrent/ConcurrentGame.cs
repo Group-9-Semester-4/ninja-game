@@ -162,9 +162,9 @@ public class ConcurrentGame : MonoBehaviour
     {
         CleanPlayerContainer();
 
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (ConcurrentGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode) gameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
 
         InstantiatePlayers(gameModeData);
     }
@@ -174,10 +174,12 @@ public class ConcurrentGame : MonoBehaviour
         var instance = GameData.Instance;
 
         instance.IsMultiplayer = true;
+        
+        var gameInfo = (ConcurrentGameModeGameInfo) instance.GameInfo;
 
-        var gameModeData = (ConcurrentGameMode) instance.GameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
 
-        var score = gameModeData.playerScores[_socketIO.SocketID];
+        var score = gameModeData.GetScore(_socketIO.SocketID);
 
         instance.Points = (int)(Math.Sqrt(score) * 1.5);
 
@@ -188,12 +190,7 @@ public class ConcurrentGame : MonoBehaviour
     {
         foreach (var player in gameModeData.players)
         {
-            var cardsDone = 0;
-
-            if (gameModeData.numberOfPlayerCardsDone.ContainsKey(player.sessionId))
-            {
-                cardsDone = gameModeData.numberOfPlayerCardsDone[player.sessionId];
-            }
+            var cardsDone = gameModeData.NumberOfCardsDone(player.sessionId);
 
             var playerGameObject = Instantiate(playerPrefab, playerContainer);
 

@@ -48,7 +48,7 @@ public class AfterBasicGame : MonoBehaviour
 
         var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
         
-        var gameModeData = (BasicGameMode) gameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
         
         var sortedScores = from entry in gameModeData.bossFightScores.ToList() orderby entry.score descending select entry;
 

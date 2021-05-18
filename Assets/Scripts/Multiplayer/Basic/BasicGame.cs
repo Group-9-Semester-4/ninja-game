@@ -114,7 +114,7 @@ public class BasicGame : MonoBehaviour
 
         var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
 
         HideTimer();
 
@@ -166,7 +166,7 @@ public class BasicGame : MonoBehaviour
         
         var gameInfo = (BasicGameModeGameInfo) GameData.Instance.GameInfo;
 
-        var gameModeData = (BasicGameMode) gameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
 
         GameData.Instance.Points = (int) (Math.Sqrt(gameModeData.score) * 1.5);
         

@@ -43,21 +43,21 @@ public class AfterConcurrentGame : MonoBehaviour
             Destroy(playerScoreContainer.GetChild(i).gameObject);
         }
         
-        var gameInfo = GameData.Instance.GameInfo;
+        var gameInfo = (ConcurrentGameModeGameInfo) GameData.Instance.GameInfo;
         
-        var gameModeData = (ConcurrentGameMode) gameInfo.GameModeData();
+        var gameModeData = gameInfo.GameModeData();
         
-        var myList = gameModeData.bossFightScores.OrderByDescending(score=>score.Value).ToList();
+        var myList = gameModeData.bossFightScores.OrderByDescending(score=>score.score).ToList();
 
         var playerList = gameModeData.players;
 
         var position = 1;
         
-        foreach (var pair in myList)
+        foreach (var bossFightScore in myList)
         {
-            var player = playerList.Find(playerEl => playerEl.sessionId == pair.Key);
+            var player = playerList.Find(playerEl => playerEl.sessionId == bossFightScore.playerId);
 
-            AddScore(position, player.name, pair.Value);
+            AddScore(position, player.name, bossFightScore.score);
 
             playerList.Remove(player);
 

@@ -27,9 +27,9 @@ namespace API.Models.GameModes
     [Serializable]
     public class BasicGameModeGameInfo : GameInfo
     {
-        public new BasicGameMode gameModeData;
+        public BasicGameMode gameModeData;
         
-        public new object GameModeData()
+        public new BasicGameMode GameModeData()
         {
             return gameModeData;
         }
