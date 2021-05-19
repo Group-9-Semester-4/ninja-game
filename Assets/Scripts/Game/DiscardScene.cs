@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using API;
-using API.Models;
 using API.Params;
 using Game;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class DiscardScene : DiscardCardsScript
 {
@@ -18,7 +14,7 @@ public class DiscardScene : DiscardCardsScript
     {
         GameService.Instance.StartGame(getCards(), getDiscardedCards(), getSelectedCardSet().id);
 
-        var init = new GameInitParam();
+        var init = new GameInitParam {email = GameService.playerEmail};
 
         StartCoroutine(APIClient.Instance.InitGame(init, StartGame));
     }

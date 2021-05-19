@@ -2,6 +2,7 @@
 using API.Models;
 using API.Params;
 using Game;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,12 +14,6 @@ public class GameOptions : MonoBehaviour
     public Text UserName;
 
     public bool joinLobby;
-
-    private void Start()
-    {
-        var socketIO = SocketClient.Init("game");
-        socketIO.ConnectAsync();
-    }
 
     private void Update()
     {
@@ -40,14 +35,9 @@ public class GameOptions : MonoBehaviour
             gameOptions.timeLimit = gameTime * 60;
             gameOptions.multiPlayer = true;
             gameOptions.lobbyCode = LobbyCode.text;
+            gameOptions.email = GameService.playerEmail;
 
             StartCoroutine(APIClient.Instance.InitGame(gameOptions, ConnectToLobby));
-        }
-        else
-        {
-            
-            // TODO: Some error message
-            Debug.Log("Nothing happened");
         }
     }
 
@@ -55,16 +45,16 @@ public class GameOptions : MonoBehaviour
     {
         var param = new JoinGameParam() {lobbyCode = game.gameInfo.lobby.lobbyCode, userName = UserName.text};
 
-        SocketClient.Client.EmitAsync("join", ack =>
+        SocketClient.Client.Emit("join", JsonUtility.ToJson(param), ack =>
         {
-            var message = ack.GetValue<GameInfoMessage>();
+            var message = Helper.DeserializeGameInfoMessage(ack);
             if (message.IsSuccess())
             {
-                var gameInfo = message.data;
+                var gameInfo = message.GameInfo();
                 GameData.Reinstantiate.GameInfo = gameInfo;
                 joinLobby = true;
             }
-        }, param);
+        });
 
     }
 

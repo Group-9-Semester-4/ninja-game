@@ -9,6 +9,6 @@ public class Language : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         I18n.Reinstantiate(language);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

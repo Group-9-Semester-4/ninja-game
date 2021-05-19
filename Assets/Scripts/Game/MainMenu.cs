@@ -1,9 +1,13 @@
+using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private GameObject canvas;
+    private void Start()
+    {
+        GameService.Reinstantiate();
+    }
 
     public void OnStart()
     {
@@ -13,10 +17,5 @@ public class MainMenu : MonoBehaviour
     public void OnMultiplayer()
     {
         SceneManager.LoadScene("MultiplayerMainMenu");
-    }
-
-    public void OpenPopup()
-    {
-        canvas.SetActive(true);
     }
 }
