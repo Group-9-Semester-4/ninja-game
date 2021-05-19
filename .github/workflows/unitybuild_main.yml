@@ -22,3 +22,9 @@ jobs:
       with:
         name: unity_webgl_main
         path: build
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        repository: Group-9-Semester-4/ninja-game-backend
+        token: ${{ secrets.ACCESS_TOKEN }}
+        event-type: build-backend-main
