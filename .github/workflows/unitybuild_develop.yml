@@ -6,6 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      UNITY_WEB_HOST: ${{ secrets.UNITY_WEB_HOST }}
+      UNITY_API_PORT: ${{ secrets.UNITY_API_PORT }}
+      UNITY_SOCKET_PORT: ${{ secrets.UNITY_SOCKET_PORT }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
