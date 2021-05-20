@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnitySocketIO;
+using agora_gaming_rtc;
+using UnityEngine.Android;
 
 public class Lobby : DiscardCardsScript
 {
@@ -21,6 +23,16 @@ public class Lobby : DiscardCardsScript
 
     private SocketIOController socketIOController;
     private List<string> _gameModes;
+    
+    // voice chat things here
+    public Button leaveChannel;
+    public Button muteButton;
+    private IRtcEngine mRtcEngine = null;
+    [SerializeField]
+    private string AppID = "4bee75478c0344709d0a58b68170517f";
+    
+    
+    // full voice thing this awake
     
     void Start()
     {
@@ -60,6 +72,37 @@ public class Lobby : DiscardCardsScript
         StartCoroutine(routine);
 
         InitLobbyData();
+        
+        // voice from here
+#if (UNITY_2018_3_OR_NEWER)
+        if (Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+			
+        } 
+        else 
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#endif
+        mRtcEngine = IRtcEngine.GetEngine(AppID);
+        leaveChannel.onClick.AddListener(LeaveChannel);
+        muteButton.onClick.AddListener(MuteButtonTapped);
+        muteButton.enabled = true;
+        
+        mRtcEngine.OnLeaveChannel += (RtcStats stats) =>
+        {
+            muteButton.enabled = false;
+            // reset the mute button state
+            if (isMuted)
+            {
+                MuteButtonTapped();
+            }
+        };
+        mRtcEngine.SetLogFilter(LOG_FILTER.INFO);
+
+        mRtcEngine.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_COMMUNICATION);
+        var gameInfo = GameData.Instance.GameInfo;
+        JoinChannel(gameInfo.Lobby().lobbyCode);
     }
 
     private void Update()
@@ -160,4 +203,35 @@ public class Lobby : DiscardCardsScript
         }
     }
     
+    // here come the voice chat methods
+    public void JoinChannel(string lobbyId)
+    {
+        mRtcEngine.JoinChannel(lobbyId, "extra", 0);
+    }
+
+    public void LeaveChannel()
+    {
+        mRtcEngine.LeaveChannel();
+    }
+
+    void OnApplicationQuit()
+    {
+        if (mRtcEngine != null)
+        {
+            IRtcEngine.Destroy();
+        }
+    }
+
+    bool isMuted = false;
+    void MuteButtonTapped()
+    {
+        string labeltext = isMuted ? "Mute" : "Unmute";
+        Text label = muteButton.GetComponentInChildren<Text>();
+        if (label != null)
+        {
+            label.text = labeltext;
+        }
+        isMuted = !isMuted;
+        mRtcEngine.EnableLocalAudio(!isMuted);
+    }
 }
