@@ -13,19 +13,25 @@ namespace API
     {
         // Singleton code
         private static APIClient _instance;
-        private APIClient() {}
+
+        private APIClient()
+        {
+            var host = Environment.GetEnvironmentVariable("UNITY_WEB_HOST") ?? "localhost";
+            var port = int.Parse(Environment.GetEnvironmentVariable("UNITY_API_PORT") ?? "8080");
+
+            apiUrl = "http://" + host + ":" + port + "/api";
+        }
+        
         public static APIClient Instance
         {
             get { return _instance ??= new APIClient(); }
         }
-
-
-        // TODO: Change to dynamic env
-        public const string APIUrl = "http://localhost:8080/api";
+        
+        private readonly string apiUrl;
         
         public IEnumerator InitGame(GameInitParam param, Action<Models.Game> action)
         {
-            const string path = APIUrl + "/game/init";
+            var path = apiUrl + "/game/init";
 
             var request = PostRequest(path, param);
 
@@ -38,7 +44,7 @@ namespace API
         
         public IEnumerator FinishGame(FinishGameParam param, Action action)
         {
-            const string path = APIUrl + "/game/finish";
+            var path = apiUrl + "/game/finish";
             
             var request = PostRequest(path, param);
 
@@ -49,7 +55,7 @@ namespace API
 
         public IEnumerator GetAllCards(Action<List<Card>> action)
         {
-            var path = APIUrl + "/game/cards";
+            var path = apiUrl + "/game/cards";
 
             var request = GetRequest(path);
 
@@ -62,7 +68,7 @@ namespace API
 
         public IEnumerator GetCardSets(Action<List<CardSet>> action)
         {
-            var path = APIUrl + "/game/cardsets";
+            var path = apiUrl + "/game/cardsets";
 
             var request = GetRequest(path);
 
@@ -75,7 +81,7 @@ namespace API
 
         public IEnumerator GetGameModes(Action<string[]> action)
         {
-            var path = APIUrl + "/game/game-modes";
+            var path = apiUrl + "/game/game-modes";
 
             var request = GetRequest(path);
 

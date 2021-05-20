@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using API;
 using Game;
@@ -22,6 +23,13 @@ public class StartScene : MonoBehaviour
     private void Start()
     {
         SocketClient.Client = socketIOController;
+        
+        var host = Environment.GetEnvironmentVariable("UNITY_WEB_HOST") ?? "localhost";
+        var port = int.Parse(Environment.GetEnvironmentVariable("UNITY_SOCKET_PORT") ?? "8081");
+
+        socketIOController.settings.url = host;
+        socketIOController.settings.port = port;
+
         socketIOController.Connect();
     }
 
