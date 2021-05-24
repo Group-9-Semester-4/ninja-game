@@ -48,12 +48,9 @@ public class Lobby : DiscardCardsScript
             _gameModes = new List<string>() { "undefined" };
             foreach (var gameMode in gameModes)
             {
-                if (!(gameMode.Equals("singleplayer")))
-                {
-                    var optionItem = new Dropdown.OptionData(gameMode);
-                    gameModesDropdown.options.Add(optionItem);
-                    _gameModes.Add(gameMode);
-                }
+                var optionItem = new Dropdown.OptionData(gameMode);
+                gameModesDropdown.options.Add(optionItem);
+                _gameModes.Add(gameMode);
             }
         });
 
@@ -84,6 +81,11 @@ public class Lobby : DiscardCardsScript
                 case "concurrent":
                 {
                     SceneManager.LoadScene("Scenes/Multiplayer/Concurrent/Concurrent");
+                    break;
+                }
+                case "deathmatch arena":
+                {
+                    SceneManager.LoadScene("Scenes/Multiplayer/Deathmatch/DeathmatchArena");
                     break;
                 }
                 default:

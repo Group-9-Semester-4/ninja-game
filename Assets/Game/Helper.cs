@@ -14,6 +14,7 @@ namespace Game
             {
                 "basic" => JsonUtility.FromJson<BasicGameModeGameInfo>(jsonData),
                 "concurrent" => JsonUtility.FromJson<ConcurrentGameModeGameInfo>(jsonData),
+                "deathmatch arena" => JsonUtility.FromJson<DeathmatchGameModeGameInfo>(jsonData),
                 _ => gameInfo
             };
         }
@@ -26,6 +27,7 @@ namespace Game
             {
                 "basic" => JsonUtility.FromJson<BasicGameModeGameInfoMessage>(jsonData),
                 "concurrent" => JsonUtility.FromJson<ConcurrentGameModeGameInfoMessage>(jsonData),
+                "deathmatch arena" => JsonUtility.FromJson<DeathmatchGameModeGameInfoMessage>(jsonData),
                 _ => gameInfoMessage
             };
         }
