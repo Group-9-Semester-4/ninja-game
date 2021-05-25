@@ -11,6 +11,8 @@ public class DeathmatchCard : MonoBehaviour
     
     public Card card;
 
+    public bool locked;
+
     public void Init(Card card)
     {
         this.card = card;
@@ -20,6 +22,25 @@ public class DeathmatchCard : MonoBehaviour
         
         Unlock();
         webReq.RenderCard();
+    }
+
+    public void SetLocked(bool lockState)
+    {
+        if (lockState == locked)
+        {
+            return;
+        }
+        
+        locked = lockState;
+            
+        if (locked)
+        {
+            Lock();
+        }
+        else
+        {
+            Unlock();
+        }
     }
 
     public void Lock()

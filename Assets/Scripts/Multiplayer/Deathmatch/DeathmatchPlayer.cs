@@ -31,6 +31,10 @@ public class DeathmatchPlayer : MonoBehaviour
     
     public void SetScore(int score)
     {
-        scoreText.text = score.ToString();
+        // Condition to prevent overwriting same score
+        if (scoreText.text != score.ToString())
+        {
+            scoreText.text = score.ToString();
+        }
     }
 }

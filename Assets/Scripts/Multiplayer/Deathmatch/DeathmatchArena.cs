@@ -4,8 +4,11 @@ using API;
 using API.Models;
 using API.Models.GameModes;
 using API.Models.HelperModels;
+using API.Params;
 using Game;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnitySocketIO;
 
@@ -25,12 +28,14 @@ public class DeathmatchArena : MonoBehaviour
     public GameObject cardPanel;
 
     public GameObject loadingImage;
-    public GameObject cardImage;
+    public Image cardImage;
 
     public GameObject readyButton;
 
     private SocketIOController _socketIO;
     private Card _drawnCard;
+
+    public bool started;
 
     void Start()
     {
@@ -48,6 +53,13 @@ public class DeathmatchArena : MonoBehaviour
         _socketIO.On("game-update", response =>
         {
             GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
+            GameUpdate();
+        });
+        
+        _socketIO.On("game-finish", response =>
+        {
+            GameData.Instance.GameInfo = Helper.DeserializeGameInfo(response.data);
+            SceneManager.LoadScene("AfterDeathmatch");
         });
         
         _socketIO.On("start", response =>
@@ -56,17 +68,127 @@ public class DeathmatchArena : MonoBehaviour
             StartGame();
         });
 
-        
         var gameInfo = (DeathmatchGameModeGameInfo) GameData.Instance.GameInfo;
         
         InitPlayerData(gameInfo);
         InitCardData(gameInfo);
     }
 
-    public void onReady()
+    public void OnReady()
     {
         _socketIO.Emit("deathmatch.ready");
         readyButton.SetActive(false);
+    }
+
+    public void OnCardClick(Card card)
+    {
+        if (!started)
+        {
+            return;
+        }
+        
+        var param = new LockCardParam
+        {
+            cardId = card.id, 
+            playerId = _socketIO.SocketID
+        };
+        
+        _socketIO.Emit("deathmatch.lock-card", JsonUtility.ToJson(param), result =>
+        {
+            var message = JsonUtility.FromJson<SocketIOMessage>(result);
+            if (message.IsSuccess())
+            {
+                _drawnCard = card;
+                OpenCardModal();
+            }
+        });
+    }
+
+    public void OpenCardModal()
+    {
+        cardPanel.SetActive(true);
+
+        cardDescription.text = _drawnCard.description;
+        cardRepetitions.text = _drawnCard.difficulty.ToString();
+
+        webReq.card = _drawnCard;
+        webReq.image = cardImage;
+        webReq.RenderCard();
+    }
+
+    public void CloseCardModal()
+    {
+        var param = new LockCardParam
+        {
+            cardId = _drawnCard.id, 
+            playerId = _socketIO.SocketID
+        };
+        
+        _socketIO.Emit("deathmatch.unlock-card", JsonUtility.ToJson(param), result =>
+        {
+            var message = JsonUtility.FromJson<SocketIOMessage>(result);
+            if (message.IsSuccess())
+            {
+                cardPanel.SetActive(false);
+            }
+        });;
+    }
+
+    public void CardComplete()
+    {
+        var param = new CardCompleteParam
+        {
+            cardId = _drawnCard.id, 
+            playerId = _socketIO.SocketID
+        };
+        
+        _socketIO.Emit("deathmatch.complete", JsonUtility.ToJson(param), result =>
+        {
+            cardPanel.SetActive(false);
+        });;
+    }
+
+    public void GameUpdate()
+    {
+        var gameInfo = (DeathmatchGameModeGameInfo) GameData.Instance.GameInfo;
+
+        foreach (Transform playerTransform in playerContainer)
+        {
+            var playerGameObject = playerTransform.gameObject;
+            
+            var playerScript = playerGameObject.GetComponent<DeathmatchPlayer>();
+
+            var player = playerScript.player;
+
+            var playerScore = gameInfo.gameModeData.playerScores.Find(score => score.playerId == player.sessionId);
+
+            if (playerScore != null)
+            {
+                playerScript.SetScore(playerScore.score);
+            }
+            
+        }
+
+        foreach (Transform cardTransform in cardContainer)
+        {
+            var cardGameObject = cardTransform.gameObject;
+            
+            var cardScript = cardGameObject.GetComponent<DeathmatchCard>();
+
+            var card = cardScript.card;
+
+            var cardLockInfo = gameInfo.gameModeData.remainingCards.Find(lockInfo => lockInfo.card.id == card.id);
+
+            if (cardLockInfo != null)
+            {
+                cardScript.SetLocked(cardLockInfo.locked);
+            }
+            else
+            {
+                Destroy(cardGameObject);
+            }
+        }
+        
     }
 
     public void InitPlayerData(DeathmatchGameModeGameInfo gameInfo)
@@ -84,6 +206,19 @@ public class DeathmatchArena : MonoBehaviour
         {
             var card = Instantiate(cardPrefab, cardContainer);
 
+            card.AddComponent(typeof(EventTrigger));
+            
+            var trigger = card.GetComponent<EventTrigger>();
+            var entry = new EventTrigger.Entry();
+            
+            entry.eventID = EventTriggerType.PointerClick;
+            entry.callback.AddListener((eventData) =>
+            {
+                OnCardClick(cardLockInfo.card);
+            });
+            
+            trigger.triggers.Add(entry);
+            
             var cardScript = card.GetComponent<DeathmatchCard>();
 
             cardScript.Init(cardLockInfo.card);
@@ -112,6 +247,7 @@ public class DeathmatchArena : MonoBehaviour
 
     public void StartGame()
     {
+        started = true;
         foreach (Transform playerTransform in playerContainer)
         {
             var playerGameObject = playerTransform.gameObject;

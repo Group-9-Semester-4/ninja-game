@@ -248,7 +248,7 @@ PrefabInstance:
     - target: {fileID: 1780216365659980178, guid: 0840a65e5658a42569252d24c66909c5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: onReady
+      value: OnReady
       objectReference: {fileID: 0}
     - target: {fileID: 1780216365659980178, guid: 0840a65e5658a42569252d24c66909c5,
         type: 3}
@@ -323,7 +323,7 @@ RectTransform:
   - {fileID: 1272874000}
   - {fileID: 962908476}
   m_Father: {fileID: 1159993113}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -781,8 +781,9 @@ MonoBehaviour:
   cardRepetitions: {fileID: 1613263118}
   cardPanel: {fileID: 1282594015}
   loadingImage: {fileID: 1768002597}
-  cardImage: {fileID: 1199739030}
+  cardImage: {fileID: 1199739031}
   readyButton: {fileID: 21333269}
+  started: 0
 --- !u!1001 &893004705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -924,7 +925,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 749767295}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -933,12 +934,12 @@ PrefabInstance:
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Complete
+      value: CardComplete
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ConcurrentGame, Assembly-CSharp
+      value: DeathmatchArena, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313690, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
@@ -1110,7 +1111,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 908136119}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 749767295}
+        m_TargetAssemblyTypeName: DeathmatchArena, Assembly-CSharp
+        m_MethodName: CloseCardModal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &908136119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1612,8 +1625,8 @@ RectTransform:
   - {fileID: 905726427}
   - {fileID: 970658754}
   - {fileID: 21333268}
-  - {fileID: 1282594016}
   - {fileID: 153175036}
+  - {fileID: 1282594016}
   - {fileID: 749767294}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1859,7 +1872,7 @@ RectTransform:
   - {fileID: 908136117}
   - {fileID: 1613263117}
   m_Father: {fileID: 1159993113}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

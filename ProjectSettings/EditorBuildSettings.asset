@@ -53,4 +53,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer/Deathmatch/DeathmatchArena.unity
     guid: fcf86cb0bd2fe3645960effdd7d8ad08
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Deathmatch/AfterDeathmatch.unity
+    guid: cc4f4e77e19dbc545aa952458d4758c7
   m_configObjects: {}
