@@ -963,7 +963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1834420913}
-  - component: {fileID: 1834420912}
+  - component: {fileID: 1834420914}
   - component: {fileID: 1834420911}
   m_Layer: 5
   m_Name: GameManager
@@ -984,21 +984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d322fe4e0fca14eae51de90d89a6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1834420912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834420910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daa63f4b16ffa4f65ae0e62875cd1698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScorePrefab: {fileID: 8633548657885144197, guid: d5b18ff0f2375714a8ec9292d864188a,
-    type: 3}
-  playerScoreContainer: {fileID: 25301376}
 --- !u!224 &1834420913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1018,6 +1003,21 @@ RectTransform:
   m_AnchoredPosition: {x: 354.18, y: -180.12}
   m_SizeDelta: {x: 91.63, y: 89.55}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1834420914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834420910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa05797d846ac4348ad95bf8e6f750df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScorePrefab: {fileID: 8633548657885144197, guid: d5b18ff0f2375714a8ec9292d864188a,
+    type: 3}
+  playerScoreContainer: {fileID: 25301376}
 --- !u!1001 &2093903287
 PrefabInstance:
   m_ObjectHideFlags: 0

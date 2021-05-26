@@ -130,6 +130,7 @@ public class DeathmatchArena : MonoBehaviour
             if (message.IsSuccess())
             {
                 cardPanel.SetActive(false);
+                cardImage.gameObject.SetActive(false);
             }
         });;
     }
@@ -145,6 +146,7 @@ public class DeathmatchArena : MonoBehaviour
         _socketIO.Emit("deathmatch.complete", JsonUtility.ToJson(param), result =>
         {
             cardPanel.SetActive(false);
+            cardImage.gameObject.SetActive(false);
         });;
     }
 
