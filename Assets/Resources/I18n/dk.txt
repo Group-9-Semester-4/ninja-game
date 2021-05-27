@@ -16,3 +16,4 @@ choose_card_set=-- Vælg Kortædk --
 exit_game=Afslut spil
 exit=Exit
 go_back=Gå tilbage
+email_label=Email addresse:
