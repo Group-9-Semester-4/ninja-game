@@ -27,7 +27,7 @@ public class BossNavMovement : MonoBehaviour
         setPositionList.Add(new Vector3(-13.5f, -4.966667f, 23.5f));
         setPositionList.Add(new Vector3(-26.7f, -4.966667f, 51.9f));
         setPositionList.Add(new Vector3(-46.1f, -4.966667f, 51.6f));
-       
+
         GetNewPosition();
 
     }

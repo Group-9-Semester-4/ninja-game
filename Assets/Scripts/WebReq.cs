@@ -80,6 +80,7 @@ public class WebReq : MonoBehaviour
             color.a = 1;
 
             image.color = color;
+            image.gameObject.SetActive(true);
         });
     }
 
