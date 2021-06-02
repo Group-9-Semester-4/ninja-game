@@ -767,7 +767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 116.55998}
+  m_AnchoredPosition: {x: 0, y: 116.56}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &547368046
@@ -944,8 +944,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -197.65, y: -46.700012}
-  m_SizeDelta: {x: 209.25, y: 30}
+  m_AnchoredPosition: {x: -197.65002, y: -46.03003}
+  m_SizeDelta: {x: 209.25, y: 31.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &845959886
 MonoBehaviour:
@@ -1345,7 +1345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextId: gobacktext
+  TextId: go_back
 --- !u!1 &1046048149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,6 +1483,7 @@ GameObject:
   - component: {fileID: 1073895500}
   - component: {fileID: 1073895502}
   - component: {fileID: 1073895501}
+  - component: {fileID: 1073895503}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1553,6 +1554,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073895499}
   m_CullTransparentMesh: 1
+--- !u!114 &1073895503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073895499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: help
 --- !u!1 &1130158277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,9 +1918,9 @@ PrefabInstance:
     - target: {fileID: 1425169827021912373, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_Text
-      value: "Card set info:\n\nTo earn points and defeat the evil ninja, you have
-        to pick the cards you want to play with. \nYou must choose from one of the
-        predefined card sets and you can discard individual cards. "
+      value: "\n\nTo earn points and defeat the evil ninja, you have to pick the
+        cards you want to play with. \nYou must choose from one of the predefined
+        card sets and you can discard individual cards. "
       objectReference: {fileID: 0}
     - target: {fileID: 1425169827021912373, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
@@ -1961,12 +1975,12 @@ PrefabInstance:
     - target: {fileID: 1800963466289696040, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 296.65
+      value: 296.65002
       objectReference: {fileID: 0}
     - target: {fileID: 1800963466289696040, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -144.26999
+      value: -144.27002
       objectReference: {fileID: 0}
     - target: {fileID: 2340287999424702934, guid: 70a815616ed5ade45b5da4cb1d56211e,
         type: 3}
@@ -1986,6 +2000,25 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1249730000}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1249730002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1118506981548921531, guid: 70a815616ed5ade45b5da4cb1d56211e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1249730000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1249730003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249730002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: card_set_info_text
 --- !u!1 &1288165860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2386,7 @@ PrefabInstance:
     - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 52.91501
+      value: 52.91504
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
@@ -2392,6 +2425,99 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c8be29edc59db03584e59c6e7bb1523, type: 3}
+--- !u!1 &1690865384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1690865385}
+  - component: {fileID: 1690865388}
+  - component: {fileID: 1690865387}
+  - component: {fileID: 1690865386}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1690865385
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690865384}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1249730001}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -216.40993, y: 152.86995}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1690865386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690865384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: card_set_info
+--- !u!114 &1690865387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690865384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Card set info:'
+--- !u!222 &1690865388
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690865384}
+  m_CullTransparentMesh: 1
 --- !u!1 &1807349746 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8408032882282021853, guid: 9c8be29edc59db03584e59c6e7bb1523,
@@ -2422,6 +2548,7 @@ GameObject:
   - component: {fileID: 1831953110}
   - component: {fileID: 1831953112}
   - component: {fileID: 1831953111}
+  - component: {fileID: 1831953113}
   m_Layer: 5
   m_Name: Item Label
   m_TagString: Untagged
@@ -2490,6 +2617,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831953109}
   m_CullTransparentMesh: 1
+--- !u!114 &1831953113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831953109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0429329664a4e108d46cbec39bc9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextId: choose_card_set
 --- !u!1 &1887464636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,7 +2666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -50.5, y: 24.184021}
+  m_AnchoredPosition: {x: -50.5, y: 24.184082}
   m_SizeDelta: {x: 68.82001, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1887464638
@@ -3093,7 +3233,7 @@ PrefabInstance:
     - target: {fileID: 52158864755843764, guid: 49779ad76bc4d9006bfb740a8907ffb5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.399994
+      value: -37.400024
       objectReference: {fileID: 0}
     - target: {fileID: 52158864755843764, guid: 49779ad76bc4d9006bfb740a8907ffb5,
         type: 3}
@@ -3291,7 +3431,7 @@ PrefabInstance:
     - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 35.210022
+      value: 35.20996
       objectReference: {fileID: 0}
     - target: {fileID: 8408032882721313689, guid: 9c8be29edc59db03584e59c6e7bb1523,
         type: 3}
