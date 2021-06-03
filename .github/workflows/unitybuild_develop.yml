@@ -33,6 +33,7 @@ jobs:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       with:
         targetPlatform: WebGL
+        allowDirtyBuild: true
     - name: Upload WebGL Unity build as artifact    
       uses: actions/upload-artifact@v2
       with:
