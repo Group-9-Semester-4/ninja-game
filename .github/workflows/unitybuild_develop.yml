@@ -15,6 +15,18 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: develop
+    - name: Execute renaming for env doesnt work
+      run: |
+        cd $GITHUB_WORKSPACE/Assets/Scripts/Game/ ; 
+        sed -i 's/localhost/167.71.40.34/g' StartScene.cs ;
+        sed -i 's/8081/25555/g' StartScene.cs ;
+        cd $GITHUB_WORKSPACE/Assets/API/ ;
+        sed -i 's/localhost/167.71.40.34/g' APIClient.cs ;
+    - name: Caching
+      uses: actions/cache@v2
+      with:
+        path: $GITHUB_WORKSPACE/Library
+        key: Library
     - name: Build Unity
       uses: game-ci/unity-builder@v2
       env:
