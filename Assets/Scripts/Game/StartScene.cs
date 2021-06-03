@@ -29,22 +29,27 @@ public class StartScene : MonoBehaviour
 
         socketIOController.settings.url = host;
         socketIOController.settings.port = port;
-
-        socketIOController.Connect();
+        
+        socketIOController.Init();
     }
 
     public void OnContinue()
     {
-        var email = emailInput.text;
+        socketIOController.On("connect", socketEvent =>
+        {
+            var email = emailInput.text;
 
-        if (!string.IsNullOrEmpty(email) && Regex.IsMatch(email, MatchEmailPattern))
-        {
-            GameService.playerEmail = email;
-            SceneManager.LoadScene("MainMenu");
-        }
-        else
-        {
-            errorMessage.SetActive(true);
-        }
+            if (!string.IsNullOrEmpty(email) && Regex.IsMatch(email, MatchEmailPattern))
+            {
+                GameService.playerEmail = email;
+                SceneManager.LoadScene("MainMenu");
+            }
+            else
+            {
+                errorMessage.SetActive(true);
+            }
+        });
+        
+        socketIOController.Connect();
     }
 }

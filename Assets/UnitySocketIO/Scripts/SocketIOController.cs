@@ -22,9 +22,11 @@ namespace UnitySocketIO {
             }
         }
 
-        public void Connect() {
+        public void Init() {
             socketIO.Init(settings);
-            
+        }
+
+        public void Connect() {
             socketIO.Connect();
         }
 
